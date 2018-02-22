@@ -1,3 +1,8 @@
+
+import java.util.*;
+
+
+
 public class Conversation {
 
     private List<ServerThread> threadList;
@@ -14,7 +19,7 @@ public class Conversation {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Int connect(String iP, Int port) {
+    public int connect(String iP, int port) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -1,9 +1,11 @@
 import java.io.*;
 import java.net.*;
 
-
 public class ServerThread extends Thread {
 
+    //XMLHandler to parse XML and send text
+    public XMLHandler XMLHandler;
+    
     //Socket to connect the client to. Will come from the accepted socket 
     //to our serverSocket
     private Socket clientSocket;
@@ -25,20 +27,41 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
+        
+        boolean done = false;
+        
         try{
-	    writer = new PrintWriter(
-				  clientSocket.getOutputStream(), true);
+	    writer = new PrintWriter(clientSocket.getOutputStream(), true);
 	}catch(IOException e){
 	    System.out.println("getOutputStream failed: " + e);
 	    System.exit(1);
 	}
 	try{
 	    reader = new BufferedReader(new InputStreamReader(
-	            clientSocket.getInputStream()));
+                                        clientSocket.getInputStream()));
 	}catch(IOException e){
 	    System.out.println("getInputStream failed: " + e);
 	    System.exit(1);
 	}
+        
+        while(!done){
+            try{
+                String input = reader.readLine();
+                if(input==null){
+		    System.out.println("Client disconnect!");
+		    done = true;
+		}else{
+                    XMLHandler = new XMLHandler(input);
+		    String sendText = XMLHandler.sendText();//send the text to XMLHandler
+                    //get input from XMLHandler if it has renewed?
+		}
+            }
+            catch(IOException e){
+		System.out.println("readLine failed: " + e);
+		System.exit(1);
+            }
+            
+        }
     }
 
     public int GetID() {

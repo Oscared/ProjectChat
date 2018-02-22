@@ -44,9 +44,7 @@ public class TestFrame extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 102, 0));
         jButton1.setText("Send");
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
+        jTextField2.setEditable(false);
         jScrollPane1.setViewportView(jTextField2);
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {

@@ -36,9 +36,8 @@ public class EchoThread extends Thread{
 
 	// Anslut lÃ¤s- och skrivstrÃ¶mmarna
 	try{
-	    out = new BufferedReader(
-				  MultiThreadServer.getMessage(), true);
-            message = new PrintWrite(out);
+	    out = new PrintWriter(
+				  clientSocket.getOutputStream(), true);
 	}catch(IOException e){
 	    System.out.println("getOutputStream failed: " + e);
 	    System.exit(1);
