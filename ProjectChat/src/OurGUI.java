@@ -4,7 +4,12 @@ import javax.swing.*;
 
 public class OurGUI implements ActionListener {
 
+    
+    public static void main(String [] args){
+        OurGUI gui = new OurGUI();
+    }
     public OurGUI() {
+        TestFrame testRam = new TestFrame();
     }
 
     public JPanel createInterface1() {

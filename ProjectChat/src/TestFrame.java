@@ -15,7 +15,6 @@ public class TestFrame extends javax.swing.JFrame {
      */
     public TestFrame() {
         initComponents();
-        setVisible(true);
     }
 
     /**

@@ -51,7 +51,8 @@ public class ServerThread extends Thread {
 		    System.out.println("Client disconnect!");
 		    done = true;
 		}else{
-                    XMLHandler = new XMLHandler(input);
+                    XMLHandler = new XMLHandler();
+                    XMLHandler.ReadXML(input);
 		    String sendText = XMLHandler.sendText();//send the text to XMLHandler
                     //get input from XMLHandler if it has renewed?
 		}
