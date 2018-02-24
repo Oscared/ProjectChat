@@ -1,3 +1,7 @@
+
+import java.io.File;
+import javax.swing.Timer;
+
 public class FileHandler {
 
     private Timer timer;

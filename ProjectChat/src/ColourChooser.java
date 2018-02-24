@@ -1,3 +1,6 @@
+
+import java.awt.Color;
+
 public class ColourChooser {
 
     private Color textColor;
