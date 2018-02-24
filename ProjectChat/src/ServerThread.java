@@ -9,9 +9,9 @@ public class ServerThread extends Thread {
     //Socket to connect the client to. Will come from the accepted socket 
     //to our serverSocket
     private Socket clientSocket;
-
+    String text;
     //Output from client.
-    private PrintWriter writer;
+    PrintWriter writer;
 
     //Input to the client.
     private BufferedReader reader;
@@ -23,6 +23,9 @@ public class ServerThread extends Thread {
     public ServerThread(Socket sock, int id) {
         clientSocket = sock;
         ID = id; 
+        if(clientSocket.getPort()==0){
+            
+        }
     }
 
     @Override

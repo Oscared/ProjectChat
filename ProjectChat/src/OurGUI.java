@@ -14,6 +14,7 @@ public class OurGUI extends JPanel implements ActionListener {
     public static void main(String [] args){
         OurGUI gui = new OurGUI();
     }
+
     public OurGUI(){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         frame = new JFrame();
@@ -31,8 +32,7 @@ public class OurGUI extends JPanel implements ActionListener {
         sendButton = new JButton("Send");
         
         textField.setEditable(false);
-        sendButton.addActionListener(this);
-        
+
         textField.setLineWrap(true);
         textField.setWrapStyleWord(true);
         sendField.setLineWrap(true);
