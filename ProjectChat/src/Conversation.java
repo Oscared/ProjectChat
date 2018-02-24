@@ -12,9 +12,7 @@ public class Conversation implements ActionListener {
     public Conversation() {
         view = new OurGUI();
         view.sendButton.addActionListener(this);
-        while (true) {
-
-        }
+        
     }
 
     public void deConnect() {
@@ -25,7 +23,9 @@ public class Conversation implements ActionListener {
     }
 
     public void add(ServerThread person) {
+        System.out.println("Adds person");
         threadList.add(person);
+        person.start();
     }
 
     public void connect(String IP, int Portnummer) {
@@ -37,10 +37,14 @@ public class Conversation implements ActionListener {
     }
 
     public void sendMess(String text) {
+        System.out.println("Sending message..." + text);
+        System.out.println("Thread List length: " + threadList.size());
         for (int i = 0; i < threadList.size(); i++) {
+            System.out.println("On thread: " + i);
             threadList.get(i).writer.append(text);
+            System.out.println("Has written: " + text);
             threadList.get(i).writer.flush();
-
+            //view.textField.
         }
     }
 
@@ -48,6 +52,7 @@ public class Conversation implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
 
     }

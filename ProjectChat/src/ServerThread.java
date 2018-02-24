@@ -11,10 +11,10 @@ public class ServerThread extends Thread {
     //Output from client.
     PrintWriter writer;
 
-    //Input to the client.
+    //Input to the client
     private BufferedReader reader;
 
-    //Unique ID for the client used for identification.
+    //Unique ID for the client used for identification
     private int ID;
 
     //Creates a new thread for the new client with a unique ID.
@@ -28,8 +28,10 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Runs thread");
         boolean newConnection = true;
         try{
+            System.out.println("Creates writer");
 	    writer = new PrintWriter(
 				  clientSocket.getOutputStream(), true);
 	}catch(IOException e){
@@ -37,6 +39,7 @@ public class ServerThread extends Thread {
 	    System.exit(1);
 	}
 	try{
+            System.out.println("Creates reader");
 	    reader = new BufferedReader(new InputStreamReader(
 	            clientSocket.getInputStream()));
 	}catch(IOException e){
@@ -46,6 +49,7 @@ public class ServerThread extends Thread {
         if (newConnection==true){
             try{
                String text = reader.readLine();
+               System.out.println(text);
                if(text==null){
                    newConnection=false;
                }
