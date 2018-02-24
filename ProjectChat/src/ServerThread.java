@@ -7,12 +7,12 @@ public class ServerThread extends Thread {
     //Socket to connect the client to. Will come from the accepted socket 
     //to our serverSocket
     private Socket clientSocket;
-    String text;
+    
     //Output from client.
     PrintWriter writer;
 
     //Input to the client
-    private BufferedReader reader;
+    BufferedReader reader;
 
     //Unique ID for the client used for identification
     private int ID;
@@ -21,14 +21,10 @@ public class ServerThread extends Thread {
     public ServerThread(Socket sock, int id) {
         clientSocket = sock;
         ID = id; 
-        if(clientSocket.getPort()==0){
-            
-        }
     }
 
     @Override
     public void run() {
-        System.out.println("Runs thread");
         boolean newConnection = true;
         try{
             System.out.println("Creates writer");
@@ -46,7 +42,8 @@ public class ServerThread extends Thread {
 	    System.out.println("getInputStream failed: " + e);
 	    System.exit(1);
 	}
-        if (newConnection==true){
+        
+        while (newConnection==true){
             try{
                String text = reader.readLine();
                System.out.println(text);

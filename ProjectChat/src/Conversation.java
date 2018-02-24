@@ -5,14 +5,31 @@ import java.util.*;
 public class Conversation implements ActionListener {
 
     OurGUI view;
-    private List<ServerThread> threadList;
+    private List<ServerThread> threadList = new ArrayList<>();
 
     private String name;
 
     public Conversation() {
         view = new OurGUI();
         view.sendButton.addActionListener(this);
-        
+//        Thread watchThread = new Thread() {
+//            public void run() {
+//                while (true) {
+//                    for (int i = 0; i < threadList.size(); i++) {
+//                        try {
+//                            String input = threadList.get(i).reader.readLine();
+//                            if (input != null) {
+//                                view.textField.setText(view.textField.getText()
+//                                                       + "\n" + input);
+//                            }
+//                        } catch (Exception e) {
+//
+//                        }
+//                    }
+//                }
+//            }
+//        };
+//        watchThread.start();
     }
 
     public void deConnect() {
@@ -37,15 +54,13 @@ public class Conversation implements ActionListener {
     }
 
     public void sendMess(String text) {
-        System.out.println("Sending message..." + text);
-        System.out.println("Thread List length: " + threadList.size());
         for (int i = 0; i < threadList.size(); i++) {
-            System.out.println("On thread: " + i);
-            threadList.get(i).writer.append(text);
+            threadList.get(i).writer.write(text + "\n");
+            //threadList.get(i).writer.println(text);
             System.out.println("Has written: " + text);
             threadList.get(i).writer.flush();
-            //view.textField.
         }
+        view.textField.setText(view.textField.getText() + "\n" + text);
     }
 
     public void setName() {
@@ -54,6 +69,6 @@ public class Conversation implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
-
+        //Add event from serverthread!
     }
 }

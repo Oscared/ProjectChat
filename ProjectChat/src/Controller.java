@@ -1,13 +1,13 @@
 
 import java.io.*;
 import java.net.*;
-import java.util.List;
+import java.util.*;
 
 public class Controller {
 
     private ServerSocket serverSocket;
     //private OurGUI View;
-    private List<Conversation> conversationList;
+    private List<Conversation> conversationList = new ArrayList<>();
     private String lastText;
 
     public Controller(int port) {
