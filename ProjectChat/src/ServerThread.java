@@ -44,6 +44,8 @@ public class ServerThread extends Thread {
 	    System.exit(1);
 	}
         
+        XMLHandler = new XMLHandler();
+        
         while(!done){
             try{
                 String input = reader.readLine();
@@ -51,7 +53,6 @@ public class ServerThread extends Thread {
 		    System.out.println("Client disconnect!");
 		    done = true;
 		}else{
-                    XMLHandler = new XMLHandler();
                     XMLHandler.ReadXML(input);
 		    String sendText = XMLHandler.sendText();//send the text to XMLHandler
                     //get input from XMLHandler if it has renewed?

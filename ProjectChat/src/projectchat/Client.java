@@ -28,7 +28,7 @@ public class Client {
         PrintWriter out = null;
         BufferedReader in = null;
 
-	// StrÃ¶m fÃ¶r att lÃ¤sa frÃ¥n terminalen
+	// StrÃ¶m fÃ¶r att lÃ¤sa frÃ¥n terminalen   
 	BufferedReader stdIn;
 	String userInput;
 
