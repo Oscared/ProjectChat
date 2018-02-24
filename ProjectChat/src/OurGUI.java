@@ -6,19 +6,17 @@ import static javax.swing.JFrame.*;
 
 public class OurGUI extends JPanel implements ActionListener {
 
-    JTextField textField;
+    JTextArea textField;
     JButton sendButton;
     JFrame frame;
-    JTextField sendField;
+    JTextArea sendField;
     
     public static void main(String [] args){
-        
         OurGUI gui = new OurGUI();
     }
     public OurGUI(){
-        
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         frame = new JFrame();
-        frame.setLayout(new BorderLayout());
         createInterface1();
         setVisible(true);
         frame.add(this);
@@ -28,14 +26,21 @@ public class OurGUI extends JPanel implements ActionListener {
     }
 
     public void createInterface1() {
-        textField = new JTextField("Text will be seen here!");
-        sendField = new JTextField("Type in text here.");
+        textField = new JTextArea(8, 60);
+        sendField = new JTextArea(4, 60);
         sendButton = new JButton("Send");
-        sendField.setEditable(true);
+        
+        textField.setEditable(false);
         sendButton.addActionListener(this);
-        add(textField, BorderLayout.NORTH);
-        add(sendButton, BorderLayout.WEST);
-        add(sendField, BorderLayout.EAST);    
+        
+        textField.setLineWrap(true);
+        textField.setWrapStyleWord(true);
+        sendField.setLineWrap(true);
+        sendField.setWrapStyleWord(true);
+        
+        add(textField);
+        add(sendButton);
+        add(sendField);    
     }
 
     public JPanel createInterface2() {
