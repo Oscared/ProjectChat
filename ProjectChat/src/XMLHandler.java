@@ -1,4 +1,5 @@
 
+import java.awt.*;
 import java.io.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -13,6 +14,10 @@ public class XMLHandler {
     private Crypto CaesarKrypto;
 
     private String output;
+    
+    private String name;
+    
+    private String color = "#000000";
 
     public XMLHandler() {
         AESKrypto = new Crypto("AES");
@@ -128,13 +133,14 @@ public class XMLHandler {
             rootElement.appendChild(textElement);
 
             output = toString(doc);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void writeFileRequest(String input) {
+    public void writeFileRequest(String input, File file, String type, String key) {
 
         try {
             DocumentBuilderFactory dbFactory
@@ -150,11 +156,20 @@ public class XMLHandler {
             Element fileElement = doc.createElement("fileresponse");
             Attr attrFileName = doc.createAttribute("name");
             Attr attrSize = doc.createAttribute("size");
-            attrFileName.setNodeValue(fileName);
+            Attr attrType = doc.createAttribute("type");
+            Attr attrKey = doc.createAttribute("key");
+            
+            attrFileName.setNodeValue(file.getName());
+            String size = String.valueOf(file.length());
             attrSize.setNodeValue(size);
+            attrType.setNodeValue(type);
+            attrKey.setNodeValue(key);
+            
             fileElement.setAttributeNode(attrFileName);     
             fileElement.setAttributeNode(attrSize);
-            fileElement.appendChild(doc.createTextNode(text));
+            fileElement.setAttributeNode(attrType);
+            fileElement.setAttributeNode(attrKey);
+            fileElement.appendChild(doc.createTextNode(input));
 
             rootElement.appendChild(fileElement);
             
@@ -165,7 +180,7 @@ public class XMLHandler {
 
     }
     
-    public void writeFileResponse(String input) {
+    public void writeFileResponse(String input, String reply, int port, String key) {
 
         try {
             DocumentBuilderFactory dbFactory
@@ -179,13 +194,19 @@ public class XMLHandler {
             rootElement.setAttributeNode(attrName);
 
             Element fileElement = doc.createElement("fileresponse");
-            Attr attrFileName = doc.createAttribute("name");
-            Attr attrSize = doc.createAttribute("size");
-            attrFileName.setNodeValue(fileName);
-            attrSize.setNodeValue(size);
-            fileElement.setAttributeNode(attrFileName);     
-            fileElement.setAttributeNode(attrSize);
-            fileElement.appendChild(doc.createTextNode(text));
+            Attr attrReply = doc.createAttribute("reply");
+            Attr attrPort = doc.createAttribute("port");
+            Attr attrKey = doc.createAttribute("key");
+            
+            attrReply.setNodeValue(reply);
+            String portString = String.valueOf(port);
+            attrPort.setNodeValue(portString);
+            attrKey.setNodeValue(key);
+            
+            fileElement.setAttributeNode(attrReply);     
+            fileElement.setAttributeNode(attrPort);
+            fileElement.setAttributeNode(attrKey);
+            fileElement.appendChild(doc.createTextNode(input));
 
             rootElement.appendChild(fileElement);
             
