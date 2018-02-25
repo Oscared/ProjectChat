@@ -7,6 +7,7 @@ public class OurGUI extends JPanel implements ActionListener {
 
     JTextArea textField;
     JButton sendButton;
+    JButton connectButton;
     JFrame frame;
     JTextArea sendField;
 
@@ -25,6 +26,7 @@ public class OurGUI extends JPanel implements ActionListener {
         textField = new JTextArea(8, 60);
         sendField = new JTextArea(4, 60);
         sendButton = new JButton("Send");
+        connectButton = new JButton("Connect");
         
         textField.setEditable(false);
         //sendButton.addActionListener(this);
@@ -37,6 +39,7 @@ public class OurGUI extends JPanel implements ActionListener {
         add(textField);
         add(sendButton);
         add(sendField);    
+        add(connectButton);
     }
 
     public JPanel createInterface2() {

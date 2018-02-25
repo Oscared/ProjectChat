@@ -1,51 +1,70 @@
 
+import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import java.util.List;
+import java.util.*;
 
-public class Controller {
+public class Controller implements ActionListener{
 
     private ServerSocket serverSocket;
-    //private OurGUI View;
-    private List<Conversation> conversationList;
+    private OurGUI startView;
+    private List<Conversation> conversationList = new ArrayList<>();
     private String lastText;
 
     public Controller(int port) {
-        int IDCounter = 0;
         try {
+            startView = new OurGUI();
+            startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
-            while (true) {
-                Socket newSocket = null;
-                try {
-                    newSocket = serverSocket.accept();
-                    if (newSocket != null) {
-                        Conversation newConversation = new Conversation();
-                        ServerThread newThread = new ServerThread(newSocket, IDCounter);
-                        newConversation.add(newThread);
-                        conversationList.add(newConversation);
-                        IDCounter = IDCounter + 1;
+            Thread connectionThread = new Thread() {
+                public void run() {
+                    int IDCounter = 0;
+                    while (true) {
+                        Socket newSocket = null;
+                        try {
+                            newSocket = serverSocket.accept();
+                            if (newSocket != null) {
+                                Conversation newConversation = new Conversation();
+                                newConversation.view.connectButton.addActionListener(Controller.this);
+                                ServerThread newThread = new ServerThread(newSocket, IDCounter);
+                                newConversation.add(newThread);
+                                conversationList.add(newConversation);
+                                IDCounter = IDCounter + 1;
+                            }
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
                 }
-            }
+            };
+            connectionThread.start();
         } catch (Exception e) {
             e.getMessage();
         }
     }
 
-    /*  //Main2
+    //Main2
     public static void main(String[] args) {
         Controller newController = new Controller(4444);
-        
+
     }
-     
-*/
-    //Main1
+
+
+    /*  //Main1
     public static void main(String[] args) {
         Controller newController = new Controller(4444);
         try {
-            Socket conSock = new Socket("130.229.178.247", 4444);
+            Socket conSock = new Socket("130.229.143.175.", 4444);
+            Conversation newConversation = new Conversation();
+            ServerThread newThread = new ServerThread(conSock, 1);
+            newConversation.add(newThread);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }*/
+    public void startNewConv() {
+            try {
+            Socket conSock = new Socket("130.229.171.146", 4444);
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);
             newConversation.add(newThread);
@@ -54,11 +73,10 @@ public class Controller {
         }
     }
 
-    public Conversation startNewConv() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public String sendMess(String text) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    public void actionPerformed(ActionEvent e){
+        startNewConv();
     }
 }
