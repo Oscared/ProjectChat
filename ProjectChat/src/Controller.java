@@ -52,7 +52,9 @@ public class Controller implements ActionListener{
 
     /*  //Main1
     public static void main(String[] args) {
+        System.out.println("Controller is init");
         Controller newController = new Controller(4444);
+        System.out.println("Controller is done");
         try {
             Socket conSock = new Socket("130.229.143.175.", 4444);
             Conversation newConversation = new Conversation();

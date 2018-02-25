@@ -43,6 +43,7 @@ public class Conversation implements ActionListener {
 
             //threadList.get(i).writer.write(text);
         }
+        view.textField.setText(view.textField.getText() + "\n" + text);
     }
 
     public void setName() {
@@ -72,7 +73,8 @@ public class Conversation implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
-
+        //Add event from serverthread!
     }
 }

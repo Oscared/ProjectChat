@@ -14,10 +14,10 @@ public class ServerThread extends Thread {
     String text;
     String fullText;
 
-    //Input to the client.
+    //Input to the client
     BufferedReader reader;
 
-    //Unique ID for the client used for identification.
+    //Unique ID for the client used for identification
     private int ID;
 
     //Creates a new thread for the new client with a unique ID.
