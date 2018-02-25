@@ -6,6 +6,7 @@ public class Conversation implements ActionListener {
 
     OurGUI view;
     private List<ServerThread> threadList = new ArrayList<>();
+
     private String name;
 
     public Conversation() {
@@ -38,10 +39,12 @@ public class Conversation implements ActionListener {
     public void sendMess(String text) {
         view.textField.setText(view.textField.getText() + "\n" + text);
         for (int i = 0; i < threadList.size(); i++) {
+
             threadList.get(i).writer.println(text);
             threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
 
             //threadList.get(i).writer.write(text);
+
         }
         view.textField.setText(view.textField.getText() + "\n" + text);
     }

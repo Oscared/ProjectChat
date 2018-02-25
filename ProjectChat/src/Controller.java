@@ -7,7 +7,9 @@ import java.util.*;
 public class Controller implements ActionListener{
 
     private ServerSocket serverSocket;
+   
     private OurGUI startView;
+
     private List<Conversation> conversationList = new ArrayList<>();
     private String lastText;
 
@@ -16,6 +18,7 @@ public class Controller implements ActionListener{
             startView = new OurGUI();
             startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
+
             Thread connectionThread = new Thread() {
                 public void run() {
                     int IDCounter = 0;
@@ -30,6 +33,7 @@ public class Controller implements ActionListener{
                                 newConversation.add(newThread);
                                 conversationList.add(newConversation);
                                 IDCounter = IDCounter + 1;
+
                             }
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
@@ -43,14 +47,6 @@ public class Controller implements ActionListener{
         }
     }
 
-    //Main2
-    public static void main(String[] args) {
-        Controller newController = new Controller(4444);
-
-    }
-
-
-    /*  //Main1
     public static void main(String[] args) {
         System.out.println("Controller is init");
         Controller newController = new Controller(4444);
@@ -63,10 +59,11 @@ public class Controller implements ActionListener{
         } catch (Exception e) {
             e.getMessage();
         }
-    }*/
+    }
     public void startNewConv() {
             try {
             Socket conSock = new Socket("130.229.171.146", 4444);
+
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);
             newConversation.add(newThread);
