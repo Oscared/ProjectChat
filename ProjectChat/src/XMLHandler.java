@@ -6,6 +6,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 
 public class XMLHandler {
 
@@ -37,6 +38,7 @@ public class XMLHandler {
     public void ReadXML(String input) {
         //string to edit and later use as output
         String currentString = "";
+        System.out.println("Starts to read XML");
 
         //Build the background for using DOM to parse and create XML
         try {
@@ -44,12 +46,13 @@ public class XMLHandler {
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputText);
+            Document doc = dBuilder.parse(new InputSource(new StringReader(input)));
             doc.getDocumentElement().normalize();
 
             //if false the start tag is not right
             if (doc.getDocumentElement().getNodeName().equals("message")) {
                 //Attach name and : to text to be displayed
+                System.out.println("Finds message tag");
                 currentString += doc.getDocumentElement().getAttribute("name")
                         + ": ";
                 NodeList textNodes = doc.getElementsByTagName("text");
@@ -121,13 +124,15 @@ public class XMLHandler {
     }
 
     public void writeXML(String text) {
-
+        System.out.println("Starts to write XML");
         try {
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.newDocument();
 
+            System.out.println("Is creating doc");
+            
             Element rootElement = doc.createElement("message");
             Attr attrName = doc.createAttribute("name");
             attrName.setValue(name);
@@ -238,6 +243,8 @@ public class XMLHandler {
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
         transformer.transform(new DOMSource(doc), new StreamResult(sw));
+        
+        System.out.println("ToString srites: " + sw.toString());
         return sw.toString();
     } catch (Exception ex) {
         throw new RuntimeException("Error converting to String", ex);
