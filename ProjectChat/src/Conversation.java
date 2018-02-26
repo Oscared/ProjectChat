@@ -36,7 +36,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void sendMess(String text) {
-        view.textField.setText(view.textField.getText() + "\n" + text);
+        view.textField.append(text);
         for (int i = 0; i < threadList.size(); i++) {
 
             threadList.get(i).writer.println(text);
@@ -83,8 +83,9 @@ public class Conversation implements ActionListener, Observer {
     public void update(Observable o, Object o1) {
         for (int i = 0; i < threadList.size(); i++) {
             if(o == threadList.get(i)){
-            view.textField.setText(view.textField.getText() + "\n" + 
-            threadList.get(i).getText());
+            //view.textField.setText(view.textField.getText() + "\n" + 
+            //threadList.get(i).getText());
+            view.textField.append(threadList.get(i).getText()+ "\n");
 
             }
         }
