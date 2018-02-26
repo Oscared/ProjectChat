@@ -77,6 +77,8 @@ public class Controller implements ActionListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     public void actionPerformed(ActionEvent e){
-        startNewConv(startView.ipField.getText(), Integer.parseInt(startView.portField.getText()), startView.nameField.getText());
+        startNewConv(startView.ipField.getText(), 
+                     Integer.parseInt(startView.portField.getText()), 
+                     startView.nameField.getText());
     }
 }

@@ -57,7 +57,7 @@ public class ServerThread extends Observable {
                             setChanged();
                             notifyObservers();
                             fullText += "\n" + text;
-                            System.out.println(text);
+                            System.out.println("Have notified observers. Sent: " + text);
                             if (text == null) {
                                 newConnection = true;
                             }
