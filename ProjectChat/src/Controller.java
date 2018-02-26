@@ -11,6 +11,7 @@ public class Controller implements ActionListener{
     private OurGUI startView;
 
     private List<Conversation> conversationList = new ArrayList<>();
+    
     private String lastText;
 
     public Controller(int port) {
@@ -51,18 +52,18 @@ public class Controller implements ActionListener{
         System.out.println("Controller is init");
         Controller newController = new Controller(4444);
         System.out.println("Controller is done");
-        try {
+        /*try {
             Socket conSock = new Socket("130.229.143.175.", 4444);
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);
             newConversation.add(newThread);
         } catch (Exception e) {
             e.getMessage();
-        }
+        }*/
     }
     public void startNewConv() {
             try {
-            Socket conSock = new Socket("130.229.171.146", 4444);
+            Socket conSock = new Socket("130.229.143.175", 4444);
 
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);

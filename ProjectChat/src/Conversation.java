@@ -2,7 +2,7 @@
 import java.awt.event.*;
 import java.util.*;
 
-public class Conversation implements ActionListener {
+public class Conversation implements ActionListener, Observer {
 
     OurGUI view;
     private List<ServerThread> threadList = new ArrayList<>();
@@ -23,9 +23,8 @@ public class Conversation implements ActionListener {
     }
 
     public void add(ServerThread person) {
-        person.start();
         threadList.add(person);
-        updateGUI(person);
+        person.addObserver(this);
     }
 
     public void connect(String IP, int Portnummer) {
@@ -46,38 +45,48 @@ public class Conversation implements ActionListener {
             //threadList.get(i).writer.write(text);
 
         }
-        view.textField.setText(view.textField.getText() + "\n" + text);
     }
 
     public void setName() {
     }
 
-    public void updateGUI(ServerThread person) {
-        Thread GUIThread = new Thread() {
-            public void run() {
-                //synchronized (this) {
-                while (true) {
-                    if (view.textField.getText() != person.fullText) {
-                        view.textField.setText(person.fullText);
-                        //try {
-                        //System.out.println("väääntar");
-                        //wait();
-                        //System.out.println("post wait");
-                        //} catch (Exception e) {
-                        //    e.getMessage();
-                        // }
-
-                    }
-                    //    }
-                }
-            }
-        };
-        GUIThread.start();
-    }
+//    public void updateGUI(ServerThread person) {
+//        Thread GUIThread = new Thread() {
+//            public void run() {
+//                //synchronized (this) {
+//                while (true) {
+//                    if (view.textField.getText() != person.fullText) {
+//                        view.textField.setText(person.fullText);
+//                        //try {
+//                        //System.out.println("väääntar");
+//                        //wait();
+//                        //System.out.println("post wait");
+//                        //} catch (Exception e) {
+//                        //    e.getMessage();
+//                        // }
+//
+//                    }
+//                    //    }
+//                }
+//            }
+//        };
+//        GUIThread.start();
+//    }
 
     public void actionPerformed(ActionEvent e) {
         System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
         //Add event from serverthread!
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        for (int i = 0; i < threadList.size(); i++) {
+            if(o == threadList.get(i)){
+            view.textField.setText(view.textField.getText() + "\n" + 
+            threadList.get(i).getText());
+
+            }
+        }
     }
 }

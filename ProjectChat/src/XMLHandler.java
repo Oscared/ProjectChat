@@ -23,6 +23,11 @@ public class XMLHandler {
         AESKrypto = new Crypto("AES");
         CaesarKrypto = new Crypto("Caesar");
     }
+    
+    
+    public void setName(String Name){
+        name = Name;
+    }
 
     //Reads XML from input and outputs readable text to show in chat window
     public void ReadXML(String input) {

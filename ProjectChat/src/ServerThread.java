@@ -2,12 +2,14 @@
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
-public class ServerThread extends Thread {
+public class ServerThread extends Observable {
 
     //Socket to connect the client to. Will come from the accepted socket 
     //to our serverSocket
     private Socket clientSocket;
+
     //Output from client.
     PrintWriter writer;
     boolean newConnection = true;
@@ -24,47 +26,57 @@ public class ServerThread extends Thread {
     public ServerThread(Socket sock, int id) {
         clientSocket = sock;
         ID = id;
-    }
 
-    @Override
-    public void run() {
-        synchronized (this) {
-            if (newConnection = true) {
-                try {
-                    writer = new PrintWriter(
-                            clientSocket.getOutputStream(), true);
-                } catch (IOException e) {
-                    System.out.println("getOutputStream failed: " + e);
-                    System.exit(1);
-                }
-                try {
-                    reader = new BufferedReader(new InputStreamReader(
-                            clientSocket.getInputStream()));
-                } catch (IOException e) {
-                    System.out.println("getInputStream failed: " + e);
-                    System.exit(1);
-                }
-                newConnection = false;
-            }
-            while (newConnection == false) {
-                try {
-                    text = reader.readLine();
-                    fullText=fullText + "\n" + text;
-                    //System.out.println("Dags för notify");
-                    //notifyAll();
-                    //System.out.println("notify har skett");
-                    System.out.println(text);
-                    if (text == null) {
-                        newConnection = true;
+        Thread runThread = new Thread() {
+            public void run() {
+                synchronized (this) {
+                    if (newConnection = true) {
+                        try {
+                            writer = new PrintWriter(
+                                    clientSocket.getOutputStream(), true);
+                        } catch (IOException e) {
+                            System.out.println("getOutputStream failed: " + e);
+                            System.exit(1);
+                        }
+                        try {
+                            reader = new BufferedReader(new InputStreamReader(
+                                    clientSocket.getInputStream()));
+                        } catch (IOException e) {
+                            System.out.println("getInputStream failed: " + e);
+                            System.exit(1);
+                        }
+                        newConnection = false;
                     }
-                } catch (Exception e) {
+                    while (newConnection == false) {
+                        try {
+                            text = reader.readLine();
+                            setChanged();
+                            notifyObservers();
+                            fullText += "\n" + text;
+                            //System.out.println("Dags för notify");
+                            //notifyAll();
+                            //System.out.println("notify har skett");
+                            System.out.println(text);
+                            if (text == null) {
+                                newConnection = true;
+                            }
+                        } catch (Exception e) {
 
+                        }
+                    }
                 }
             }
-        }
+        };
+        runThread.start();
     }
 
     public int GetID() {
         return ID;
     }
+    
+    public String getText(){
+        return text;
+    }
+
+     
 }
