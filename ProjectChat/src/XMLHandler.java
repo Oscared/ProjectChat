@@ -25,8 +25,12 @@ public class XMLHandler {
     }
     
     
-    public void setName(String Name){
-        name = Name;
+    public void setName(String inName){
+        name = inName;
+    }
+    
+    public void setColor(String inColor){
+        color = inColor;
     }
 
     //Reads XML from input and outputs readable text to show in chat window
@@ -52,7 +56,7 @@ public class XMLHandler {
                 for (int i = 0; i < textNodes.getLength(); i++) {
                     //Om man har <text> jajdasjasdl <encrypted>hasd</encrypted> jaasdklj </text> hur funkar det då?
                     Element eElement = (Element) textNodes.item(i);
-                    String textColor = eElement.getAttribute("text");
+                    color = eElement.getAttribute("text");
                     currentString += eElement.getElementsByTagName("text")
                             .item(0).getTextContent();
                     if (eElement.hasChildNodes()) {

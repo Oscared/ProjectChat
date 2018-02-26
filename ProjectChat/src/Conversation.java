@@ -38,45 +38,17 @@ public class Conversation implements ActionListener, Observer {
     public void sendMess(String text) {
         view.textField.append(text);
         for (int i = 0; i < threadList.size(); i++) {
-
             threadList.get(i).writer.println(text);
             threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
-
-            //threadList.get(i).writer.write(text);
-
         }
     }
 
     public void setName() {
     }
 
-//    public void updateGUI(ServerThread person) {
-//        Thread GUIThread = new Thread() {
-//            public void run() {
-//                //synchronized (this) {
-//                while (true) {
-//                    if (view.textField.getText() != person.fullText) {
-//                        view.textField.setText(person.fullText);
-//                        //try {
-//                        //System.out.println("väääntar");
-//                        //wait();
-//                        //System.out.println("post wait");
-//                        //} catch (Exception e) {
-//                        //    e.getMessage();
-//                        // }
-//
-//                    }
-//                    //    }
-//                }
-//            }
-//        };
-//        GUIThread.start();
-//    }
-
     public void actionPerformed(ActionEvent e) {
         System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
-        //Add event from serverthread!
     }
 
     @Override

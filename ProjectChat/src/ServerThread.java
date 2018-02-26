@@ -53,9 +53,6 @@ public class ServerThread extends Observable {
                             setChanged();
                             notifyObservers();
                             fullText += "\n" + text;
-                            //System.out.println("Dags för notify");
-                            //notifyAll();
-                            //System.out.println("notify har skett");
                             System.out.println(text);
                             if (text == null) {
                                 newConnection = true;
