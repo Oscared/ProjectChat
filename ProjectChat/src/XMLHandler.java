@@ -61,8 +61,7 @@ public class XMLHandler {
                     //Om man har <text> jajdasjasdl <encrypted>hasd</encrypted> jaasdklj </text> hur funkar det då?
                     Element eElement = (Element) textNodes.item(i);
                     color = eElement.getAttribute("text");
-                    currentString += eElement.getElementsByTagName("text")
-                            .item(0).getTextContent();
+                    currentString += eElement.getTextContent();
                     if (eElement.hasChildNodes()) {
                         NodeList cryptoNodes = 
                                 eElement.getElementsByTagName("encrypted");
@@ -251,7 +250,7 @@ public class XMLHandler {
         Transformer transformer = tf.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
         transformer.transform(new DOMSource(doc), new StreamResult(sw));

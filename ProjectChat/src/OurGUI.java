@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import static javax.swing.JFrame.*;
 
-public class OurGUI extends JPanel implements ActionListener {
+public class OurGUI extends JFrame implements ActionListener {
 
     JTextArea textField;
     JButton sendButton;
@@ -12,21 +12,15 @@ public class OurGUI extends JPanel implements ActionListener {
     JTextArea sendField;
 
     public OurGUI(){
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         frame = new JFrame();
-        createInterface1();
-        setVisible(true);
-        frame.add(this);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public void createInterface1() {
+    public void chatPanel() {
+        JPanel chatPanel = new JPanel();
+        chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.Y_AXIS));
         textField = new JTextArea(8, 60);
         sendField = new JTextArea(4, 60);
         sendButton = new JButton("Send");
-        connectButton = new JButton("Connect");
         
         textField.setEditable(false);
         //sendButton.addActionListener(this);
@@ -36,14 +30,26 @@ public class OurGUI extends JPanel implements ActionListener {
         sendField.setLineWrap(true);
         sendField.setWrapStyleWord(true);
         
-        add(textField);
-        add(sendButton);
-        add(sendField);    
-        add(connectButton);
+        chatPanel.add(textField);
+        chatPanel.add(sendButton);
+        chatPanel.add(sendField);    
+        
+        add(chatPanel);
+        pack();
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public JPanel createInterface2() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void startPanel() {
+        JPanel startPanel = new JPanel();
+        
+        connectButton = new JButton("Connect");
+        startPanel.add(connectButton);
+        
+        add(startPanel);
+        pack();
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public JPanel createInterface3() {

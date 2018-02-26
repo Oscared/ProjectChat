@@ -8,7 +8,7 @@ public class Controller implements ActionListener{
 
     private ServerSocket serverSocket;
    
-    private OurGUI startView;
+    private PortPanel startView;
 
     private List<Conversation> conversationList = new ArrayList<>();
     
@@ -16,7 +16,7 @@ public class Controller implements ActionListener{
 
     public Controller(int port) {
         try {
-            startView = new OurGUI();
+            startView = new PortPanel();
             startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
 
@@ -61,9 +61,9 @@ public class Controller implements ActionListener{
             e.getMessage();
         }*/
     }
-    public void startNewConv() {
+    public void startNewConv(String iP, int port, String name) {
             try {
-            Socket conSock = new Socket("130.229.171.146", 4444);
+            Socket conSock = new Socket(iP, port);
 
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);
@@ -77,6 +77,6 @@ public class Controller implements ActionListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     public void actionPerformed(ActionEvent e){
-        startNewConv();
+        startNewConv(startView.ipField.getText(), Integer.parseInt(startView.portField.getText()), startView.nameField.getText());
     }
 }

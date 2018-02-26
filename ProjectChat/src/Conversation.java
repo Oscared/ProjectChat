@@ -4,13 +4,13 @@ import java.util.*;
 
 public class Conversation implements ActionListener, Observer {
 
-    OurGUI view;
+    TestFrame view;
     private List<ServerThread> threadList = new ArrayList<>();
 
-    private String name;
+    private String name = "Oscar";
 
     public Conversation() {
-        view = new OurGUI();
+        view = new TestFrame();
         view.sendButton.addActionListener(this);
 
     }
@@ -23,6 +23,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void add(ServerThread person) {
+        System.out.println("Creates one Thread!");
         threadList.add(person);
         person.addObserver(this);
     }
@@ -36,18 +37,20 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void sendMess(String text) {
-        view.textField.append(text);
+        view.textField.append(name + ": " + text);
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.writeXML(text);
             System.out.println("Gets text from XML and sen!" + threadList.get(i).XMLHandler.sendText());
-            threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText());
+            threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText() + "\n");
             threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
         }
     }
 
-    public void setName() {
+    public void setName(String Name) {
+        name= Name;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Button is pressed");
         sendMess(view.sendField.getText());
@@ -57,6 +60,7 @@ public class Conversation implements ActionListener, Observer {
     public void update(Observable o, Object o1) {
         for (int i = 0; i < threadList.size(); i++) {
             if(o == threadList.get(i)){
+            System.out.println("Updated one thread :" + i);
             //view.textField.setText(view.textField.getText() + "\n" + 
             //threadList.get(i).getText());
             view.textField.append(threadList.get(i).getText()+ "\n");
