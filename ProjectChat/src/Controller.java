@@ -63,7 +63,7 @@ public class Controller implements ActionListener{
     }
     public void startNewConv() {
             try {
-            Socket conSock = new Socket("130.229.143.175", 4444);
+            Socket conSock = new Socket("130.229.171.146", 4444);
 
             Conversation newConversation = new Conversation();
             ServerThread newThread = new ServerThread(conSock, 1);

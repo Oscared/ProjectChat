@@ -16,7 +16,7 @@ public class XMLHandler {
 
     private String output;
     
-    private String name;
+    private String name = "Oscar";
     
     private String color = "#000000";
 
@@ -42,11 +42,12 @@ public class XMLHandler {
 
         //Build the background for using DOM to parse and create XML
         try {
-            File inputText = new File(input);
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new InputSource(new StringReader(input)));
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(input));
+            Document doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
 
             //if false the start tag is not right
@@ -63,14 +64,18 @@ public class XMLHandler {
                     currentString += eElement.getElementsByTagName("text")
                             .item(0).getTextContent();
                     if (eElement.hasChildNodes()) {
-                        NodeList cryptoNodes = eElement.getElementsByTagName("encrypted");
-                        NodeList fatNodes = eElement.getElementsByTagName("fetstil");
-                        NodeList cursiveNodes = eElement.getElementsByTagName("kursiv");
+                        NodeList cryptoNodes = 
+                                eElement.getElementsByTagName("encrypted");
+                        NodeList fatNodes = 
+                                eElement.getElementsByTagName("fetstil");
+                        NodeList cursiveNodes = 
+                                eElement.getElementsByTagName("kursiv");
                         if (cryptoNodes.getLength() != 0) {
                             //try-catch catch if no key ask for key
                             //Crypto krypto = new Crypto(keyFromSender);
                             for (int j = 0; j < cryptoNodes.getLength(); j++) {
-                                Element cElement = (Element) cryptoNodes.item(j);
+                                Element cElement = 
+                                        (Element) cryptoNodes.item(j);
                                 //krypto.deCrypt(cElement.getTextContent());
 
                             }
@@ -83,7 +88,8 @@ public class XMLHandler {
                         }
                         if (cursiveNodes.getLength() != 0) {
                             for (int j = 0; j < cursiveNodes.getLength(); j++) {
-                                Element curElement = (Element) cursiveNodes.item(j);
+                                Element curElement = 
+                                        (Element) cursiveNodes.item(j);
                                 //send kursiv to image and append text
 
                             }
@@ -95,7 +101,8 @@ public class XMLHandler {
 
                 if (doc.getElementsByTagName("filerequest").getLength()
                         != 0) {
-                    Element fElement = (Element) doc.getElementsByTagName("filerequest");
+                    Element fElement = (Element) 
+                                       doc.getElementsByTagName("filerequest");
                     FileHandler fileHandler = new FileHandler();
                     //fileHandler.setSize(fElement.getAttribute("size"));
                     //fileHandler.setText(fElement.getAttribute("name") + fElement.getTextContent());
@@ -104,7 +111,8 @@ public class XMLHandler {
 
                 if (doc.getElementsByTagName("fileresponse").getLength()
                         != 0) {
-                    Element rElement = (Element) doc.getElementsByTagName("fileresponse");
+                    Element rElement = (Element) 
+                                       doc.getElementsByTagName("fileresponse");
                     //currentFileHandlerBeingUsed.answer(rElement.getAttribute("reply"));
                     //currentFileHandlerBeingUsed.sendFile(rElement.getAttribute("port"));
                 }
@@ -125,6 +133,7 @@ public class XMLHandler {
 
     public void writeXML(String text) {
         System.out.println("Starts to write XML");
+        System.out.println("Is trying with text: " + text);
         try {
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
@@ -137,11 +146,13 @@ public class XMLHandler {
             Attr attrName = doc.createAttribute("name");
             attrName.setValue(name);
             rootElement.setAttributeNode(attrName);
+            doc.appendChild(rootElement);
 
             Element textElement = doc.createElement("text");
             Attr attrColor = doc.createAttribute("color");
             attrColor.setNodeValue(color);
             textElement.setAttributeNode(attrColor);
+            rootElement.appendChild(textElement);
             textElement.appendChild(doc.createTextNode(text));
 
             rootElement.appendChild(textElement);
@@ -154,7 +165,8 @@ public class XMLHandler {
 
     }
 
-    public void writeFileRequest(String input, File file, String type, String key) {
+    public void writeFileRequest(String input, File file, 
+                                 String type, String key) {
 
         try {
             DocumentBuilderFactory dbFactory

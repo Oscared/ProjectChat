@@ -16,6 +16,7 @@ public class ServerThread extends Observable {
     String text;
     String fullText;
 
+    XMLHandler XMLHandler = new XMLHandler();
     //Input to the client
     BufferedReader reader;
 
@@ -49,7 +50,10 @@ public class ServerThread extends Observable {
                     }
                     while (newConnection == false) {
                         try {
-                            text = reader.readLine();
+                            String texten = reader.readLine();
+                            System.out.println("Detta kommer från andra personen" + texten);
+                            XMLHandler.ReadXML(texten);
+                            text = XMLHandler.sendText();
                             setChanged();
                             notifyObservers();
                             fullText += "\n" + text;
