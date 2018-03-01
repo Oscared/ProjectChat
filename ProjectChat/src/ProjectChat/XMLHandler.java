@@ -132,44 +132,44 @@ public class XMLHandler {
         return output;
     }
 
-    public void writeXML(String text) {
-        System.out.println("Starts to write XML");
-        System.out.println("Is trying with text: " + text);
-        try {
-            DocumentBuilderFactory dbFactory
-                    = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-
-            System.out.println("Is creating doc");
-            
-            Element rootElement = doc.createElement("message");
-            Attr attrName = doc.createAttribute("sender");
-            attrName.setValue(name);
-            rootElement.setAttributeNode(attrName);
-            doc.appendChild(rootElement);
-
-            Element textElement = doc.createElement("text");
-            Attr attrColor = doc.createAttribute("color");
-            attrColor.setNodeValue(color);
-            textElement.setAttributeNode(attrColor);
-            rootElement.appendChild(textElement);
-            textElement.appendChild(doc.createTextNode(text));
-
-            rootElement.appendChild(textElement);
-
-            output = toString(doc);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public void writeXML(String text) {
+//        System.out.println("Starts to write XML");
+//        System.out.println("Is trying with text: " + text);
+//        try {
+//            DocumentBuilderFactory dbFactory
+//                    = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//            Document doc = dBuilder.newDocument();
+//
+//            System.out.println("Is creating doc");
+//            
+//            Element rootElement = doc.createElement("message");
+//            Attr attrName = doc.createAttribute("sender");
+//            attrName.setValue(name);
+//            rootElement.setAttributeNode(attrName);
+//            doc.appendChild(rootElement);
+//
+//            Element textElement = doc.createElement("text");
+//            Attr attrColor = doc.createAttribute("color");
+//            attrColor.setNodeValue(color);
+//            textElement.setAttributeNode(attrColor);
+//            rootElement.appendChild(textElement);
+//            textElement.appendChild(doc.createTextNode(text));
+//
+//            rootElement.appendChild(textElement);
+//
+//            output = toString(doc);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
     
-//public void writeXML(String text){
-//    Component compositeXML = new Component(text,name, color);
-//    output = compositeXML.getText();
-//}
+public void writeXML(String text){
+    Component compositeXML = new Component(text,name, color);
+    output = compositeXML.getText();
+}
 
     public void writeFileRequest(String input, File file, 
                                  String type, String key) {

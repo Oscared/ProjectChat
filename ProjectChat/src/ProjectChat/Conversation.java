@@ -6,13 +6,13 @@ import java.util.*;
 
 public class Conversation implements ActionListener, Observer {
 
-    TestFrame view;
+    ChatPanel view;
     private List<ServerThread> threadList = new ArrayList<>();
 
     private String name = "Oscar";
 
     public Conversation() {
-        view = new TestFrame();
+        view = new ChatPanel();
         view.sendButton.addActionListener(this);
 
     }
@@ -39,7 +39,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void sendMess(String text) {
-        view.textField.append(name + ": " + text + "\n");
+        view.textField.setText(name + ": " + text + "\n");
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.writeXML(text);
             System.out.println("Gets text from XML and sen!" + threadList.get(i).XMLHandler.sendText());
@@ -55,7 +55,7 @@ public class Conversation implements ActionListener, Observer {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Button is pressed");
-        sendMess(view.sendField.getText());
+        sendMess(view.sednField.getText());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Conversation implements ActionListener, Observer {
             System.out.println("Updated one thread :" + i);
             //view.textField.setText(view.textField.getText() + "\n" + 
             //threadList.get(i).getText());
-            view.textField.append(threadList.get(i).getText()+ "\n");
+            view.textField.setText(threadList.get(i).getText()+ "\n");
 
             }
         }

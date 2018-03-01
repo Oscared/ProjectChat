@@ -1,6 +1,5 @@
 package ProjectChat;
 
-
 import ProjectChat.XMLHandler;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -18,6 +17,7 @@ public class ServerThread extends Observable {
     boolean newConnection = true;
     String text;
     String fullText;
+    Thread runThread;
 
     XMLHandler XMLHandler = new XMLHandler();
     //Input to the client
@@ -31,7 +31,7 @@ public class ServerThread extends Observable {
         clientSocket = sock;
         ID = id;
 
-        Thread runThread = new Thread() {
+        runThread = new Thread() {
             public void run() {
                 synchronized (this) {
                     if (newConnection = true) {
@@ -57,7 +57,7 @@ public class ServerThread extends Observable {
                             System.out.println("Detta kommer från andra personen" + texten);
                             XMLHandler.ReadXML(texten);
                             text = XMLHandler.sendText();
-                            //text = texten;
+                            text = texten;
                             setChanged();
                             notifyObservers();
                             fullText += "\n" + text;
@@ -78,10 +78,18 @@ public class ServerThread extends Observable {
     public int GetID() {
         return ID;
     }
-    
-    public String getText(){
+
+    public String getText() {
         return text;
     }
 
-     
+    public void stopThread() {
+        runThread.interrupt();
+        try {
+            clientSocket.close();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
 }

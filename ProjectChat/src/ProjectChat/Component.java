@@ -16,7 +16,7 @@ public class Component {
     String name = "";
     String color = "";
 
-    public Component(String inputText,String newName,String newColor) {
+    public Component(String inputText, String newName, String newColor) {
         text = inputText;
         name = newName;
         color = newColor;
@@ -37,14 +37,21 @@ public class Component {
 
             public String toString() {
 
-                return "<text color=" +"\""+ color+"\"" + ">" + text + "</text>";
+                return "<text color=" + "\"" + color + "\"" + ">" + text + "</text>";
                 //return "<text>" + text + "</text>";
+            }
+
+            class XMLrequest {
+
+                public String toString() {
+                    return "<request>" + text + "</request>";
+                }
             }
         }
 
         public String toString() {
 
-            return "<message sender=" + "\""+name+"\"" + ">" + subText.toString() + "</message>";
+            return "<message sender=" + "\"" + name + "\"" + ">" + subText.toString() + "</message>";
             //return "<message>" + subText.toString() + "</message>";
         }
     }
