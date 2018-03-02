@@ -1,5 +1,8 @@
 package ProjectChat;
 
+import java.awt.*;
+import javax.swing.text.*;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,11 +15,28 @@ package ProjectChat;
  */
 public class ChatPanel extends javax.swing.JPanel {
 
+    StyledDocument doc;
+    
     /**
      * Creates new form ChatPanel
      */
     public ChatPanel() {
         initComponents();
+    }
+    
+    public void appendText(String text, String color){
+        doc = textField.getStyledDocument();
+        Color textColor = Color.decode(color);
+        
+        SimpleAttributeSet fontKey = new SimpleAttributeSet();
+        StyleConstants.setForeground(fontKey, textColor);
+        
+        try{
+            doc.insertString(doc.getLength(), text, fontKey);
+        }
+        catch(Exception e){
+            e.getStackTrace();
+        }
     }
 
     /**
@@ -29,12 +49,13 @@ public class ChatPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        textField = new javax.swing.JEditorPane();
+        textField = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         sednField = new javax.swing.JEditorPane();
         sendButton = new javax.swing.JButton();
         disconnectButton = new javax.swing.JButton();
 
+        textField.setEditable(false);
         jScrollPane1.setViewportView(textField);
 
         jScrollPane2.setViewportView(sednField);
@@ -76,6 +97,6 @@ public class ChatPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JEditorPane sednField;
     public javax.swing.JButton sendButton;
-    public javax.swing.JEditorPane textField;
+    public javax.swing.JTextPane textField;
     // End of variables declaration//GEN-END:variables
 }
