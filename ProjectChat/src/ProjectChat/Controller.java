@@ -10,6 +10,7 @@ import java.util.*;
 public class Controller implements ActionListener {
 
     private ServerSocket serverSocket;
+            PopUpConnect connectRequest;
 
     private ControllerFrame startView;
     int decisionCounter;
@@ -33,12 +34,12 @@ public class Controller implements ActionListener {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
                                 ServerThread newThread = new ServerThread(newSocket, IDCounter);
-                                PopUpConnect connectRequest = new PopUpConnect();
+                                connectRequest = new PopUpConnect();
                                 connectRequest.acceptButton.addActionListener(Controller.this);
                                 connectRequest.declineButton.addActionListener(Controller.this);
                                 decisionCounter = -2;
                                 while (decisionCounter == -2) {
-
+                                    System.out.println(decisionCounter);
                                 }
                                 if (decisionCounter == -1) {
                                     Conversation newConversation = new Conversation();
@@ -48,15 +49,16 @@ public class Controller implements ActionListener {
                                     conversationList.add(newConversation);
                                     decisionCounter = -2;
                                 }
-                                if (decisionCounter >= 0) {
+                                else if (decisionCounter >= 0) {
                                     conversationList.get(decisionCounter).add(newThread);
                                     decisionCounter = -2;
 
-                                } else {
+                                } else if(decisionCounter == -99){
                                     newThread.stopThread();
                                     newSocket.close();
                                     decisionCounter = -2;
                                 }
+                                connectRequest.dispose();
                             }
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
@@ -94,15 +96,18 @@ public class Controller implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == "connectButton") {
+        System.out.println(decisionCounter);
+        if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
                     startView.nameField.getText());
         }
-        if (e.getSource() == "acceptButton") {
-            decisionCounter = 1;
+        else if (e.getSource() == connectRequest.acceptButton) {
+            decisionCounter = -1;
+            System.out.println("hej");
+            System.out.println(decisionCounter);
         }
-        if(e.getSource() == "declineButton"){
+        else if(e.getSource() == connectRequest.declineButton){
             decisionCounter =-99;
         }
     }

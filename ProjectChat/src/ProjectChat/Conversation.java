@@ -1,8 +1,8 @@
 package ProjectChat;
 
-
 import java.awt.event.*;
 import java.util.*;
+import javax.swing.text.html.*;
 
 public class Conversation implements ActionListener, Observer {
 
@@ -10,11 +10,15 @@ public class Conversation implements ActionListener, Observer {
     private List<ServerThread> threadList = new ArrayList<>();
 
     private String name = "Oscar";
+    HTMLDocument doc;
+    String ownColor = "#ff0000";
 
     public Conversation() {
         view = new ChatPanel();
         view.sendButton.addActionListener(this);
-
+        //doc = new HTMLDocument();
+        //view.textField.setDocument(doc);
+        
     }
 
     public void deConnect() {
@@ -39,7 +43,12 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void sendMess(String text) {
-        view.textField.setText(name + ": " + text + "\n");
+       // try {
+       //     doc.insertAfterEnd(doc.getDefaultRootElement(), text);
+        //} catch (Exception e) {
+        //    e.getMessage();
+        //}
+        view.appendText(name + ": " + text + "\n",ownColor);
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.writeXML(text);
             System.out.println("Gets text from XML and sen!" + threadList.get(i).XMLHandler.sendText());
@@ -49,7 +58,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void setName(String Name) {
-        name= Name;
+        name = Name;
     }
 
     @Override
@@ -61,11 +70,16 @@ public class Conversation implements ActionListener, Observer {
     @Override
     public void update(Observable o, Object o1) {
         for (int i = 0; i < threadList.size(); i++) {
-            if(o == threadList.get(i)){
-            System.out.println("Updated one thread :" + i);
-            //view.textField.setText(view.textField.getText() + "\n" + 
-            //threadList.get(i).getText());
-            view.textField.setText(threadList.get(i).getText()+ "\n");
+            if (o == threadList.get(i)) {
+                System.out.println("Updated one thread :" + i);
+                //view.textField.setText(view.textField.getText() + "\n" + 
+                //threadList.get(i).getText());
+                view.appendText(threadList.get(i).getText()+ "\n",threadList.get(i).XMLHandler.getColor());
+                //try {
+               //     doc.insertAfterEnd(doc.getDefaultRootElement(), threadList.get(i).getText() + "\n");
+               // } catch (Exception e) {
+               //     e.getMessage();
+               // }
 
             }
         }

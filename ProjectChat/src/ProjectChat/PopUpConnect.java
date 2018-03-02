@@ -17,6 +17,8 @@ public class PopUpConnect extends javax.swing.JFrame {
      */
     public PopUpConnect() {
         initComponents();
+        pack();
+        setVisible(true);
     }
 
     /**

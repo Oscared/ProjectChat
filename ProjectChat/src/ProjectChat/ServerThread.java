@@ -57,7 +57,7 @@ public class ServerThread extends Observable {
                             System.out.println("Detta kommer från andra personen" + texten);
                             XMLHandler.ReadXML(texten);
                             text = XMLHandler.sendText();
-                            text = texten;
+                            //text = texten;
                             setChanged();
                             notifyObservers();
                             fullText += "\n" + text;

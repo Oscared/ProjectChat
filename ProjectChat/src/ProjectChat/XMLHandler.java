@@ -1,6 +1,5 @@
 package ProjectChat;
 
-
 import java.awt.*;
 import java.io.*;
 import javax.xml.parsers.*;
@@ -13,27 +12,30 @@ import org.xml.sax.InputSource;
 public class XMLHandler {
 
     private Crypto AESKrypto;
-    
+
     private Crypto CaesarKrypto;
 
     private String output;
-    
+
     private String name = "Oscar";
-    
+
     private String color = "#000000";
 
     public XMLHandler() {
         AESKrypto = new Crypto("AES");
         CaesarKrypto = new Crypto("Caesar");
     }
-    
-    
-    public void setName(String inName){
+
+    public void setName(String inName) {
         name = inName;
     }
-    
-    public void setColor(String inColor){
+
+    public void setColor(String inColor) {
         color = inColor;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     //Reads XML from input and outputs readable text to show in chat window
@@ -65,18 +67,18 @@ public class XMLHandler {
                     color = eElement.getAttribute("text");
                     currentString += eElement.getTextContent();
                     if (eElement.hasChildNodes()) {
-                        NodeList cryptoNodes = 
-                                eElement.getElementsByTagName("encrypted");
-                        NodeList fatNodes = 
-                                eElement.getElementsByTagName("fetstil");
-                        NodeList cursiveNodes = 
-                                eElement.getElementsByTagName("kursiv");
+                        NodeList cryptoNodes
+                                = eElement.getElementsByTagName("encrypted");
+                        NodeList fatNodes
+                                = eElement.getElementsByTagName("fetstil");
+                        NodeList cursiveNodes
+                                = eElement.getElementsByTagName("kursiv");
                         if (cryptoNodes.getLength() != 0) {
                             //try-catch catch if no key ask for key
                             //Crypto krypto = new Crypto(keyFromSender);
                             for (int j = 0; j < cryptoNodes.getLength(); j++) {
-                                Element cElement = 
-                                        (Element) cryptoNodes.item(j);
+                                Element cElement
+                                        = (Element) cryptoNodes.item(j);
                                 //krypto.deCrypt(cElement.getTextContent());
 
                             }
@@ -89,8 +91,8 @@ public class XMLHandler {
                         }
                         if (cursiveNodes.getLength() != 0) {
                             for (int j = 0; j < cursiveNodes.getLength(); j++) {
-                                Element curElement = 
-                                        (Element) cursiveNodes.item(j);
+                                Element curElement
+                                        = (Element) cursiveNodes.item(j);
                                 //send kursiv to image and append text
 
                             }
@@ -102,8 +104,7 @@ public class XMLHandler {
 
                 if (doc.getElementsByTagName("filerequest").getLength()
                         != 0) {
-                    Element fElement = (Element) 
-                                       doc.getElementsByTagName("filerequest");
+                    Element fElement = (Element) doc.getElementsByTagName("filerequest");
                     FileHandler fileHandler = new FileHandler();
                     //fileHandler.setSize(fElement.getAttribute("size"));
                     //fileHandler.setText(fElement.getAttribute("name") + fElement.getTextContent());
@@ -112,8 +113,7 @@ public class XMLHandler {
 
                 if (doc.getElementsByTagName("fileresponse").getLength()
                         != 0) {
-                    Element rElement = (Element) 
-                                       doc.getElementsByTagName("fileresponse");
+                    Element rElement = (Element) doc.getElementsByTagName("fileresponse");
                     //currentFileHandlerBeingUsed.answer(rElement.getAttribute("reply"));
                     //currentFileHandlerBeingUsed.sendFile(rElement.getAttribute("port"));
                 }
@@ -165,14 +165,13 @@ public class XMLHandler {
 //        }
 //
 //    }
-    
-public void writeXML(String text){
-    Component compositeXML = new Component(text,name, color);
-    output = compositeXML.getText();
-}
+    public void writeXML(String text) {
+        Component compositeXML = new Component(text, name, color);
+        output = compositeXML.getText();
+    }
 
-    public void writeFileRequest(String input, File file, 
-                                 String type, String key) {
+    public void writeFileRequest(String input, File file,
+            String type, String key) {
 
         try {
             DocumentBuilderFactory dbFactory
@@ -190,28 +189,28 @@ public void writeXML(String text){
             Attr attrSize = doc.createAttribute("size");
             Attr attrType = doc.createAttribute("type");
             Attr attrKey = doc.createAttribute("key");
-            
+
             attrFileName.setNodeValue(file.getName());
             String size = String.valueOf(file.length());
             attrSize.setNodeValue(size);
             attrType.setNodeValue(type);
             attrKey.setNodeValue(key);
-            
-            fileElement.setAttributeNode(attrFileName);     
+
+            fileElement.setAttributeNode(attrFileName);
             fileElement.setAttributeNode(attrSize);
             fileElement.setAttributeNode(attrType);
             fileElement.setAttributeNode(attrKey);
             fileElement.appendChild(doc.createTextNode(input));
 
             rootElement.appendChild(fileElement);
-            
+
             output = toString(doc);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
+
     public void writeFileResponse(String input, String reply, int port, String key) {
 
         try {
@@ -229,43 +228,43 @@ public void writeXML(String text){
             Attr attrReply = doc.createAttribute("reply");
             Attr attrPort = doc.createAttribute("port");
             Attr attrKey = doc.createAttribute("key");
-            
+
             attrReply.setNodeValue(reply);
             String portString = String.valueOf(port);
             attrPort.setNodeValue(portString);
             attrKey.setNodeValue(key);
-            
-            fileElement.setAttributeNode(attrReply);     
+
+            fileElement.setAttributeNode(attrReply);
             fileElement.setAttributeNode(attrPort);
             fileElement.setAttributeNode(attrKey);
             fileElement.appendChild(doc.createTextNode(input));
 
             rootElement.appendChild(fileElement);
-            
+
             output = toString(doc);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
+
     //From stackOverflow https://stackoverflow.com/questions/2567416/xml-document-to-string
     public static String toString(Document doc) {
-    try {
-        StringWriter sw = new StringWriter();
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "no");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        try {
+            StringWriter sw = new StringWriter();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "no");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-        transformer.transform(new DOMSource(doc), new StreamResult(sw));
-        
-        System.out.println("ToString srites: " + sw.toString());
-        return sw.toString();
-    } catch (Exception ex) {
-        throw new RuntimeException("Error converting to String", ex);
+            transformer.transform(new DOMSource(doc), new StreamResult(sw));
+
+            System.out.println("ToString srites: " + sw.toString());
+            return sw.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error converting to String", ex);
+        }
     }
-}
 }
