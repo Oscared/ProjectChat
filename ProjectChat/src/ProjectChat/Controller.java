@@ -10,55 +10,35 @@ import java.util.*;
 public class Controller implements ActionListener {
 
     private ServerSocket serverSocket;
-            PopUpConnect connectRequest;
+    PopUpConnect connectRequest;
 
     private ControllerFrame startView;
     int decisionCounter;
 
     private List<Conversation> conversationList = new ArrayList<>();
     int IDCounter = 0;
+    ServerThread newThread;
+    Thread connectionThread;
 
     private String lastText;
+    Socket newSocket;
 
     public Controller(int port) {
         try {
             startView = new ControllerFrame();
             startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
-
-            Thread connectionThread = new Thread() {
+            connectionThread = new Thread() {
                 public void run() {
                     while (true) {
-                        Socket newSocket = null;
+                        newSocket = null;
                         try {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
-                                ServerThread newThread = new ServerThread(newSocket, IDCounter);
+                                newThread = new ServerThread(newSocket, IDCounter);
                                 connectRequest = new PopUpConnect();
                                 connectRequest.acceptButton.addActionListener(Controller.this);
                                 connectRequest.declineButton.addActionListener(Controller.this);
-                                decisionCounter = -2;
-                                while (decisionCounter == -2) {
-                                    System.out.println(decisionCounter);
-                                }
-                                if (decisionCounter == -1) {
-                                    Conversation newConversation = new Conversation();
-                                    startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
-                                    newConversation.view.disconnectButton.addActionListener(Controller.this);
-                                    newConversation.add(newThread);
-                                    conversationList.add(newConversation);
-                                    decisionCounter = -2;
-                                }
-                                else if (decisionCounter >= 0) {
-                                    conversationList.get(decisionCounter).add(newThread);
-                                    decisionCounter = -2;
-
-                                } else if(decisionCounter == -99){
-                                    newThread.stopThread();
-                                    newSocket.close();
-                                    decisionCounter = -2;
-                                }
-                                connectRequest.dispose();
                             }
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
@@ -101,14 +81,25 @@ public class Controller implements ActionListener {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
                     startView.nameField.getText());
-        }
-        else if (e.getSource() == connectRequest.acceptButton) {
-            decisionCounter = -1;
-            System.out.println("hej");
-            System.out.println(decisionCounter);
-        }
-        else if(e.getSource() == connectRequest.declineButton){
-            decisionCounter =-99;
+        } else if (e.getSource() == connectRequest.acceptButton) {
+            connectRequest.dispose();
+            Conversation newConversation = new Conversation();
+            startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
+            newConversation.view.disconnectButton.addActionListener(Controller.this);
+            newConversation.add(newThread);
+            conversationList.add(newConversation);
+
+        } else if (e.getSource() == connectRequest.declineButton) {
+            connectRequest.dispose();
+            newThread.stopThread();
+            try {
+                newSocket.close();
+            } catch (Exception ee) {
+                ee.getMessage();
+            }
+        } else if (e.getSource() == connectRequest.textField) {
+            conversationList.get(decisionCounter).add(newThread);
+
         }
     }
 }

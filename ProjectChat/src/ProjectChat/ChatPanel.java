@@ -15,17 +15,18 @@ import javax.swing.text.*;
  */
 public class ChatPanel extends javax.swing.JPanel {
 
-    StyledDocument doc;
+StyledDocument doc;
     
     /**
      * Creates new form ChatPanel
      */
     public ChatPanel() {
         initComponents();
+        doc = textField.getStyledDocument();
+
     }
     
     public void appendText(String text, String color){
-        doc = textField.getStyledDocument();
         Color textColor = Color.decode(color);
         
         SimpleAttributeSet fontKey = new SimpleAttributeSet();

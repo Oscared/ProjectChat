@@ -16,8 +16,6 @@ public class Conversation implements ActionListener, Observer {
     public Conversation() {
         view = new ChatPanel();
         view.sendButton.addActionListener(this);
-        //doc = new HTMLDocument();
-        //view.textField.setDocument(doc);
         
     }
 
@@ -43,11 +41,6 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void sendMess(String text) {
-       // try {
-       //     doc.insertAfterEnd(doc.getDefaultRootElement(), text);
-        //} catch (Exception e) {
-        //    e.getMessage();
-        //}
         view.appendText(name + ": " + text + "\n",ownColor);
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.writeXML(text);
@@ -74,12 +67,8 @@ public class Conversation implements ActionListener, Observer {
                 System.out.println("Updated one thread :" + i);
                 //view.textField.setText(view.textField.getText() + "\n" + 
                 //threadList.get(i).getText());
+                System.out.println(threadList.get(i).getText());
                 view.appendText(threadList.get(i).getText()+ "\n",threadList.get(i).XMLHandler.getColor());
-                //try {
-               //     doc.insertAfterEnd(doc.getDefaultRootElement(), threadList.get(i).getText() + "\n");
-               // } catch (Exception e) {
-               //     e.getMessage();
-               // }
 
             }
         }

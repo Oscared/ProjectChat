@@ -64,7 +64,7 @@ public class XMLHandler {
                 for (int i = 0; i < textNodes.getLength(); i++) {
                     //Om man har <text> jajdasjasdl <encrypted>hasd</encrypted> jaasdklj </text> hur funkar det då?
                     Element eElement = (Element) textNodes.item(i);
-                    color = eElement.getAttribute("text");
+                    color = eElement.getAttribute("color");
                     currentString += eElement.getTextContent();
                     if (eElement.hasChildNodes()) {
                         NodeList cryptoNodes
