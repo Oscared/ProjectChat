@@ -11,7 +11,7 @@ public class Conversation implements ActionListener, Observer {
 
     private String name = "Oscar";
     HTMLDocument doc;
-    String ownColor = "#ff0000";
+    String ownColor = "#000000";
 
     public Conversation() {
         view = new ChatPanel();

@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Controller implements ActionListener, Observer {
+public class Controller implements ActionListener {
 
     private ServerSocket serverSocket;
     PopUpConnect connectRequest;
@@ -65,6 +65,7 @@ public class Controller implements ActionListener, Observer {
         try {
             Socket conSock = new Socket(iP, port);
             Conversation startConversation = new Conversation();
+            startConversation.setName(name);
             startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
             ServerThread startThread = new ServerThread(conSock, 1);
@@ -107,11 +108,4 @@ public class Controller implements ActionListener, Observer {
         }
     }
 
-    @Override
-    public void update(Observable o, Object o1) {
-        if (o == newThread) {
-            System.out.println("Updates controller!");
-            System.out.println("With: " + newThread.getText());
-            }
-    }
 }
