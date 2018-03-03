@@ -36,8 +36,10 @@ public class Controller implements ActionListener, Observer {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
                                 newThread = new ServerThread(newSocket, IDCounter);
-                                newThread.addObserver(Controller.this);
+                                //newThread.addObserver(Controller.this);
                                 connectRequest = new PopUpConnect();
+                                connectRequest.textField.setText(newThread.getText());
+                                System.out.println("Has made popup");
                                 connectRequest.acceptButton.addActionListener(Controller.this);
                                 connectRequest.declineButton.addActionListener(Controller.this);
                             }
@@ -109,7 +111,6 @@ public class Controller implements ActionListener, Observer {
     public void update(Observable o, Object o1) {
         if (o == newThread) {
             System.out.println("Updates controller!");
-            connectRequest.textField.setText(newThread.getText());
             System.out.println("With: " + newThread.getText());
             }
     }
