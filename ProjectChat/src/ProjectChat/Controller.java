@@ -15,6 +15,10 @@ public class Controller implements ActionListener {
     private ControllerFrame startView;
     int decisionCounter;
 
+    String ownName = "Oscar";
+
+    ArrayList<String> convList = new ArrayList<String>();
+
     private List<Conversation> conversationList = new ArrayList<>();
     int IDCounter = 0;
     ServerThread newThread;
@@ -26,6 +30,7 @@ public class Controller implements ActionListener {
     public Controller(int port) {
         try {
             startView = new ControllerFrame();
+            convList.add("New Chat");
             startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
             connectionThread = new Thread() {
@@ -38,7 +43,10 @@ public class Controller implements ActionListener {
                                 newThread = new ServerThread(newSocket, IDCounter);
                                 //newThread.addObserver(Controller.this);
                                 connectRequest = new PopUpConnect();
-                                connectRequest.textField.setText(newThread.getText());
+                                connectRequest.addList(convList);
+                                if (newThread.getText() != null) {
+                                    connectRequest.textField.setText(newThread.getText());
+                                }
                                 System.out.println("Has made popup");
                                 connectRequest.acceptButton.addActionListener(Controller.this);
                                 connectRequest.declineButton.addActionListener(Controller.this);
@@ -57,6 +65,8 @@ public class Controller implements ActionListener {
 
     public static void main(String[] args) {
         System.out.println("Controller is init");
+        //PortChooser portChooser = new PortChooser();
+        //portChooser.startButton.addActionListener(this);
         Controller newController = new Controller(4444);
         System.out.println("Controller is done");
     }
@@ -88,11 +98,17 @@ public class Controller implements ActionListener {
                     startView.nameField.getText(), startView.requestField.getText());
         } else if (e.getSource() == connectRequest.acceptButton) {
             connectRequest.dispose();
-            Conversation newConversation = new Conversation();
-            startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
-            newConversation.view.disconnectButton.addActionListener(Controller.this);
-            newConversation.add(newThread);
-            conversationList.add(newConversation);
+            if (connectRequest.convBox.getSelectedItem() == "New Chat") {
+                Conversation newConversation = new Conversation();
+                newConversation.setName(ownName);
+                startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
+                newConversation.view.disconnectButton.addActionListener(Controller.this);
+                newConversation.add(newThread);
+                conversationList.add(newConversation);
+                convList.add("Chat " + IDCounter);
+            } else {
+                conversationList.get(connectRequest.convBox.getSelectedIndex()+1).add(newThread);
+            }
 
         } else if (e.getSource() == connectRequest.declineButton) {
             connectRequest.dispose();

@@ -1,5 +1,7 @@
 package ProjectChat;
 
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,12 +17,18 @@ public class PopUpConnect extends javax.swing.JFrame {
     /**
      * Creates new form PopUpConnect
      */
+    
+    ArrayList<String> convList;
+    
     public PopUpConnect() {
         initComponents();
         pack();
         setVisible(true);
     }
 
+    public void addList(ArrayList<String> list){
+        convList = list;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,10 +41,9 @@ public class PopUpConnect extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         declineButton = new javax.swing.JButton();
         acceptButton = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
         textField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        convBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,17 +53,13 @@ public class PopUpConnect extends javax.swing.JFrame {
         acceptButton.setBackground(new java.awt.Color(51, 255, 0));
         acceptButton.setText("Accept");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "New Chat", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(jList2);
-
         textField.setEditable(false);
         textField.setText("Someone want to connect. Accept?");
 
         jLabel1.setText("Add to chat:");
+
+        convBox.setModel(convList);
+        convBox.setSelectedItem(convList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -64,16 +67,16 @@ public class PopUpConnect extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textField, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textField)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(acceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(declineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(convBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -82,12 +85,11 @@ public class PopUpConnect extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(textField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(acceptButton)
-                        .addComponent(declineButton)
-                        .addComponent(jLabel1))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(acceptButton)
+                    .addComponent(declineButton)
+                    .addComponent(jLabel1)
+                    .addComponent(convBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -147,11 +149,10 @@ public class PopUpConnect extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton acceptButton;
+    public javax.swing.JComboBox<String> convBox;
     public javax.swing.JButton declineButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JTextField textField;
     // End of variables declaration//GEN-END:variables
 }
