@@ -53,6 +53,7 @@ public class Conversation implements ActionListener, Observer {
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.writeRequest(text);
+            System.out.println("Has written request, should send next");
             threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText());
             threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
         }

@@ -20,15 +20,13 @@ public class PopUpConnect extends javax.swing.JFrame {
     
     ArrayList<String> convList;
     
-    public PopUpConnect() {
+    public PopUpConnect(ArrayList<String> list) {
+        convList = list;
         initComponents();
         pack();
         setVisible(true);
     }
 
-    public void addList(ArrayList<String> list){
-        convList = list;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +41,7 @@ public class PopUpConnect extends javax.swing.JFrame {
         acceptButton = new javax.swing.JButton();
         textField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        convBox = new javax.swing.JComboBox<>();
+        convBox = new javax.swing.JComboBox(convList.toArray());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,9 +55,6 @@ public class PopUpConnect extends javax.swing.JFrame {
         textField.setText("Someone want to connect. Accept?");
 
         jLabel1.setText("Add to chat:");
-
-        convBox.setModel(convList);
-        convBox.setSelectedItem(convList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -115,37 +110,7 @@ public class PopUpConnect extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PopUpConnect.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PopUpConnect.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PopUpConnect.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PopUpConnect.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PopUpConnect().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton acceptButton;

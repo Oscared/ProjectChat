@@ -42,8 +42,7 @@ public class Controller implements ActionListener {
                             if (newSocket != null) {
                                 newThread = new ServerThread(newSocket, IDCounter);
                                 //newThread.addObserver(Controller.this);
-                                connectRequest = new PopUpConnect();
-                                connectRequest.addList(convList);
+                                connectRequest = new PopUpConnect(convList);
                                 if (newThread.getText() != null) {
                                     connectRequest.textField.setText(newThread.getText());
                                 }
@@ -81,6 +80,7 @@ public class Controller implements ActionListener {
             ServerThread startThread = new ServerThread(conSock, 1);
             //startThread.addObserver(this);
             startConversation.add(startThread);
+            System.out.println("Should have added conv with name: " + name);
             startConversation.sendRequestMess(request);
         } catch (Exception e) {
             e.getMessage();
