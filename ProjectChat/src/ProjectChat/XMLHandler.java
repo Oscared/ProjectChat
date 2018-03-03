@@ -55,8 +55,8 @@ public class XMLHandler {
             doc.getDocumentElement().normalize();
             
             if (doc.getDocumentElement().getNodeName().equals("request")){
-                currentString = doc.getElementsByTagName("request").item(0).getTextContent();
-                System.out.println("Prints from request tag: ");
+                Element rElement = (Element) doc.getElementsByTagName("request").item(0);
+                currentString += rElement.getTextContent();
             }
             
             
@@ -68,7 +68,6 @@ public class XMLHandler {
                         + ": ";
                 NodeList textNodes = doc.getElementsByTagName("text");
                 for (int i = 0; i < textNodes.getLength(); i++) {
-                    //Om man har <text> jajdasjasdl <encrypted>hasd</encrypted> jaasdklj </text> hur funkar det då?
                     Element eElement = (Element) textNodes.item(i);
                     color = eElement.getAttribute("color");
                     currentString += eElement.getTextContent();
@@ -92,6 +91,7 @@ public class XMLHandler {
                         if (fatNodes.getLength() != 0) {
                             for (int j = 0; j < fatNodes.getLength(); j++) {
                                 Element fElement = (Element) fatNodes.item(j);
+                                currentString += fElement.getTextContent();
                                 //send fetstil to image and append text
                             }
                         }
@@ -99,6 +99,7 @@ public class XMLHandler {
                             for (int j = 0; j < cursiveNodes.getLength(); j++) {
                                 Element curElement
                                         = (Element) cursiveNodes.item(j);
+                                currentString += curElement.getTextContent();
                                 //send kursiv to image and append text
 
                             }
@@ -135,6 +136,7 @@ public class XMLHandler {
     }
 
     public String sendText() {
+        System.out.println("Is sending from XML: " + output);
         return output;
     }
 

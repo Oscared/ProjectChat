@@ -36,6 +36,7 @@ public class Controller implements ActionListener, Observer {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
                                 newThread = new ServerThread(newSocket, IDCounter);
+                                newThread.addObserver(Controller.this);
                                 connectRequest = new PopUpConnect();
                                 connectRequest.acceptButton.addActionListener(Controller.this);
                                 connectRequest.declineButton.addActionListener(Controller.this);
@@ -61,12 +62,13 @@ public class Controller implements ActionListener, Observer {
     public void startNewConv(String iP, int port, String name, String request) {
         try {
             Socket conSock = new Socket(iP, port);
-            Conversation newConversation = new Conversation();
-            startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
+            Conversation startConversation = new Conversation();
+            startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
-            ServerThread newThread = new ServerThread(conSock, 1);
-            newConversation.add(newThread);
-            newConversation.sendRequestMess(request);
+            ServerThread startThread = new ServerThread(conSock, 1);
+            //startThread.addObserver(this);
+            startConversation.add(startThread);
+            startConversation.sendRequestMess(request);
         } catch (Exception e) {
             e.getMessage();
         }
@@ -106,8 +108,9 @@ public class Controller implements ActionListener, Observer {
     @Override
     public void update(Observable o, Object o1) {
         if (o == newThread) {
-                connectRequest.textField.setText(newThread.getText());
-
+            System.out.println("Updates controller!");
+            connectRequest.textField.setText(newThread.getText());
+            System.out.println("With: " + newThread.getText());
             }
     }
 }

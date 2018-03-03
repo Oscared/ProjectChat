@@ -33,43 +33,45 @@ public class ServerThread extends Observable {
 
         runThread = new Thread() {
             public void run() {
-                synchronized (this) {
-                    if (newConnection = true) {
-                        try {
-                            writer = new PrintWriter(
-                                    clientSocket.getOutputStream(), true);
-                        } catch (IOException e) {
-                            System.out.println("getOutputStream failed: " + e);
-                            System.exit(1);
-                        }
-                        try {
-                            reader = new BufferedReader(new InputStreamReader(
-                                    clientSocket.getInputStream()));
-                        } catch (IOException e) {
-                            System.out.println("getInputStream failed: " + e);
-                            System.exit(1);
-                        }
-                        newConnection = false;
+                if (newConnection = true) {
+                    try {
+                        writer = new PrintWriter(
+                                clientSocket.getOutputStream(), true);
+                    } catch (IOException e) {
+                        System.out.println("getOutputStream failed: " + e);
+                        System.exit(1);
                     }
-                    while (newConnection == false) {
-                        try {
-                            String texten = reader.readLine();
+                    try {
+                        reader = new BufferedReader(new InputStreamReader(
+                                clientSocket.getInputStream()));
+                    } catch (IOException e) {
+                        System.out.println("getInputStream failed: " + e);
+                        System.exit(1);
+                    }
+                    newConnection = false;
+                }
+                while (newConnection == false) {
+                    try {
+                        String texten = reader.readLine();
+                        if (texten == null) {
+                            newConnection = true;
+                        } else {
                             System.out.println("Detta kommer från andra personen" + texten);
                             XMLHandler.ReadXML(texten);
                             text = XMLHandler.sendText();
                             //text = texten;
                             setChanged();
+                            System.out.println("Has changed");
                             notifyObservers();
                             fullText += "\n" + text;
                             System.out.println("Have notified observers. Sent: " + text);
-                            if (text == null) {
-                                newConnection = true;
-                            }
-                        } catch (Exception e) {
 
                         }
+                    } catch (Exception e) {
+
                     }
                 }
+
             }
         };
         runThread.start();

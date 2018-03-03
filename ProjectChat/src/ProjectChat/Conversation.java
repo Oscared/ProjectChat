@@ -70,11 +70,11 @@ public class Conversation implements ActionListener, Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        System.out.println("Updating conversation");
         for (int i = 0; i < threadList.size(); i++) {
+            System.out.println("Going through threads: " + i);
             if (o == threadList.get(i)) {
                 System.out.println("Updated one thread :" + i);
-                //view.textField.setText(view.textField.getText() + "\n" + 
-                //threadList.get(i).getText());
                 System.out.println(threadList.get(i).getText());
                 view.appendText(threadList.get(i).getText()+ "\n", threadList.get(i).XMLHandler.getColor());
 
