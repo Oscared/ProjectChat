@@ -78,6 +78,13 @@ public class Component {
             return "<kursiv>" + text + "</kursiv>";
         }
     }
+    
+    class XMLRequest {
+
+                public String toString() {
+                    return "<request>" + text + "</request>";
+                }
+    }
 //Ej klar
 
     class XMLFilerequest {
@@ -100,6 +107,14 @@ public class Component {
         XMLMessage message = new XMLMessage();
         returnText = message.toString();
 
+        return returnText;
+    }
+    
+    public String getRequest(){
+        
+        XMLRequest request = new XMLRequest();
+        returnText = request.toString();
+       
         return returnText;
     }
 }

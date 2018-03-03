@@ -53,7 +53,13 @@ public class XMLHandler {
             is.setCharacterStream(new StringReader(input));
             Document doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
-
+            
+            if (doc.getDocumentElement().getNodeName().equals("request")){
+                currentString = doc.getElementsByTagName("request").item(0).getTextContent();
+                System.out.println("Prints from request tag: ");
+            }
+            
+            
             //if false the start tag is not right
             if (doc.getDocumentElement().getNodeName().equals("message")) {
                 //Attach name and : to text to be displayed
@@ -164,10 +170,15 @@ public class XMLHandler {
 //            e.printStackTrace();
 //        }
 //
-//    }
+//  }
     public void writeXML(String text) {
         Component compositeXML = new Component(text, name, color);
         output = compositeXML.getText();
+    }
+    
+    public void writeRequest(String text) {
+        Component compositeXML = new Component(text, name, color);
+        output = compositeXML.getRequest();
     }
 
     public void writeFileRequest(String input, File file,

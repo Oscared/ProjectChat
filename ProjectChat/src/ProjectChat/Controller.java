@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, Observer {
 
     private ServerSocket serverSocket;
     PopUpConnect connectRequest;
@@ -58,7 +58,7 @@ public class Controller implements ActionListener {
         System.out.println("Controller is done");
     }
 
-    public void startNewConv(String iP, int port, String name) {
+    public void startNewConv(String iP, int port, String name, String request) {
         try {
             Socket conSock = new Socket(iP, port);
             Conversation newConversation = new Conversation();
@@ -66,6 +66,7 @@ public class Controller implements ActionListener {
             IDCounter = IDCounter + 1;
             ServerThread newThread = new ServerThread(conSock, 1);
             newConversation.add(newThread);
+            newConversation.sendRequestMess(request);
         } catch (Exception e) {
             e.getMessage();
         }
@@ -76,11 +77,10 @@ public class Controller implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println(decisionCounter);
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
-                    startView.nameField.getText());
+                    startView.nameField.getText(), startView.requestField.getText());
         } else if (e.getSource() == connectRequest.acceptButton) {
             connectRequest.dispose();
             Conversation newConversation = new Conversation();
@@ -101,5 +101,13 @@ public class Controller implements ActionListener {
             conversationList.get(decisionCounter).add(newThread);
 
         }
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        if (o == newThread) {
+                connectRequest.textField.setText(newThread.getText());
+
+            }
     }
 }

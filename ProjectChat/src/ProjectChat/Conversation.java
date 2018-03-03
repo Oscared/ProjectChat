@@ -49,6 +49,14 @@ public class Conversation implements ActionListener, Observer {
             threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
         }
     }
+    
+    public void sendRequestMess(String text) {
+        for (int i = 0; i < threadList.size(); i++) {
+            threadList.get(i).XMLHandler.writeRequest(text);
+            threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText());
+            threadList.get(i).fullText = threadList.get(i).fullText + "\n" + text;
+        }
+    }
 
     public void setName(String Name) {
         name = Name;
@@ -68,7 +76,7 @@ public class Conversation implements ActionListener, Observer {
                 //view.textField.setText(view.textField.getText() + "\n" + 
                 //threadList.get(i).getText());
                 System.out.println(threadList.get(i).getText());
-                view.appendText(threadList.get(i).getText()+ "\n",threadList.get(i).XMLHandler.getColor());
+                view.appendText(threadList.get(i).getText()+ "\n", threadList.get(i).XMLHandler.getColor());
 
             }
         }
