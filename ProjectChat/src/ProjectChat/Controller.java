@@ -94,6 +94,8 @@ public class Controller implements ActionListener {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
                     startView.nameField.getText(), startView.requestField.getText());
+        } else if (e.getSource() == startView.quitButton){
+            
         } else if (e.getSource() == connectRequest.acceptButton) {
             connectRequest.dispose();
             if (connectRequest.convBox.getSelectedItem() == "New Chat") {

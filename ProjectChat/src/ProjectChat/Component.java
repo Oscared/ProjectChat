@@ -11,10 +11,10 @@ package ProjectChat;
  */
 public class Component {
 
-    String returnText = "";
-    String text = "";
-    String name = "";
-    String color = "";
+    String returnText;
+    String text;
+    String name;
+    String color;
 
     public Component(String inputText, String newName, String newColor) {
         text = inputText;
@@ -41,12 +41,6 @@ public class Component {
                 //return "<text>" + text + "</text>";
             }
 
-            class XMLrequest {
-
-                public String toString() {
-                    return "<request>" + text + "</request>";
-                }
-            }
         }
 
         public String toString() {

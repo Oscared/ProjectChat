@@ -17,7 +17,7 @@ public class XMLHandler {
 
     private String output;
 
-    private String name = "Oscar";
+    private String name;
 
     private String color = "#000000";
 
@@ -29,6 +29,9 @@ public class XMLHandler {
     public void setName(String inName) {
         name = inName;
     }
+    public String getName(){
+        return name;
+    }
 
     public void setColor(String inColor) {
         color = inColor;
@@ -39,7 +42,7 @@ public class XMLHandler {
     }
 
     //Reads XML from input and outputs readable text to show in chat window
-    public void ReadXML(String input) {
+    public String ReadXML(String input) {
         //string to edit and later use as output
         String currentString = "";
         System.out.println("Starts to read XML");
@@ -66,6 +69,9 @@ public class XMLHandler {
                 System.out.println("Finds message tag");
                 currentString += doc.getDocumentElement().getAttribute("sender")
                         + ": ";
+                //Martin lagt till följande rad:
+                name = doc.getDocumentElement().getAttribute("sender");
+                
                 NodeList textNodes = doc.getElementsByTagName("text");
                 for (int i = 0; i < textNodes.getLength(); i++) {
                     Element eElement = (Element) textNodes.item(i);
@@ -132,7 +138,7 @@ public class XMLHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+            return output;
     }
 
     public String sendText() {
@@ -173,14 +179,16 @@ public class XMLHandler {
 //        }
 //
 //  }
-    public void writeXML(String text) {
+    public String writeXML(String text) {
         Component compositeXML = new Component(text, name, color);
         output = compositeXML.getText();
+        return output;
     }
     
-    public void writeRequest(String text) {
+    public String writeRequest(String text) {
         Component compositeXML = new Component(text, name, color);
         output = compositeXML.getRequest();
+        return output;
     }
 
     public void writeFileRequest(String input, File file,
