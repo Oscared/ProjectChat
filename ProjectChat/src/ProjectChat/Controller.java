@@ -13,9 +13,8 @@ public class Controller implements ActionListener {
     PopUpConnect connectRequest;
 
     private ControllerFrame startView;
-    int decisionCounter;
 
-    String ownName = "Oscar";
+    String ownName="George Bush";
 
     ArrayList<String> convList = new ArrayList<String>();
 
@@ -78,7 +77,6 @@ public class Controller implements ActionListener {
             startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
             ServerThread startThread = new ServerThread(conSock, 1);
-            //startThread.addObserver(this);
             startConversation.add(startThread);
             System.out.println("Should have added conv with name: " + name);
             startConversation.sendRequestMess(request);
@@ -107,7 +105,8 @@ public class Controller implements ActionListener {
                 conversationList.add(newConversation);
                 convList.add("Chat " + IDCounter);
             } else {
-                conversationList.get(connectRequest.convBox.getSelectedIndex()+1).add(newThread);
+                //Fixat index till minus
+                conversationList.get(connectRequest.convBox.getSelectedIndex() - 1).add(newThread);
             }
 
         } else if (e.getSource() == connectRequest.declineButton) {
@@ -118,10 +117,7 @@ public class Controller implements ActionListener {
             } catch (Exception ee) {
                 ee.getMessage();
             }
-        } else if (e.getSource() == connectRequest.textField) {
-            conversationList.get(decisionCounter).add(newThread);
-
         }
-    }
 
+    }
 }
