@@ -8,7 +8,7 @@ import javax.swing.text.html.*;
 public class Conversation implements ActionListener, Observer {
 
     ChatPanel view;
-    private List<ServerThread> threadList = new ArrayList<>();
+    private ArrayList<ServerThread> threadList = new ArrayList<>();
 
     private String ownName;
     String ownColor = "#000000";
@@ -16,8 +16,10 @@ public class Conversation implements ActionListener, Observer {
     String forwardText;
     String forwardName;
     
+    KickFrame kickFrame;
+
     ColorChooser colorChooser;
-            
+
     int removeIndex;
 
     public Conversation() {
@@ -29,11 +31,11 @@ public class Conversation implements ActionListener, Observer {
 
     public void deConnect() {
         sendMess("<- Har loggat ut!");
-        for (int i=0; i < threadList.size(); i ++){
+        for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).stopThread();
         }
         view.setVisible(false);
-        
+
     }
 
     public String respond(String request) {
@@ -80,23 +82,30 @@ public class Conversation implements ActionListener, Observer {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == view.sendButton){
-        System.out.println("Button is pressed");
-        sendMess(view.sednField.getText());
-        }
-        if (e.getSource() == view.disconnectButton){
+        if (e.getSource() == view.sendButton) {
+            System.out.println("Button is pressed");
+            sendMess(view.sednField.getText());
+        } else if (e.getSource() == view.disconnectButton) {
             deConnect();
-        }
-        if (e.getSource() == view.colorButton){
+        } else if (e.getSource() == view.colorButton) {
             colorChooser = new ColorChooser();
             colorChooser.colorButton.addActionListener(this);
-        }
-        else if (e.getSource() == colorChooser.colorButton){
+        } else if (e.getSource() == colorChooser.colorButton) {
             Color color = colorChooser.colorWindow.getColor();
-            System.out.println("Color Button pressed! " +  color.toString());
+            System.out.println("Color Button pressed! " + color.toString());
             ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
             colorChooser.dispose();
+        } else if (e.getSource() == view.kickButton){
+            kickFrame = new KickFrame(threadList);
+            kickFrame.kickButton.addActionListener(this);
+        } else if (e.getSource() == kickFrame.kickButton){
+            sendMess("Someone has been kicked...");
+            int kickIndex = kickFrame.kickList.getSelectedIndex();
+            threadList.get(kickIndex).stopThread();
         }
+        
+        
+
     }
 
     @Override

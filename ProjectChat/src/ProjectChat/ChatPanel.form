@@ -26,6 +26,7 @@
                   <Component id="sendButton" max="32767" attributes="0"/>
                   <Component id="disconnectButton" max="32767" attributes="0"/>
                   <Component id="colorButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="kickButton" alignment="0" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -37,6 +38,8 @@
                   <Component id="jScrollPane1" min="-2" pref="255" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="colorButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="kickButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="disconnectButton" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -101,6 +104,14 @@
     <Component class="javax.swing.JButton" name="colorButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Color"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="kickButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Kick"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

@@ -55,6 +55,7 @@ public class Controller implements ActionListener {
                             System.out.println(e.getMessage());
                         }
                     }
+                
                 }
             };
             connectionThread.start();

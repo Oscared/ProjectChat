@@ -72,7 +72,12 @@ public class XMLHandler {
                 NodeList textNodes = doc.getElementsByTagName("text");
                 for (int i = 0; i < textNodes.getLength(); i++) {
                     Element eElement = (Element) textNodes.item(i);
-                    color = eElement.getAttribute("color");
+                    if (eElement.getAttribute("color").length() != 7){
+                        
+                    }
+                    else{
+                        color = eElement.getAttribute("color");
+                    }
                     currentString += eElement.getTextContent();
                     if (eElement.hasChildNodes()) {
                         NodeList cryptoNodes
@@ -94,7 +99,8 @@ public class XMLHandler {
                         if (fatNodes.getLength() != 0) {
                             for (int j = 0; j < fatNodes.getLength(); j++) {
                                 Element fElement = (Element) fatNodes.item(j);
-                                currentString += fElement.getTextContent();
+                                //System.out.println("Finds fat. Round " + j);
+                                //currentString += fElement.getTextContent();
                                 //send fetstil to image and append text
                             }
                         }
@@ -102,7 +108,7 @@ public class XMLHandler {
                             for (int j = 0; j < cursiveNodes.getLength(); j++) {
                                 Element curElement
                                         = (Element) cursiveNodes.item(j);
-                                currentString += curElement.getTextContent();
+                                //currentString += curElement.getTextContent();
                                 //send kursiv to image and append text
 
                             }
