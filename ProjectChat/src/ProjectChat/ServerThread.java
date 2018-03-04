@@ -16,6 +16,7 @@ public class ServerThread extends Observable {
     PrintWriter writer;
     boolean newConnection = true;
     String text;
+    String XMLText;
     Thread runThread;
 
     XMLHandler XMLHandler = new XMLHandler();
@@ -56,6 +57,7 @@ public class ServerThread extends Observable {
                             newConnection = true;
                         } else {
                             System.out.println("Detta kommer från andra personen" + texten);
+                            XMLText = texten;
                             text = XMLHandler.ReadXML(texten);
                             //text = XMLHandler.sendText();
                             //text = texten;
@@ -81,6 +83,9 @@ public class ServerThread extends Observable {
 
     public String getText() {
         return text;
+    }
+    public String getXMLText(){
+        return XMLText;
     }
 
     public void stopThread() {

@@ -45,6 +45,7 @@ public class XMLHandler {
         System.out.println("Starts to read XML");
 
         //Build the background for using DOM to parse and create XML
+        //(Help from internet)
         try {
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
@@ -67,7 +68,7 @@ public class XMLHandler {
                 currentString += doc.getDocumentElement().getAttribute("sender")
                         + ": ";
                 //Martin lagt till följande rad:
-                name = doc.getDocumentElement().getAttribute("sender");
+                //name = doc.getDocumentElement().getAttribute("sender");
                 
                 NodeList textNodes = doc.getElementsByTagName("text");
                 for (int i = 0; i < textNodes.getLength(); i++) {
