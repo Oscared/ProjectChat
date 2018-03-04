@@ -28,6 +28,7 @@ public class Start implements ActionListener{
             ownName = portChooser.nameField.getText();
             controller = new Controller(port);
             controller.setOwnName(ownName);
+            portChooser.dispose();
         }
 }
 }
