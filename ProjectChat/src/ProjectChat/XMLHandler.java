@@ -9,6 +9,7 @@ import org.xml.sax.InputSource;
 public class XMLHandler {
 
     private Crypto AESKrypto;
+    private String Martin = "MArtin är bäst";
 
     private Crypto CaesarKrypto;
 
