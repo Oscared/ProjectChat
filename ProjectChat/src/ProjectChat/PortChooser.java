@@ -16,6 +16,8 @@ public class PortChooser extends javax.swing.JFrame {
      */
     public PortChooser() {
         initComponents();
+        pack();
+        setVisible(true);
     }
 
     /**

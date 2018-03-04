@@ -22,6 +22,9 @@ public class Controller implements ActionListener {
     int IDCounter = 0;
     ServerThread newThread;
     Thread connectionThread;
+    
+    int port;
+    PortChooser portChooser;
 
     private String lastText;
     Socket newSocket;
@@ -60,14 +63,16 @@ public class Controller implements ActionListener {
             e.getMessage();
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println("Controller is init");
-        //PortChooser portChooser = new PortChooser();
-        //portChooser.startButton.addActionListener(this);
-        Controller newController = new Controller(4444);
-        System.out.println("Controller is done");
+    
+    public void setOwnName(String name){
+        ownName = name;
     }
+
+//    public static void main(String[] args) {
+//        System.out.println("Controller is init");
+//        Controller newController = new Controller(4444);
+//        System.out.println("Controller is done");
+//    }
 
     public void startNewConv(String iP, int port, String name, String request) {
         try {
@@ -90,6 +95,10 @@ public class Controller implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == portChooser.startButton){
+            port = Integer.parseInt(portChooser.portField.getText());
+            ownName = portChooser.nameField.getText();
+        }
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
