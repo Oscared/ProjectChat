@@ -55,15 +55,20 @@ StyledDocument doc;
         sednField = new javax.swing.JEditorPane();
         sendButton = new javax.swing.JButton();
         disconnectButton = new javax.swing.JButton();
+        colorButton = new javax.swing.JButton();
 
         textField.setEditable(false);
         jScrollPane1.setViewportView(textField);
 
         jScrollPane2.setViewportView(sednField);
 
+        sendButton.setBackground(new java.awt.Color(255, 102, 0));
         sendButton.setText("Send!");
 
+        disconnectButton.setBackground(new java.awt.Color(255, 0, 0));
         disconnectButton.setText("Disconnect");
+
+        colorButton.setText("Color");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,14 +81,18 @@ StyledDocument doc;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(disconnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(disconnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(colorButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(disconnectButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(colorButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(disconnectButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
@@ -93,6 +102,7 @@ StyledDocument doc;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton colorButton;
     public javax.swing.JButton disconnectButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
