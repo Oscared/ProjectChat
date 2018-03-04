@@ -48,9 +48,8 @@ public class Conversation implements ActionListener, Observer {
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.setColor(ownColor);
             threadList.get(i).XMLHandler.setName(ownName);
-            threadList.get(i).XMLHandler.writeXML(text);
-            System.out.println("Gets text from XML and sen!" + threadList.get(i).XMLHandler.sendText());
-            threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText());
+            text = threadList.get(i).XMLHandler.writeXML(text);
+            threadList.get(i).writer.println(text);
         }
     }
 
@@ -58,9 +57,9 @@ public class Conversation implements ActionListener, Observer {
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.setColor(ownColor);
             threadList.get(i).XMLHandler.setName(ownName);
-            threadList.get(i).XMLHandler.writeRequest(text);
+            text = threadList.get(i).XMLHandler.writeRequest(text);
             System.out.println("Has written request, should send next");
-            threadList.get(i).writer.println(threadList.get(i).XMLHandler.sendText());
+            threadList.get(i).writer.println(text);
         }
     }
 
@@ -91,7 +90,7 @@ public class Conversation implements ActionListener, Observer {
                             threadList.get(j).XMLHandler.setName(forwardName);
                             threadList.get(j).XMLHandler.setColor(forwardColor);
                             removeIndex = threadList.get(i).getText().indexOf(":");
-                            //+1 för att ta bort mellanslaget efter : också (Varför +2?)
+                            //+1 för att ta bort mellanslaget efter : också (Varför +2
                             forwardText = threadList.get(i).getText().substring(removeIndex + 2);
                             forwardText = threadList.get(j).XMLHandler.writeXML(forwardText);
                             threadList.get(j).writer.println(forwardText);

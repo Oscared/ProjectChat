@@ -3,9 +3,6 @@ package ProjectChat;
 import java.awt.*;
 import java.io.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
@@ -115,22 +112,10 @@ public class XMLHandler {
 
                 }
 
-                if (doc.getElementsByTagName("filerequest").getLength()
-                        != 0) {
-                    Element fElement = (Element) doc.getElementsByTagName("filerequest");
-                    FileHandler fileHandler = new FileHandler();
-                    //fileHandler.setSize(fElement.getAttribute("size"));
-                    //fileHandler.setText(fElement.getAttribute("name") + fElement.getTextContent());
-                    //fileHandler.initiateHandling(); ??
-                }
-
-                if (doc.getElementsByTagName("fileresponse").getLength()
-                        != 0) {
-                    Element rElement = (Element) doc.getElementsByTagName("fileresponse");
-                    //currentFileHandlerBeingUsed.answer(rElement.getAttribute("reply"));
-                    //currentFileHandlerBeingUsed.sendFile(rElement.getAttribute("port"));
-                }
-
+            }
+            //If starttag not right
+            else{
+                output = "Wrong textformat";
             }
 
             output = currentString;
@@ -139,11 +124,6 @@ public class XMLHandler {
             e.printStackTrace();
         }
             return output;
-    }
-
-    public String sendText() {
-        System.out.println("Is sending from XML: " + output);
-        return output;
     }
 
 
@@ -157,25 +137,5 @@ public class XMLHandler {
         Component compositeXML = new Component(text, name, color);
         output = compositeXML.getRequest();
         return output;
-    }
-
-    //From stackOverflow https://stackoverflow.com/questions/2567416/xml-document-to-string
-    public static String toString(Document doc) {
-        try {
-            StringWriter sw = new StringWriter();
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.INDENT, "no");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
-            transformer.transform(new DOMSource(doc), new StreamResult(sw));
-
-            System.out.println("ToString srites: " + sw.toString());
-            return sw.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException("Error converting to String", ex);
-        }
     }
 }
