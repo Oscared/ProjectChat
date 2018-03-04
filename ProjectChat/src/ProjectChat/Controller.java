@@ -11,7 +11,6 @@ public class Controller implements ActionListener {
 
     private ServerSocket serverSocket;
     PopUpConnect connectRequest;
-
     private ControllerFrame startView;
 
     String ownName="George Bush";
@@ -19,7 +18,7 @@ public class Controller implements ActionListener {
     ArrayList<String> convList = new ArrayList<String>();
 
     private List<Conversation> conversationList = new ArrayList<>();
-    int IDCounter = 0;
+    int IDCounter = 1;
     ServerThread newThread;
     Thread connectionThread;
 
@@ -100,6 +99,7 @@ public class Controller implements ActionListener {
             connectRequest.dispose();
             if (connectRequest.convBox.getSelectedItem() == "New Chat") {
                 Conversation newConversation = new Conversation();
+                IDCounter = IDCounter +1;
                 newConversation.setName(ownName);
                 startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
                 newConversation.view.disconnectButton.addActionListener(Controller.this);
