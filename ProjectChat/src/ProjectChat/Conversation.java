@@ -1,5 +1,6 @@
 package ProjectChat;
 
+import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.text.html.*;
@@ -14,15 +15,25 @@ public class Conversation implements ActionListener, Observer {
     String forwardColor;
     String forwardText;
     String forwardName;
+    
+    ColorChooser colorChooser;
+            
     int removeIndex;
 
     public Conversation() {
         view = new ChatPanel();
         view.sendButton.addActionListener(this);
-
+        view.disconnectButton.addActionListener(this);
+        view.colorButton.addActionListener(this);
     }
 
     public void deConnect() {
+        sendMess("<- Har loggat ut!");
+        for (int i=0; i < threadList.size(); i ++){
+            threadList.get(i).stopThread();
+        }
+        view.setVisible(false);
+        
     }
 
     public String respond(String request) {
@@ -48,8 +59,8 @@ public class Conversation implements ActionListener, Observer {
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).XMLHandler.setColor(ownColor);
             threadList.get(i).XMLHandler.setName(ownName);
-            text = threadList.get(i).XMLHandler.writeXML(text);
-            threadList.get(i).writer.println(text);
+            String sendText = threadList.get(i).XMLHandler.writeXML(text);
+            threadList.get(i).writer.println(sendText);
         }
     }
 
@@ -69,8 +80,23 @@ public class Conversation implements ActionListener, Observer {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == view.sendButton){
         System.out.println("Button is pressed");
         sendMess(view.sednField.getText());
+        }
+        if (e.getSource() == view.disconnectButton){
+            deConnect();
+        }
+        if (e.getSource() == view.colorButton){
+            colorChooser = new ColorChooser();
+            colorChooser.colorButton.addActionListener(this);
+        }
+        else if (e.getSource() == colorChooser.colorButton){
+            Color color = colorChooser.colorWindow.getColor();
+            System.out.println("Color Button pressed! " +  color.toString());
+            ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
+            colorChooser.dispose();
+        }
     }
 
     @Override
