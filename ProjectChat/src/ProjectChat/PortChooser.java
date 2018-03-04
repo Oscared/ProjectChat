@@ -41,12 +41,14 @@ public class PortChooser extends javax.swing.JFrame {
 
         jLabel2.setText("Your name:");
 
+        portField.setText("4444");
         portField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 portFieldActionPerformed(evt);
             }
         });
 
+        nameField.setText("Oscar");
         nameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameFieldActionPerformed(evt);

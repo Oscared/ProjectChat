@@ -94,10 +94,7 @@ public class Controller implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == portChooser.startButton){
-            port = Integer.parseInt(portChooser.portField.getText());
-            ownName = portChooser.nameField.getText();
-        }
+        
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),

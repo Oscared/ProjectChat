@@ -59,11 +59,14 @@ public class ControllerFrame extends javax.swing.JFrame {
             }
         });
 
+        portField.setText("4444");
         portField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 portFieldActionPerformed(evt);
             }
         });
+
+        nameField.setText("Oscar");
 
         jLabel1.setText("IP");
 

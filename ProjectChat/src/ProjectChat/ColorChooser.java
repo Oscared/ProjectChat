@@ -16,6 +16,8 @@ public class ColorChooser extends javax.swing.JFrame {
      */
     public ColorChooser() {
         initComponents();
+        pack();
+        setVisible(true);
     }
 
     /**
@@ -30,7 +32,7 @@ public class ColorChooser extends javax.swing.JFrame {
         colorWindow = new javax.swing.JColorChooser();
         colorButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         colorButton.setText("Choose Color");
 
