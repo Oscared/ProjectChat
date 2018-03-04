@@ -7,13 +7,13 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Controller implements ActionListener {
+public class Controller extends Observable implements ActionListener {
 
     private ServerSocket serverSocket;
     PopUpConnect connectRequest;
     private ControllerFrame startView;
 
-    String ownName="George Bush";
+    String ownName = "George Bush";
 
     ArrayList<String> convList = new ArrayList<String>();
 
@@ -21,7 +21,7 @@ public class Controller implements ActionListener {
     int IDCounter = 1;
     ServerThread newThread;
     Thread connectionThread;
-    
+
     int port;
     PortChooser portChooser;
 
@@ -41,8 +41,8 @@ public class Controller implements ActionListener {
                         try {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
-                                newThread = new ServerThread(newSocket, IDCounter);
-                                //newThread.addObserver(Controller.this);
+                                newThread = new ServerThread(newSocket);
+                                
                                 connectRequest = new PopUpConnect(convList);
                                 if (newThread.getText() != null) {
                                     connectRequest.textField.setText(newThread.getText());
@@ -55,7 +55,7 @@ public class Controller implements ActionListener {
                             System.out.println(e.getMessage());
                         }
                     }
-                
+
                 }
             };
             connectionThread.start();
@@ -63,25 +63,19 @@ public class Controller implements ActionListener {
             e.getMessage();
         }
     }
-    
-    public void setOwnName(String name){
+
+    public void setOwnName(String name) {
         ownName = name;
     }
-
-//    public static void main(String[] args) {
-//        System.out.println("Controller is init");
-//        Controller newController = new Controller(4444);
-//        System.out.println("Controller is done");
-//    }
-
     public void startNewConv(String iP, int port, String name, String request) {
         try {
-            Socket conSock = new Socket(iP, port);
             Conversation startConversation = new Conversation();
             startConversation.setName(name);
+            addObserver(startConversation);
             startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
-            ServerThread startThread = new ServerThread(conSock, 1);
+            Socket conSock = new Socket(iP, port);
+            ServerThread startThread = new ServerThread(conSock);
             startConversation.add(startThread);
             System.out.println("Should have added conv with name: " + name);
             startConversation.sendRequestMess(request);
@@ -90,23 +84,19 @@ public class Controller implements ActionListener {
         }
     }
 
-    public String sendMess(String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
                     startView.nameField.getText(), startView.requestField.getText());
-        } else if (e.getSource() == startView.quitButton){
-            
+        } else if (e.getSource() == startView.quitButton) {
+
         } else if (e.getSource() == connectRequest.acceptButton) {
             connectRequest.dispose();
             if (connectRequest.convBox.getSelectedItem() == "New Chat") {
                 Conversation newConversation = new Conversation();
-                IDCounter = IDCounter +1;
+                IDCounter = IDCounter + 1;
                 newConversation.setName(ownName);
                 startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
                 newConversation.view.disconnectButton.addActionListener(Controller.this);
@@ -119,6 +109,9 @@ public class Controller implements ActionListener {
             }
 
         } else if (e.getSource() == connectRequest.declineButton) {
+            newThread.XMLHandler.writeDecline();
+            setChanged();
+            notifyObservers();
             connectRequest.dispose();
             newThread.stopThread();
             try {

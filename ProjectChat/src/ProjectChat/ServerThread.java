@@ -1,7 +1,5 @@
 package ProjectChat;
 
-import ProjectChat.XMLHandler;
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -24,12 +22,11 @@ public class ServerThread extends Observable {
     BufferedReader reader;
 
     //Unique ID for the client used for identification
-    private int ID;
+    private String ID;
 
     //Creates a new thread for the new client with a unique ID.
-    public ServerThread(Socket sock, int id) {
+    public ServerThread(Socket sock) {
         clientSocket = sock;
-        ID = id;
 
         runThread = new Thread() {
             public void run() {
@@ -59,8 +56,6 @@ public class ServerThread extends Observable {
                             System.out.println("Detta kommer från andra personen" + texten);
                             XMLText = texten;
                             text = XMLHandler.ReadXML(texten);
-                            //text = XMLHandler.sendText();
-                            //text = texten;
                             setChanged();
                             System.out.println("Has changed");
                             notifyObservers();
@@ -77,7 +72,7 @@ public class ServerThread extends Observable {
         runThread.start();
     }
 
-    public int GetID() {
+    public String GetID() {
         return ID;
     }
 

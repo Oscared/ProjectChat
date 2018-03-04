@@ -12,17 +12,18 @@ public class Conversation implements ActionListener, Observer {
 
     private String ownName;
     String ownColor = "#000000";
-    String forwardColor;
     String forwardText;
-    String forwardName;
-    
     KickFrame kickFrame;
-
     ColorChooser colorChooser;
 
-    int removeIndex;
-
+    // (Stackoverflow hjälp för shutdownhook)
     public Conversation() {
+        Thread hook = new Thread() {
+            public void run() {
+                sendMess("<disconnect/>");
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(hook);
         view = new ChatPanel();
         view.sendButton.addActionListener(this);
         view.disconnectButton.addActionListener(this);
@@ -30,7 +31,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void deConnect() {
-        sendMess("<- Har loggat ut!");
+        sendMess("<disconnect/>");
         for (int i = 0; i < threadList.size(); i++) {
             threadList.get(i).stopThread();
         }
@@ -59,18 +60,14 @@ public class Conversation implements ActionListener, Observer {
     public void sendMess(String text) {
         view.appendText(ownName + ": " + text + "\n", ownColor);
         for (int i = 0; i < threadList.size(); i++) {
-            threadList.get(i).XMLHandler.setColor(ownColor);
-            threadList.get(i).XMLHandler.setName(ownName);
-            String sendText = threadList.get(i).XMLHandler.writeXML(text);
+            String sendText = threadList.get(i).XMLHandler.writeXML(text,ownName,ownColor);
             threadList.get(i).writer.println(sendText);
         }
     }
 
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
-            //threadList.get(i).XMLHandler.setColor(ownColor);
-            //threadList.get(i).XMLHandler.setName(ownName);
-            text = threadList.get(i).XMLHandler.writeRequest(text);
+            text = threadList.get(i).XMLHandler.writeRequest(text,ownName,ownColor);
             System.out.println("Has written request, should send next");
             threadList.get(i).writer.println(text);
         }
@@ -95,28 +92,31 @@ public class Conversation implements ActionListener, Observer {
             System.out.println("Color Button pressed! " + color.toString());
             ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
             colorChooser.dispose();
-        } else if (e.getSource() == view.kickButton){
+        } else if (e.getSource() == view.kickButton) {
             kickFrame = new KickFrame(threadList);
             kickFrame.kickButton.addActionListener(this);
-        } else if (e.getSource() == kickFrame.kickButton){
+        } else if (e.getSource() == kickFrame.kickButton) {
             sendMess("Someone has been kicked...");
             int kickIndex = kickFrame.kickList.getSelectedIndex();
             threadList.get(kickIndex).stopThread();
         }
-        
-        
 
     }
 
     @Override
     public void update(Observable o, Object o1) {
+        boolean isController = true;
         System.out.println("Updating conversation");
         for (int i = 0; i < threadList.size(); i++) {
             System.out.println("Going through threads: " + i);
             if (o == threadList.get(i)) {
+                isController = false;
                 System.out.println("Updated one thread :" + i);
                 System.out.println(threadList.get(i).getText());
-                view.appendText(threadList.get(i).getText() + "\n", threadList.get(i).XMLHandler.getColor());
+                if (threadList.get(i).getText() == "</disconnect>") {
+                } else {
+                    view.appendText(threadList.get(i).getText() + "\n", threadList.get(i).XMLHandler.getColor());
+                }
                 if (threadList.size() > 1) {
                     for (int j = 0; j < threadList.size(); j++) {
                         if (j != i) {
@@ -126,6 +126,9 @@ public class Conversation implements ActionListener, Observer {
                     }
                 }
             }
+        }
+        if (isController == true) {
+            view.appendText("Du blev nekad tillträde till chatten", ownColor);
         }
     }
 }

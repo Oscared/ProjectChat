@@ -28,7 +28,7 @@ public class Component {
 
         public XMLMessage() {
         }
-
+        
         class XMLText {
 
             public XMLText() {
@@ -49,14 +49,6 @@ public class Component {
             //return "<message>" + subText.toString() + "</message>";
         }
     }
-
-    class XMLCrypto {
-
-        public String toString() {
-            return "<encrypted>" + text + "</encrypted>";
-        }
-    }
-
     class XMLFatStyle {
 
         public String toString() {
@@ -80,22 +72,6 @@ public class Component {
                 }
     }
 //Ej klar
-
-    class XMLFilerequest {
-
-        public String toString() {
-            return "<filerequest>" + text + "</filerequest>";
-        }
-    }
-//Ej klar
-
-    class XMLFilerespons {
-
-        public String toString() {
-            return "<filerespons>" + text + "</filerespons>";
-        }
-    }
-
     public String getText() {
 
         XMLMessage message = new XMLMessage();

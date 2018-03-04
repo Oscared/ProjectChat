@@ -7,58 +7,43 @@ import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
 public class XMLHandler {
-
-    private Crypto AESKrypto;
-    private String Martin = "MArtin är bäst";
-
-    private Crypto CaesarKrypto;
-
-    private String output;
-
-    private String name;
-
-    private String color = "#000000";
+    private String notMyColor;
+    private String notMyName;
 
     public XMLHandler() {
-        AESKrypto = new Crypto("AES");
-        CaesarKrypto = new Crypto("Caesar");
-    }
-
-    public void setName(String inName) {
-        name = inName;
-    }
-    public String getName(){
-        return name;
-    }
-
-    public void setColor(String inColor) {
-        color = inColor;
     }
 
     public String getColor() {
-        return color;
+        return notMyColor;
     }
 
     //Reads XML from input and outputs readable text to show in chat window
     public String ReadXML(String input) {
         //string to edit and later use as output
-        String currentString = "";
+        String output = "";
         System.out.println("Starts to read XML");
-
+        System.out.println(input);
+        
+        if (input =="<request reply=\"no\"</request>"){
+            return "Nekad anslutning";
+        }
         //Build the background for using DOM to parse and create XML
         //(Help from internet)
         try {
-            DocumentBuilderFactory dbFactory
-                    = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            DocumentBuilderFactory dbFactory;
+            DocumentBuilder dBuilder;
+            Document doc;            
+  
+            dbFactory= DocumentBuilderFactory.newInstance();
+            dBuilder = dbFactory.newDocumentBuilder();
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(input));
-            Document doc = dBuilder.parse(is);
-            doc.getDocumentElement().normalize();
-            
+            doc = dBuilder.parse(is);
+            doc.getDocumentElement().normalize();            
             if (doc.getDocumentElement().getNodeName().equals("request")){
                 Element rElement = (Element) doc.getElementsByTagName("request").item(0);
-                currentString += rElement.getTextContent();
+                output += rElement.getTextContent();
+                return output;
             }
             
             
@@ -66,21 +51,20 @@ public class XMLHandler {
             if (doc.getDocumentElement().getNodeName().equals("message")) {
                 //Attach name and : to text to be displayed
                 System.out.println("Finds message tag");
-                currentString += doc.getDocumentElement().getAttribute("sender")
-                        + ": ";
-                //Martin lagt till följande rad:
-                //name = doc.getDocumentElement().getAttribute("sender");
+                notMyName = doc.getDocumentElement().getAttribute("sender");
+                //currentString += doc.getDocumentElement().getAttribute("sender")
+                //        + ": ";
                 
                 NodeList textNodes = doc.getElementsByTagName("text");
                 for (int i = 0; i < textNodes.getLength(); i++) {
                     Element eElement = (Element) textNodes.item(i);
                     if (eElement.getAttribute("color").length() != 7){
-                        
+                        return "Wrong colorformat";
                     }
                     else{
-                        color = eElement.getAttribute("color");
+                        notMyColor = eElement.getAttribute("color");
                     }
-                    currentString += eElement.getTextContent();
+                    output += eElement.getTextContent();
                     if (eElement.hasChildNodes()) {
                         NodeList cryptoNodes
                                 = eElement.getElementsByTagName("encrypted");
@@ -123,27 +107,46 @@ public class XMLHandler {
             }
             //If starttag not right
             else{
-                output = "Wrong textformat";
+                return "Wrong textformat";
             }
-
-            output = currentString;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-            return output;
+        output = output.replace("&lt;", "<");
+        output = output.replace("&gt;", ">");            
+        output = output.replace("&quot;", "\"");
+        output = output.replace("&amp;", "&");
+            System.out.println(output);
+            if (input.equals(writeXML(output,notMyName,notMyColor))){
+                return notMyName + ": " + output;
+    }
+                System.out.println(input);
+                System.out.println(writeXML(output,notMyName,notMyColor));
+                System.out.println(writeXML("hej",notMyName,notMyColor));
+                return "fel i inkommande texten";
     }
 
 
-    public String writeXML(String text) {
+    public String writeXML(String text,String name, String color) {
+            text = text.replace("&", "&amp;");
+            text = text.replace("<", "&lt;");
+            text = text.replace(">", "&gt;");
+            text = text.replace("\"", "&quot;");
+            System.out.println(text);
         Component compositeXML = new Component(text, name, color);
-        output = compositeXML.getText();
-        return output;
+        return compositeXML.getText();
     }
     
-    public String writeRequest(String text) {
+    public String writeRequest(String text, String name, String color) {
+            //text = text.replace("&", "&amp");
+            //text = text.replace("<", "&lt");
+            //text = text.replace(">", "&gt");
+            //text = text.replace("\"", "&quot");
         Component compositeXML = new Component(text, name, color);
-        output = compositeXML.getRequest();
-        return output;
+        return compositeXML.getRequest();
+    }
+    public String writeDecline(){
+        return "<request reply=\"no\"</request>";
     }
 }
