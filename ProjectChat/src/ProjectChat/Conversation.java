@@ -1,9 +1,14 @@
+/**
+ * Class Conversation
+ * Authors Martin Ståhl & Oscar Örnberg
+ * Version 1.0
+ * Copywrite authors
+ */
 package ProjectChat;
 
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
-import javax.swing.text.html.*;
 
 public class Conversation implements ActionListener, Observer {
 

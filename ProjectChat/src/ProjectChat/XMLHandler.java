@@ -1,13 +1,14 @@
+/**
+ * Class XMLHandler
+ * Authors Martin Ståhl & Oscar Örnberg
+ * Version 1.0
+ * Copywrite authors
+ */
 package ProjectChat;
 
 import java.awt.*;
 import java.io.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 

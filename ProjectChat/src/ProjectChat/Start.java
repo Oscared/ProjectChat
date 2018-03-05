@@ -1,3 +1,10 @@
+/**
+ * Class Start
+ * Authors Martin Ståhl & Oscar Örnberg
+ * Version 1.0
+ * Copywrite authors
+ */
+
 package ProjectChat;
 
 import java.awt.event.*;

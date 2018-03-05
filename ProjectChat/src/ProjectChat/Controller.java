@@ -1,35 +1,37 @@
+/**
+ * Class Controller
+ * Authors Martin Ståhl & Oscar Örnberg
+ * Version 1.0
+ * Copywrite authors
+ */
+
 package ProjectChat;
 
-import ProjectChat.Conversation;
-import ProjectChat.ControllerFrame;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+/**
+ * 
+ * @author mastah & Oscar
+ */
 public class Controller extends Observable implements ActionListener {
-
     private ServerSocket serverSocket;
-    PopUpConnect connectRequest;
+    private PopUpConnect connectRequest;
     private ControllerFrame startView;
-
-    String ownName = "George Bush";
-
-    ArrayList<String> convList = new ArrayList<String>();
-
+    private String ownName;
+    private ArrayList<String> convList = new ArrayList<String>();
     private List<Conversation> conversationList = new ArrayList<>();
-    int IDCounter = 1;
-    ServerThread newThread;
-    Thread connectionThread;
-
-    int port;
-    PortChooser portChooser;
-
+    private int IDCounter = 1;
+    private ServerThread newThread;
+    private Thread connectionThread;
+    private int port;
+    private PortChooser portChooser;
     private String lastText;
-    Socket newSocket;
-
+    private Socket newSocket;
+    
+    //Tråd som lyssnar efter nya personer, verkar bli svårt om
+    //flera ansluter samtidigt
     class connectionThread extends Thread {
 
         XMLHandler firstTextHandler;
@@ -85,7 +87,10 @@ public class Controller extends Observable implements ActionListener {
         }
 
     }
-
+    /**
+     * Contrstructor that starts the controller
+     * @param port 
+     */
     public Controller(int port) {
         try {
             startView = new ControllerFrame();
@@ -100,11 +105,20 @@ public class Controller extends Observable implements ActionListener {
             e.getMessage();
         }
     }
-
+    /**
+     * Sets the users name
+     * @param name 
+     */
     public void setOwnName(String name) {
         ownName = name;
     }
-
+/**
+ * Method that starts a new conversation
+ * @param iP
+ * @param port
+ * @param name
+ * @param request 
+ */
     public void startNewConv(String iP, int port, String name, String request) {
         try {
             Conversation startConversation = new Conversation();
@@ -125,7 +139,10 @@ public class Controller extends Observable implements ActionListener {
             e.getMessage();
         }
     }
-
+    /**
+     * Method that triggers when some actions are made
+     * @param e 
+     */
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == startView.connectButton) {
