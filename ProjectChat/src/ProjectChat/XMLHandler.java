@@ -159,6 +159,11 @@ public class XMLHandler {
         return notMyName + ": " + output;
     }
 
+    /**
+     * Will iterativly check all nodes and remove the ones that are not 
+     * labeled fetstil or kursiv.
+     * @param eElement top level text node
+     */
     public void checkTags(Element eElement) {
         NodeList childList = eElement.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
