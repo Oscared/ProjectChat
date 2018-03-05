@@ -3,6 +3,11 @@ package ProjectChat;
 import java.awt.*;
 import java.io.*;
 import javax.xml.parsers.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
@@ -133,6 +138,7 @@ public class XMLHandler {
             text = text.replace("<", "&lt;");
             text = text.replace(">", "&gt;");
             text = text.replace("\"", "&quot;");
+            text = text.replace("\n", "").replace("\r", "");
             System.out.println(text);
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getText();
@@ -149,4 +155,57 @@ public class XMLHandler {
     public String writeDecline(){
         return "<request reply=\"no\"</request>";
     }
+    
+//    public String writeXML(String text) {
+//        System.out.println("Starts to write XML");
+//        System.out.println("Is trying with text: " + text);
+//        try {
+//            DocumentBuilderFactory dbFactory
+//                    = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//            Document doc = dBuilder.newDocument();
+//
+//            System.out.println("Is creating doc");
+//            
+//            Element rootElement = doc.createElement("message");
+//            Attr attrName = doc.createAttribute("sender");
+//            attrName.setValue(notMyName);
+//            rootElement.setAttributeNode(attrName);
+//            doc.appendChild(rootElement);
+//
+//            Element textElement = doc.createElement("text");
+//            Attr attrColor = doc.createAttribute("color");
+//            attrColor.setNodeValue(notMyColor);
+//            textElement.setAttributeNode(attrColor);
+//            rootElement.appendChild(textElement);
+//            textElement.appendChild(doc.createTextNode(text));
+//
+//            rootElement.appendChild(textElement);
+//
+//            return toString(doc);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "Could not write XML properly";
+//        }
+//
+//  }
+//    
+//    
+//    public static String toString(Document doc) {
+//    try {
+//        StringWriter sw = new StringWriter();
+//        TransformerFactory tf = TransformerFactory.newInstance();
+//        Transformer transformer = tf.newTransformer();
+//        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+//        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+//        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//
+//        transformer.transform(new DOMSource(doc), new StreamResult(sw));
+//        return sw.toString();
+//    } catch (Exception ex) {
+//        throw new RuntimeException("Error converting to String", ex);
+//    }
+//}
 }
