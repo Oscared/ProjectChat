@@ -41,11 +41,9 @@ public class KickFrame extends javax.swing.JFrame {
         kickList = new javax.swing.JComboBox(threadList.toArray());
         kickButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("How do you want to kick?");
-
-        kickList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         kickButton.setText("Kick!");
         kickButton.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +64,7 @@ public class KickFrame extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(55, 55, 55)
                         .addComponent(kickList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
