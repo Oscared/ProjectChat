@@ -17,6 +17,7 @@ public class ServerThread extends Observable {
     String XMLText;
     Thread runThread;
 
+    String name;
     XMLHandler XMLHandler = new XMLHandler();
     //Input to the client
     BufferedReader reader;

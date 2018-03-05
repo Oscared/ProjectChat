@@ -114,6 +114,7 @@ public class Controller extends Observable implements ActionListener {
             IDCounter = IDCounter + 1;
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
+            startThread.name=name;
 //            while (startThread.newConnection == true) {
 //
 //            }

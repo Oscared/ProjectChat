@@ -16,13 +16,13 @@ import java.util.ArrayList;
  */
 public class KickFrame extends javax.swing.JFrame {
 
-    ArrayList<ServerThread> threadList;
+    ArrayList<String> nameList;
     
     /**
      * Creates new form KickFrame
      */
-    public KickFrame(ArrayList<ServerThread> input) {
-        threadList = input;
+    public KickFrame(ArrayList<String> input) {
+        nameList = input;
         initComponents();
         pack();
         setVisible(true);
@@ -38,7 +38,7 @@ public class KickFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        kickList = new javax.swing.JComboBox(threadList.toArray());
+        kickList = new javax.swing.JComboBox(nameList.toArray(new String[0]));
         kickButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);

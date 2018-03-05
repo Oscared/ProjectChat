@@ -9,6 +9,7 @@ public class Conversation implements ActionListener, Observer {
 
     ChatPanel view;
     private ArrayList<ServerThread> threadList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
 
     private String ownName;
     String ownColor = "#000000";
@@ -49,6 +50,7 @@ public class Conversation implements ActionListener, Observer {
     public void add(ServerThread person) {
         System.out.println("Creates one Thread!");
         threadList.add(person);
+        nameList.add(person.name);
         person.addObserver(this);
     }
 
@@ -93,22 +95,33 @@ public class Conversation implements ActionListener, Observer {
             colorChooser = new ColorChooser();
             colorChooser.colorButton.addActionListener(this);
         } else if (e.getSource() == view.kickButton) {
-            kickFrame = new KickFrame(threadList);
+            kickFrame = new KickFrame(nameList);
             kickFrame.kickButton.addActionListener(this);
         }
         if (colorChooser != null) {
             if (e.getSource() == colorChooser.colorButton) {
                 Color color = colorChooser.colorWindow.getColor();
                 System.out.println("Color Button pressed! " + color.toString());
-                ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
+                String hex = Integer.toHexString(color.getRGB() & 0xffffff);
+                while (hex.length() < 6){
+                    hex = "0" + hex;
+                }
+                ownColor = "#" + hex;
+                System.out.println("Hexa färg från chooser: " + ownColor);
                 colorChooser.dispose();
             }
         }
         if (kickFrame != null) {
             if (e.getSource() == kickFrame.kickButton) {
                 sendMess("Someone has been kicked...");
-                int kickIndex = kickFrame.kickList.getSelectedIndex();
-                threadList.get(kickIndex).stopThread();
+                String kickName = kickFrame.kickList.getSelectedItem().toString();
+                System.out.println(kickName);
+                for (int i = 0; i < nameList.size(); i++) {
+                    if (threadList.get(i).name == kickName) {
+                        threadList.get(i).stopThread();
+                        threadList.remove(i);
+                    }
+                }
             }
         }
 

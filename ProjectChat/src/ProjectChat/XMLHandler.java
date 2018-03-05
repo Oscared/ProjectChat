@@ -69,6 +69,8 @@ public class XMLHandler {
                 else if (textNodes.getLength() != 0){
                     Element eElement = (Element) textNodes.item(0);
                     if (eElement.getAttribute("color").length() != 7){
+                        System.out.println("Som hexa " + eElement.getAttribute("color"));
+                        System.out.println("Som RGB " + Color.decode(eElement.getAttribute("color")));
                         return "Wrong colorformat";
                     }
                     else{
