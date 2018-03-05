@@ -54,7 +54,12 @@ public class PopUpConnect extends javax.swing.JFrame {
         acceptButton.setText("Accept");
 
         textField.setEditable(false);
-        textField.setText("Someone want to connect. Accept?");
+        textField.setText("Väntar på första meddelande");
+        textField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Add to chat:");
 
@@ -108,6 +113,10 @@ public class PopUpConnect extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void textFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldActionPerformed
 
     /**
      * @param args the command line arguments

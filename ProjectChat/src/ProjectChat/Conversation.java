@@ -139,10 +139,7 @@ public class Conversation implements ActionListener, Observer {
                 isController = false;
                 System.out.println("Updated one thread :" + i);
                 System.out.println(threadList.get(i).getText());
-                if (threadList.get(i).getText() == "</disconnect>") {
-                } else {
-                    view.appendText(threadList.get(i).getText() + "\n", threadList.get(i).XMLHandler.getColor());
-                }
+                view.appendText(threadList.get(i).getText() + "\n", threadList.get(i).XMLHandler.getColor());
                 if (threadList.size() > 1) {
                     for (int j = 0; j < threadList.size(); j++) {
                         if (j != i) {

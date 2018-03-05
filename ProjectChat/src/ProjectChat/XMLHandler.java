@@ -12,7 +12,8 @@ import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
 public class XMLHandler {
-    private String notMyColor;
+
+    private String notMyColor = "#000000";
     private String notMyName;
     public Boolean isRequest = false;
 
@@ -29,31 +30,37 @@ public class XMLHandler {
         String output = "";
         System.out.println("Starts to read XML");
         System.out.println(input);
-        
-        if (input =="<request reply=\"no\"</request>"){
+
+        if (input.equals( "<request reply=\"no\"</request>")) {
             return "Nekad anslutning";
+        }
+        if (input.equals("<message><disconnect /></message>")==true) {
+            if (notMyName == null) {
+                return "Ny ickenamngiven användare har lämnat samtalet";
+            } else {
+                return notMyName + " har lämnat samtalet";
+            }
         }
         //Build the background for using DOM to parse and create XML
         //(Help from internet)
         try {
             DocumentBuilderFactory dbFactory;
             DocumentBuilder dBuilder;
-            Document doc;            
-  
-            dbFactory= DocumentBuilderFactory.newInstance();
+            Document doc;
+
+            dbFactory = DocumentBuilderFactory.newInstance();
             dBuilder = dbFactory.newDocumentBuilder();
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(input));
             doc = dBuilder.parse(is);
-            doc.getDocumentElement().normalize();            
-            if (doc.getDocumentElement().getNodeName().equals("request")){
+            doc.getDocumentElement().normalize();
+            if (doc.getDocumentElement().getNodeName().equals("request")) {
                 Element rElement = (Element) doc.getElementsByTagName("request").item(0);
                 output += rElement.getTextContent();
                 isRequest = true;
                 return output;
             }
-            
-            
+
             //if false the start tag is not right
             if (doc.getDocumentElement().getNodeName().equals("message")) {
                 //Attach name and : to text to be displayed
@@ -61,19 +68,17 @@ public class XMLHandler {
                 notMyName = doc.getDocumentElement().getAttribute("sender");
                 //currentString += doc.getDocumentElement().getAttribute("sender")
                 //        + ": ";
-                
+
                 NodeList textNodes = doc.getElementsByTagName("text");
-                if (textNodes.getLength() > 1){
+                if (textNodes.getLength() > 1) {
                     output += "Felaktigt antal text taggar. Vi får: " + "\n";
-                }
-                else if (textNodes.getLength() != 0){
+                } else if (textNodes.getLength() != 0) {
                     Element eElement = (Element) textNodes.item(0);
-                    if (eElement.getAttribute("color").length() != 7){
+                    if (eElement.getAttribute("color").length() != 7) {
                         System.out.println("Som hexa " + eElement.getAttribute("color"));
                         System.out.println("Som RGB " + Color.decode(eElement.getAttribute("color")));
                         return "Wrong colorformat";
-                    }
-                    else{
+                    } else {
                         notMyColor = eElement.getAttribute("color");
                     }
                     output += eElement.getTextContent();
@@ -114,11 +119,9 @@ public class XMLHandler {
 
                     }
 
-                }}
-
-            
-            //If starttag not right
-            else{
+                }
+            } //If starttag not right
+            else {
                 return "Wrong textformat";
             }
 
@@ -126,46 +129,46 @@ public class XMLHandler {
             e.printStackTrace();
         }
         output = output.replace("&lt;", "<");
-        output = output.replace("&gt;", ">");            
+        output = output.replace("&gt;", ">");
         output = output.replace("&quot;", "\"");
         output = output.replace("&amp;", "&");
-            System.out.println(output);
-            if (input.equals(writeXML(output,notMyName,notMyColor))){
-                return notMyName + ": " + output;
-    }
-                System.out.println(input);
-                System.out.println(writeXML(output,notMyName,notMyColor));
-                System.out.println(writeXML("hej",notMyName,notMyColor));
-                return "fel i inkommande texten";
+        System.out.println(output);
+        //if (input.equals(writeXML(output, notMyName, notMyColor))) {
+        //}
+        System.out.println(input);
+        System.out.println(writeXML(output, notMyName, notMyColor));
+        System.out.println(writeXML("hej", notMyName, notMyColor));
+        return notMyName + ": " + output;
     }
 
-
-    public String writeXML(String text,String name, String color) {
-            text = text.replace("&", "&amp;");
-            text = text.replace("<", "&lt;");
-            text = text.replace(">", "&gt;");
-            text = text.replace("\"", "&quot;");
-            text = text.replace("\n", "").replace("\r", "");
-            System.out.println(text);
+    public String writeXML(String text, String name, String color) {
+        text = text.replace("&", "&amp;");
+        text = text.replace("<", "&lt;");
+        text = text.replace(">", "&gt;");
+        text = text.replace("\"", "&quot;");
+        text = text.replace("\n", "").replace("\r", "");
+        System.out.println(text);
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getText();
     }
-    
+
     public String writeRequest(String text, String name, String color) {
-            //text = text.replace("&", "&amp");
-            //text = text.replace("<", "&lt");
-            //text = text.replace(">", "&gt");
-            //text = text.replace("\"", "&quot");
+        //text = text.replace("&", "&amp");
+        //text = text.replace("<", "&lt");
+        //text = text.replace(">", "&gt");
+        //text = text.replace("\"", "&quot");
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getRequest();
     }
-    public String writeDecline(){
+
+    public String writeDecline() {
         return "<request reply=\"no\"</request>";
     }
-    public String writeDisconnect(){
+
+    public String writeDisconnect() {
         return "<message><disconnect /></message>";
     }
-    
+
 //    public String writeXML(String text) {
 //        System.out.println("Starts to write XML");
 //        System.out.println("Is trying with text: " + text);
