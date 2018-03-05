@@ -34,8 +34,8 @@ public class Conversation implements ActionListener, Observer {
     }
 
     public void deConnect() {
-        sendMess("<disconnect/>");
         for (int i = 0; i < threadList.size(); i++) {
+            threadList.get(i).XMLHandler.writeDisconnect();
             threadList.get(i).stopThread();
         }
         view.setVisible(false);
