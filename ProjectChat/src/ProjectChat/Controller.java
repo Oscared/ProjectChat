@@ -4,18 +4,20 @@
  * Version 1.0
  * Copywrite authors
  */
-
 package ProjectChat;
 
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
 /**
- * 
+ * Class that controlls the entire program, however
+ * doesn't follow the MVC pattern
  * @author mastah & Oscar
  */
 public class Controller extends Observable implements ActionListener {
+
     private ServerSocket serverSocket;
     private PopUpConnect connectRequest;
     private ControllerFrame startView;
@@ -29,9 +31,68 @@ public class Controller extends Observable implements ActionListener {
     private PortChooser portChooser;
     private String lastText;
     private Socket newSocket;
-    
-    //Tråd som lyssnar efter nya personer, verkar bli svårt om
-    //flera ansluter samtidigt
+
+    /**
+     * Contrstructor that starts the controller
+     *
+     * @param port
+     */
+    public Controller(int port) {
+        try {
+            startView = new ControllerFrame();
+            convList.add("New Chat");
+            startView.connectButton.addActionListener(this);
+            serverSocket = new ServerSocket(port);
+            connectionThread = new connectionThread();
+            connectionThread.start();
+//            connectionThread.join();
+//            ServerThread newThread = new ServerThread(newSocket); 
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    /**
+     * Sets the users name
+     *
+     * @param name
+     */
+    public void setOwnName(String name) {
+        ownName = name;
+    }
+
+    /**
+     * Method that starts a new conversation
+     *
+     * @param iP
+     * @param port
+     * @param name
+     * @param request
+     */
+    public void startNewConv(String iP, int port, String name, String request) {
+        try {
+            Conversation startConversation = new Conversation();
+            startConversation.setName(name);
+            addObserver(startConversation);
+            startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
+            IDCounter = IDCounter + 1;
+            Socket conSock = new Socket(iP, port);
+            ServerThread startThread = new ServerThread(conSock);
+            startThread.name = name;
+//            while (startThread.newConnection == true) {
+//
+//            }
+            startConversation.add(startThread);
+            System.out.println("Ska sända request här");
+            startConversation.sendRequestMess(request);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+/**
+ *  Tråd som lyssnar efter nya personer, verkar bli svårt om
+ *  flera ansluter samtidigt
+ */
     class connectionThread extends Thread {
 
         XMLHandler firstTextHandler;
@@ -87,61 +148,11 @@ public class Controller extends Observable implements ActionListener {
         }
 
     }
-    /**
-     * Contrstructor that starts the controller
-     * @param port 
-     */
-    public Controller(int port) {
-        try {
-            startView = new ControllerFrame();
-            convList.add("New Chat");
-            startView.connectButton.addActionListener(this);
-            serverSocket = new ServerSocket(port);
-            connectionThread = new connectionThread();
-            connectionThread.start();
-//            connectionThread.join();
-//            ServerThread newThread = new ServerThread(newSocket); 
-        } catch (Exception e) {
-            e.getMessage();
-        }
-    }
-    /**
-     * Sets the users name
-     * @param name 
-     */
-    public void setOwnName(String name) {
-        ownName = name;
-    }
-/**
- * Method that starts a new conversation
- * @param iP
- * @param port
- * @param name
- * @param request 
- */
-    public void startNewConv(String iP, int port, String name, String request) {
-        try {
-            Conversation startConversation = new Conversation();
-            startConversation.setName(name);
-            addObserver(startConversation);
-            startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
-            IDCounter = IDCounter + 1;
-            Socket conSock = new Socket(iP, port);
-            ServerThread startThread = new ServerThread(conSock);
-            startThread.name=name;
-//            while (startThread.newConnection == true) {
-//
-//            }
-            startConversation.add(startThread);
-            System.out.println("Ska sända request här");
-            startConversation.sendRequestMess(request);
-        } catch (Exception e) {
-            e.getMessage();
-        }
-    }
+
     /**
      * Method that triggers when some actions are made
-     * @param e 
+     *
+     * @param e
      */
     public void actionPerformed(ActionEvent e) {
 
@@ -163,7 +174,6 @@ public class Controller extends Observable implements ActionListener {
                 conversationList.add(newConversation);
                 convList.add("Chat " + IDCounter);
             } else {
-                //Fixat index till minus
                 conversationList.get(connectRequest.convBox.getSelectedIndex() - 1).add(newThread);
             }
 

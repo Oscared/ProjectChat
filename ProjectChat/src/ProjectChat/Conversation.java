@@ -71,7 +71,7 @@ public class Conversation implements ActionListener, Observer {
     }
 
     /**
-     * 
+     * Method for sending message
      * @param text 
      */
     public void sendMess(String text) {
@@ -83,7 +83,10 @@ public class Conversation implements ActionListener, Observer {
             threadList.get(i).writer.println(sendText);
         }
     }
-
+/**
+ * Sends a request message, used when starting a new conversation
+ * @param text 
+ */
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
             text = threadList.get(i).XMLHandler.
@@ -93,11 +96,17 @@ public class Conversation implements ActionListener, Observer {
             System.out.println("Has sent text: " + text);
         }
     }
-
+/**
+ * Sets your own name
+ * @param Name 
+ */
     public void setName(String Name) {
         ownName = Name;
     }
-
+/**
+ * Method that decides what happens for when different events
+ * @param e 
+ */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view.sendButton) {
@@ -141,7 +150,11 @@ public class Conversation implements ActionListener, Observer {
         }
 
     }
-
+/**
+ * Method that updates when something has happend with the observable
+ * @param o
+ * @param o1 
+ */
     @Override
     public void update(Observable o, Object o1) {
         boolean isController = true;
