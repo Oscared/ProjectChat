@@ -31,11 +31,11 @@ public class ServerThread extends Observable {
         runThread = new Thread() {
             public void run() {
 
-                while (newConnection == false) {
+                while (newConnection == true) {
                     try {
                         String texten = reader.readLine();
                         if (texten == null) {
-                            newConnection = true;
+                            newConnection = false;
                         } else {
                             System.out.println("Detta kommer från andra personen" + texten);
                             XMLText = texten;

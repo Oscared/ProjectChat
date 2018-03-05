@@ -63,6 +63,7 @@ public class Conversation implements ActionListener, Observer {
     public void sendMess(String text) {
         view.appendText(ownName + ": " + text + "\n", ownColor);
         for (int i = 0; i < threadList.size(); i++) {
+            System.out.println("");
             String sendText = threadList.get(i).XMLHandler.writeXML(text, ownName, ownColor);
             threadList.get(i).writer.println(sendText);
         }
