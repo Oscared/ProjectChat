@@ -34,6 +34,7 @@ public class ServerThread extends Observable {
                     try {
                         writer = new PrintWriter(
                                 clientSocket.getOutputStream(), true);
+                        System.out.println("Have made writer");
                     } catch (IOException e) {
                         System.out.println("getOutputStream failed: " + e);
                         System.exit(1);

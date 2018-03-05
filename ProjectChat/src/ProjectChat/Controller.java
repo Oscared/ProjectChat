@@ -31,7 +31,7 @@ public class Controller extends Observable implements ActionListener {
     Socket newSocket;
 
     class connectionThread extends Thread {
-        
+
         XMLHandler firstTextHandler = new XMLHandler();
         String firstText;
 
@@ -39,25 +39,26 @@ public class Controller extends Observable implements ActionListener {
             while (true) {
                 newSocket = null;
                 try {
+                    Thread tempThread = new Thread() {
+                        public void run() {
+                            try {
+                                System.out.println("Ska läsa nu!");
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                        newSocket.getInputStream()));
+                                firstText = reader.readLine();
+                                System.out.println("Har läst line och closat");
+                                firstText = firstTextHandler.ReadXML(firstText);
+                            } catch (IOException e) {
+                                System.out.println("getInputStream failed: " + e);
+                                System.exit(1);
+                            }
+                        }
+                    };
                     newSocket = serverSocket.accept();
                     if (newSocket != null) {
-                        newThread = new ServerThread(newSocket);
-                        connectRequest = new PopUpConnect(convList);
-                        Thread tempThread = new Thread() {
-                            public void run() {
-                                try {
-                                    System.out.println("Ska läsa nu!");
-                                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                                            newSocket.getInputStream()));
-                                    firstText = reader.readLine();
-                                    System.out.println("Har läst line");
-                                } catch (IOException e) {
-                                    System.out.println("getInputStream failed: " + e);
-                                    System.exit(1);
-                                }
-                            }
-                        };
+
                         tempThread.start();
+                        connectRequest = new PopUpConnect(convList);
                         try {
                             System.out.println("väntar på join");
                             tempThread.join();
@@ -69,6 +70,7 @@ public class Controller extends Observable implements ActionListener {
                             }
                         } catch (Exception e) {
                         }
+                        newThread = new ServerThread(newSocket);
                         connectRequest.acceptButton.addActionListener(Controller.this);
                         connectRequest.declineButton.addActionListener(Controller.this);
                     }
@@ -109,6 +111,9 @@ public class Controller extends Observable implements ActionListener {
             IDCounter = IDCounter + 1;
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
+            while (startThread.newConnection == true){
+                
+            }
             startConversation.add(startThread);
             System.out.println("Ska sända request här");
             startConversation.sendRequestMess(request);
