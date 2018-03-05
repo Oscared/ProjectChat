@@ -32,8 +32,8 @@ public class Controller extends Observable implements ActionListener {
 
     class connectionThread extends Thread {
 
-        XMLHandler firstTextHandler = new XMLHandler();
-        String firstText;
+        XMLHandler firstTextHandler;
+        String firstText = null;
 
         public void run() {
             while (true) {
@@ -41,11 +41,14 @@ public class Controller extends Observable implements ActionListener {
                 try {
                     Thread tempThread = new Thread() {
                         public void run() {
+                            firstTextHandler = new XMLHandler();
                             try {
                                 System.out.println("Ska läsa nu!");
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                                         newSocket.getInputStream()));
-                                firstText = reader.readLine();
+                                while (firstText == null) {
+                                    firstText = reader.readLine();
+                                }
                                 System.out.println("Har läst line och closat");
                                 firstText = firstTextHandler.ReadXML(firstText);
                             } catch (IOException e) {
@@ -56,7 +59,7 @@ public class Controller extends Observable implements ActionListener {
                     };
                     newSocket = serverSocket.accept();
                     if (newSocket != null) {
-
+                        firstText = null;
                         tempThread.start();
                         connectRequest = new PopUpConnect(convList);
                         try {
@@ -111,9 +114,9 @@ public class Controller extends Observable implements ActionListener {
             IDCounter = IDCounter + 1;
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
-            while (startThread.newConnection == true){
-                
-            }
+//            while (startThread.newConnection == true) {
+//
+//            }
             startConversation.add(startThread);
             System.out.println("Ska sända request här");
             startConversation.sendRequestMess(request);

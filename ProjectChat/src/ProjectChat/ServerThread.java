@@ -30,24 +30,7 @@ public class ServerThread extends Observable {
 
         runThread = new Thread() {
             public void run() {
-                if (newConnection = true) {
-                    try {
-                        writer = new PrintWriter(
-                                clientSocket.getOutputStream(), true);
-                        System.out.println("Have made writer");
-                    } catch (IOException e) {
-                        System.out.println("getOutputStream failed: " + e);
-                        System.exit(1);
-                    }
-                    try {
-                        reader = new BufferedReader(new InputStreamReader(
-                                clientSocket.getInputStream()));
-                    } catch (IOException e) {
-                        System.out.println("getInputStream failed: " + e);
-                        System.exit(1);
-                    }
-                    newConnection = false;
-                }
+
                 while (newConnection == false) {
                     try {
                         String texten = reader.readLine();
@@ -70,6 +53,21 @@ public class ServerThread extends Observable {
 
             }
         };
+        try {
+            writer = new PrintWriter(
+                    clientSocket.getOutputStream(), true);
+            System.out.println("Have made writer");
+        } catch (IOException e) {
+            System.out.println("getOutputStream failed: " + e);
+            System.exit(1);
+        }
+        try {
+            reader = new BufferedReader(new InputStreamReader(
+                    clientSocket.getInputStream()));
+        } catch (IOException e) {
+            System.out.println("getInputStream failed: " + e);
+            System.exit(1);
+        }
         runThread.start();
     }
 
@@ -80,7 +78,8 @@ public class ServerThread extends Observable {
     public String getText() {
         return text;
     }
-    public String getXMLText(){
+
+    public String getXMLText() {
         return XMLText;
     }
 
