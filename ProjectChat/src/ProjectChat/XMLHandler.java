@@ -103,35 +103,6 @@ public class XMLHandler {
                     checkTags(eElement);
                     System.out.println("Later " + eElement.getTextContent());
                     output += eElement.getTextContent();
-//                    if (eElement.hasChildNodes()) {
-//                        NodeList fatNodes
-//                                = eElement.getElementsByTagName("fetstil");
-//                        NodeList cursiveNodes
-//                                = eElement.getElementsByTagName("kursiv");
-//                        
-//                        if (fatNodes.getLength() != 0) {
-//                            for (int j = 0; j < fatNodes.getLength(); j++) {
-//                                Element fElement = (Element) fatNodes.item(j);
-//                                //System.out.println("Finds fat. Round " + j);
-//                                //currentString += fElement.getTextContent();
-//                                //send fetstil to image and append text
-//                            }
-//                        }
-//                        else if (cursiveNodes.getLength() != 0) {
-//                            for (int j = 0; j < cursiveNodes.getLength(); j++) {
-//                                Element curElement
-//                                        = (Element) cursiveNodes.item(j);
-//                                //currentString += curElement.getTextContent();
-//                                //send kursiv to image and append text
-//
-//                            }
-//                        }
-//                        else{
-//                            eElement.getChildNodes();
-//                        }
-//
-//                    }
-
                 } else if (textNodes.getLength() == 0) {
                     System.out.println("No text nodes");
                     System.out.println("Text content is: "

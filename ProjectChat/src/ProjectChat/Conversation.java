@@ -121,7 +121,8 @@ public class Conversation implements ActionListener, Observer {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view.sendButton) {
             System.out.println("Button is pressed");
-            sendMess(view.sednField.getText());
+            String text = view.sednField.getText().replace("\n", "").replace("\r", "");
+            sendMess(text);
         } else if (e.getSource() == view.disconnectButton) {
             deConnect();
         } else if (e.getSource() == view.colorButton) {
