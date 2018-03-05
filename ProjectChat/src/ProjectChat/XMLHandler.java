@@ -14,6 +14,7 @@ import org.xml.sax.InputSource;
 public class XMLHandler {
     private String notMyColor;
     private String notMyName;
+    public Boolean isRequest = false;
 
     public XMLHandler() {
     }
@@ -48,6 +49,7 @@ public class XMLHandler {
             if (doc.getDocumentElement().getNodeName().equals("request")){
                 Element rElement = (Element) doc.getElementsByTagName("request").item(0);
                 output += rElement.getTextContent();
+                isRequest = true;
                 return output;
             }
             

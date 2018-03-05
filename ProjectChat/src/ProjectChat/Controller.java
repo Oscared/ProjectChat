@@ -30,46 +30,71 @@ public class Controller extends Observable implements ActionListener {
     private String lastText;
     Socket newSocket;
 
+    class connectionThread extends Thread {
+        
+        XMLHandler firstTextHandler = new XMLHandler();
+        String firstText;
+
+        public void run() {
+            while (true) {
+                newSocket = null;
+                try {
+                    newSocket = serverSocket.accept();
+                    if (newSocket != null) {
+                        newThread = new ServerThread(newSocket);
+                        connectRequest = new PopUpConnect(convList);
+                        Thread tempThread = new Thread() {
+                            public void run() {
+                                try {
+                                    System.out.println("Ska läsa nu!");
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                            newSocket.getInputStream()));
+                                    firstText = reader.readLine();
+                                    System.out.println("Har läst line");
+                                } catch (IOException e) {
+                                    System.out.println("getInputStream failed: " + e);
+                                    System.exit(1);
+                                }
+                            }
+                        };
+                        tempThread.start();
+                        try {
+                            System.out.println("väntar på join");
+                            tempThread.join();
+                            System.out.println("Har joinat");
+                            if (firstTextHandler.isRequest == true) {
+                                connectRequest.textField.setText(firstText);
+                            } else {
+                                connectRequest.textField.setText("Ett sämre program vill ansluta");
+                            }
+                        } catch (Exception e) {
+                        }
+                        connectRequest.acceptButton.addActionListener(Controller.this);
+                        connectRequest.declineButton.addActionListener(Controller.this);
+                    }
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+        }
+
+    }
+
     public Controller(int port) {
         try {
             startView = new ControllerFrame();
             convList.add("New Chat");
             startView.connectButton.addActionListener(this);
             serverSocket = new ServerSocket(port);
-            connectionThread = new Thread() {
-                public void run() {
-                    while (true) {
-                        newSocket = null;
-                        try {
-                            newSocket = serverSocket.accept();
-                            if (newSocket != null) {
-                                newThread  = new ServerThread(newSocket);
-                                    connectRequest  = new PopUpConnect(convList);
-
-                                    //if (newThread.getText () != null) {
-                                    //connectRequest.textField.setText(newThread.getText());
-                                    //}
-
-                                    connectRequest.acceptButton.addActionListener (Controller.this);
-
-                                    connectRequest.declineButton.addActionListener (Controller.this);
-                                }
-                            }catch (IOException e) {
-                            System.out.println(e.getMessage());
-                        }
-                        }
-
-                    }
-                }
-
-                ;
-                connectionThread.start ();
-            } catch (Exception e) {
+            connectionThread = new connectionThread();
+            connectionThread.start();
+//            connectionThread.join();
+//            ServerThread newThread = new ServerThread(newSocket); 
+        } catch (Exception e) {
             e.getMessage();
         }
-        }
-
-    
+    }
 
     public void setOwnName(String name) {
         ownName = name;
@@ -85,6 +110,7 @@ public class Controller extends Observable implements ActionListener {
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
             startConversation.add(startThread);
+            System.out.println("Ska sända request här");
             startConversation.sendRequestMess(request);
         } catch (Exception e) {
             e.getMessage();
