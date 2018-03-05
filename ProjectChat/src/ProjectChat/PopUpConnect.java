@@ -1,6 +1,8 @@
 package ProjectChat;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -120,4 +122,5 @@ public class PopUpConnect extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     public javax.swing.JTextField textField;
     // End of variables declaration//GEN-END:variables
+
 }

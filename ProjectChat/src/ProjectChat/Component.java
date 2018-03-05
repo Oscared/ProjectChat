@@ -28,7 +28,7 @@ public class Component {
 
         public XMLMessage() {
         }
-        
+
         class XMLText {
 
             public XMLText() {
@@ -38,7 +38,7 @@ public class Component {
             public String toString() {
 
                 return "<text color=" + "\"" + color + "\"" + ">" + text + "</text>";
-                //return "<text>" + text + "</text>";
+ 
             }
 
         }
@@ -46,9 +46,14 @@ public class Component {
         public String toString() {
 
             return "<message sender=" + "\"" + name + "\"" + ">" + subText.toString() + "</message>";
-            //return "<message>" + subText.toString() + "</message>";
+            
+            //return "<message sender=" + "\"" + name + "\"" + ">" + "<text color=" + "\"" + color + "\"" + ">" + "<fetstil>"
+            //        + "<encrypted>" + "<filerequest>" + subText.toString() + "</filerequest>"
+            //        + "</encrypted>" + "</fetstil>" + "</text>" + "</message>";
+
         }
     }
+
     class XMLFatStyle {
 
         public String toString() {
@@ -64,14 +69,15 @@ public class Component {
             return "<kursiv>" + text + "</kursiv>";
         }
     }
-    
+
     class XMLRequest {
 
-                public String toString() {
-                    return "<request>" + text + "</request>";
-                }
+        public String toString() {
+            return "<request>" + text + "</request>";
+        }
     }
 //Ej klar
+
     public String getText() {
 
         XMLMessage message = new XMLMessage();
@@ -79,12 +85,12 @@ public class Component {
 
         return returnText;
     }
-    
-    public String getRequest(){
-        
+
+    public String getRequest() {
+
         XMLRequest request = new XMLRequest();
         returnText = request.toString();
-       
+
         return returnText;
     }
 }

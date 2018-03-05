@@ -6,6 +6,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller extends Observable implements ActionListener {
 
@@ -41,32 +43,38 @@ public class Controller extends Observable implements ActionListener {
                         try {
                             newSocket = serverSocket.accept();
                             if (newSocket != null) {
-                                newThread = new ServerThread(newSocket);
-                                
-                                connectRequest = new PopUpConnect(convList);
-                                if (newThread.getText() != null) {
-                                    connectRequest.textField.setText(newThread.getText());
+                                newThread  = new ServerThread(newSocket);
+                                    connectRequest  = new PopUpConnect(convList);
+
+                                    //if (newThread.getText () != null) {
+                                    //connectRequest.textField.setText(newThread.getText());
+                                    //}
+
+                                    connectRequest.acceptButton.addActionListener (Controller.this);
+
+                                    connectRequest.declineButton.addActionListener (Controller.this);
                                 }
-                                System.out.println("Has made popup");
-                                connectRequest.acceptButton.addActionListener(Controller.this);
-                                connectRequest.declineButton.addActionListener(Controller.this);
-                            }
-                        } catch (IOException e) {
+                            }catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
-                    }
+                        }
 
+                    }
                 }
-            };
-            connectionThread.start();
-        } catch (Exception e) {
+
+                ;
+                connectionThread.start ();
+            } catch (Exception e) {
             e.getMessage();
         }
-    }
+        }
+
+    
 
     public void setOwnName(String name) {
         ownName = name;
     }
+
     public void startNewConv(String iP, int port, String name, String request) {
         try {
             Conversation startConversation = new Conversation();
@@ -77,7 +85,6 @@ public class Controller extends Observable implements ActionListener {
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
             startConversation.add(startThread);
-            System.out.println("Should have added conv with name: " + name);
             startConversation.sendRequestMess(request);
         } catch (Exception e) {
             e.getMessage();

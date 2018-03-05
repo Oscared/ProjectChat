@@ -20,8 +20,9 @@ public class Conversation implements ActionListener, Observer {
     public Conversation() {
         Thread hook = new Thread() {
             public void run() {
-                sendMess("<disconnect/>");
-            }
+                for (int i = 0; i < threadList.size(); i++) {
+                    threadList.get(i).XMLHandler.writeDisconnect();
+            }}
         };
         Runtime.getRuntime().addShutdownHook(hook);
         view = new ChatPanel();
