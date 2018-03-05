@@ -74,7 +74,8 @@ public class Controller extends Observable implements ActionListener {
             Conversation startConversation = new Conversation();
             startConversation.setName(name);
             addObserver(startConversation);
-            startView.tabbedPane.addTab("Chat" + IDCounter, startConversation.view);
+            startView.tabbedPane.addTab("Chat" + 
+                                        IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
@@ -107,15 +108,17 @@ public class Controller extends Observable implements ActionListener {
                             firstTextHandler = new XMLHandler();
                             try {
                                 System.out.println("Ska läsa nu!");
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                                        newSocket.getInputStream()));
+                                BufferedReader reader = new BufferedReader(
+                                        new InputStreamReader(
+                                                newSocket.getInputStream()));
                                 while (firstText == null) {
                                     firstText = reader.readLine();
                                 }
                                 System.out.println("Har läst line och closat");
                                 firstText = firstTextHandler.ReadXML(firstText);
                             } catch (IOException e) {
-                                System.out.println("getInputStream failed: " + e);
+                                System.out.println("getInputStream failed: " 
+                                                   + e);
                                 System.exit(1);
                             }
                         }
@@ -132,13 +135,16 @@ public class Controller extends Observable implements ActionListener {
                             if (firstTextHandler.isRequest == true) {
                                 connectRequest.textField.setText(firstText);
                             } else {
-                                connectRequest.textField.setText("Ett sämre program vill ansluta");
+                                connectRequest.textField.setText(
+                                              "Ett sämre program vill ansluta");
                             }
                         } catch (Exception e) {
                         }
                         newThread = new ServerThread(newSocket);
-                        connectRequest.acceptButton.addActionListener(Controller.this);
-                        connectRequest.declineButton.addActionListener(Controller.this);
+                        connectRequest.acceptButton.
+                                addActionListener(Controller.this);
+                        connectRequest.declineButton.
+                                addActionListener(Controller.this);
                     }
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
@@ -159,7 +165,8 @@ public class Controller extends Observable implements ActionListener {
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
-                    startView.nameField.getText(), startView.requestField.getText());
+                    startView.nameField.getText(), 
+                    startView.requestField.getText());
         } else if (e.getSource() == startView.quitButton) {
 
         } else if (e.getSource() == connectRequest.acceptButton) {
@@ -168,13 +175,16 @@ public class Controller extends Observable implements ActionListener {
                 Conversation newConversation = new Conversation();
                 IDCounter = IDCounter + 1;
                 newConversation.setName(ownName);
-                startView.tabbedPane.addTab("Chat" + IDCounter, newConversation.view);
-                newConversation.view.disconnectButton.addActionListener(Controller.this);
+                startView.tabbedPane.addTab("Chat" + IDCounter, 
+                                            newConversation.view);
+                newConversation.view.disconnectButton.
+                        addActionListener(Controller.this);
                 newConversation.add(newThread);
                 conversationList.add(newConversation);
                 convList.add("Chat " + IDCounter);
             } else {
-                conversationList.get(connectRequest.convBox.getSelectedIndex() - 1).add(newThread);
+                conversationList.get(connectRequest.convBox.getSelectedIndex()
+                                     - 1).add(newThread);
             }
 
         } else if (e.getSource() == connectRequest.declineButton) {
