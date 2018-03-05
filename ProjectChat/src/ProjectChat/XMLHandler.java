@@ -155,6 +155,9 @@ public class XMLHandler {
     public String writeDecline(){
         return "<request reply=\"no\"</request>";
     }
+    public String writeDisconnect(){
+        return "<message><disconnect /></message>";
+    }
     
 //    public String writeXML(String text) {
 //        System.out.println("Starts to write XML");
