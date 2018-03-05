@@ -1,6 +1,5 @@
 package ProjectChat;
 
-
 import java.security.*;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,21 +15,20 @@ public class Crypto {
     static String alphabet = "abcdefghijklmnopqrstuvwxyzåäö";
     String alphabet2 = alphabet.toUpperCase();
 
-
     public Crypto(String typeOfCrypt) {
         crypto = typeOfCrypt;
         generateKey(crypto);
     }
-    
-public String deCrypt(String encrypted) {
+
+    public String deCrypt(String encrypted) {
         String returnText = "";
         if (crypto.equals("AES")) {
-            byte [] AESData = encrypted.getBytes();
-            try{
-            AESCipher.init(Cipher.DECRYPT_MODE, AESKey);
-            AESCipher.doFinal(AESData);
-            returnText =  AESData.toString();
-            } catch(Exception e){
+            byte[] AESData = encrypted.getBytes();
+            try {
+                AESCipher.init(Cipher.DECRYPT_MODE, AESKey);
+                AESCipher.doFinal(AESData);
+                returnText = AESData.toString();
+            } catch (Exception e) {
                 e.getMessage();
             }
         } else if (crypto.equals("Caesar")) {
@@ -64,16 +62,16 @@ public String deCrypt(String encrypted) {
         }
         return returnText;
     }
+
     //Christian Lecturenotes
     public String enCrypt(String text) {
         if (crypto.equals("AES")) {
-            try{
-            AESCipher = Cipher.getInstance("AES");
-            AESCipher.init(Cipher.ENCRYPT_MODE, AESKey);
-            byte[] AESData = AESCipher.doFinal(text.getBytes());
-            text =  AESData.toString();
-            }
-            catch(Exception e){
+            try {
+                AESCipher = Cipher.getInstance("AES");
+                AESCipher.init(Cipher.ENCRYPT_MODE, AESKey);
+                byte[] AESData = AESCipher.doFinal(text.getBytes());
+                text = AESData.toString();
+            } catch (Exception e) {
                 e.getMessage();
             }
         } else if (crypto.equals("Caesar")) {
@@ -118,7 +116,6 @@ public String deCrypt(String encrypted) {
                 AESgen.init(128);
                 AESKey = (SecretKeySpec) AESgen.generateKey();
                 AESKeyContent = AESKey.getEncoded();
-                
 
             } catch (NoSuchAlgorithmException e) {
                 e.getMessage();
@@ -127,5 +124,5 @@ public String deCrypt(String encrypted) {
             CaesarKey = 10;//*(int)Math.random();
         }
     }
-   // public void setKey
+    // public void setKey
 }

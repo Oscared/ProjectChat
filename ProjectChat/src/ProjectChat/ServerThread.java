@@ -9,9 +9,11 @@ package ProjectChat;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
 /**
- * Class that creates a thread and holds a writer and reader that controlls
- * the textflow from the socket
+ * Class that creates a thread and holds a writer and reader that controlls the
+ * textflow from the socket
+ *
  * @author mastah
  */
 public class ServerThread extends Observable {
@@ -29,10 +31,12 @@ public class ServerThread extends Observable {
     XMLHandler XMLHandler = new XMLHandler();
     //Input to the client
     BufferedReader reader;
-/**
- * Constructor that creates the serverThread aswell as an inner thread
- * @param sock 
- */
+
+    /**
+     * Constructor that creates the serverThread aswell as an inner thread
+     *
+     * @param sock
+     */
     public ServerThread(Socket sock) {
         clientSocket = sock;
 
@@ -80,23 +84,28 @@ public class ServerThread extends Observable {
         }
         runThread.start();
     }
-/**
- * Get the current text
- * @return 
- */
+
+    /**
+     * Get the current text
+     *
+     * @return
+     */
     public String getText() {
         return text;
     }
-/**
- * Get the current text in XML format
- * @return 
- */
+
+    /**
+     * Get the current text in XML format
+     *
+     * @return
+     */
     public String getXMLText() {
         return XMLText;
     }
-/**
- * Method for stopping the thread and closing the socket
- */
+
+    /**
+     * Method for stopping the thread and closing the socket
+     */
     public void stopThread() {
         runThread.interrupt();
         try {

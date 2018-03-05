@@ -12,8 +12,9 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Class that controlls the entire program, however
- * doesn't follow the MVC pattern
+ * Class that controlls the entire program, however doesn't follow the MVC
+ * pattern
+ *
  * @author mastah & Oscar
  */
 public class Controller extends Observable implements ActionListener {
@@ -74,8 +75,8 @@ public class Controller extends Observable implements ActionListener {
             Conversation startConversation = new Conversation();
             startConversation.setName(name);
             addObserver(startConversation);
-            startView.tabbedPane.addTab("Chat" + 
-                                        IDCounter, startConversation.view);
+            startView.tabbedPane.addTab("Chat"
+                    + IDCounter, startConversation.view);
             IDCounter = IDCounter + 1;
             Socket conSock = new Socket(iP, port);
             ServerThread startThread = new ServerThread(conSock);
@@ -90,10 +91,11 @@ public class Controller extends Observable implements ActionListener {
             e.getMessage();
         }
     }
-/**
- *  Tråd som lyssnar efter nya personer, verkar bli svårt om
- *  flera ansluter samtidigt
- */
+
+    /**
+     * Tråd som lyssnar efter nya personer, verkar bli svårt om flera ansluter
+     * samtidigt
+     */
     class connectionThread extends Thread {
 
         XMLHandler firstTextHandler;
@@ -117,8 +119,8 @@ public class Controller extends Observable implements ActionListener {
                                 System.out.println("Har läst line och closat");
                                 firstText = firstTextHandler.ReadXML(firstText);
                             } catch (IOException e) {
-                                System.out.println("getInputStream failed: " 
-                                                   + e);
+                                System.out.println("getInputStream failed: "
+                                        + e);
                                 System.exit(1);
                             }
                         }
@@ -136,7 +138,7 @@ public class Controller extends Observable implements ActionListener {
                                 connectRequest.textField.setText(firstText);
                             } else {
                                 connectRequest.textField.setText(
-                                              "Ett sämre program vill ansluta");
+                                        "Ett sämre program vill ansluta");
                             }
                         } catch (Exception e) {
                         }
@@ -165,7 +167,7 @@ public class Controller extends Observable implements ActionListener {
         if (e.getSource() == startView.connectButton) {
             startNewConv(startView.ipField.getText(),
                     Integer.parseInt(startView.portField.getText()),
-                    startView.nameField.getText(), 
+                    startView.nameField.getText(),
                     startView.requestField.getText());
         } else if (e.getSource() == startView.quitButton) {
 
@@ -175,8 +177,8 @@ public class Controller extends Observable implements ActionListener {
                 Conversation newConversation = new Conversation();
                 IDCounter = IDCounter + 1;
                 newConversation.setName(ownName);
-                startView.tabbedPane.addTab("Chat" + IDCounter, 
-                                            newConversation.view);
+                startView.tabbedPane.addTab("Chat" + IDCounter,
+                        newConversation.view);
                 newConversation.view.disconnectButton.
                         addActionListener(Controller.this);
                 newConversation.add(newThread);
@@ -184,7 +186,7 @@ public class Controller extends Observable implements ActionListener {
                 convList.add("Chat " + IDCounter);
             } else {
                 conversationList.get(connectRequest.convBox.getSelectedIndex()
-                                     - 1).add(newThread);
+                        - 1).add(newThread);
             }
 
         } else if (e.getSource() == connectRequest.declineButton) {

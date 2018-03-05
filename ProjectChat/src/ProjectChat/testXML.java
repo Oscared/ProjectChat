@@ -10,21 +10,21 @@ package ProjectChat;
  * @author oscar
  */
 public class testXML {
-    
+
     String input1 = "<message sender=\"Oscar\"> <<text> felaktig text </text></message>";
-    String input2 = "<text> Inga message taggar </text>";
+    String input2 = "<message sender=\"Oscar\"><text color=\"#000000\"><Oscar>hej</Oscar><fetstil>fetstil<dumt>tjosan</dumt></fetstil>hejdå!!</text></message>";
     String input3 = "<message sender=\"Oscar\"><text color=\"#000000\">Hejsan! <fetstil> tjockt</fetstil></text></message>";
-    
-    public testXML(){
-        
+
+    public testXML() {
+
         XMLHandler xml = new XMLHandler();
-        System.out.println(xml.ReadXML(input1));
-        System.out.println(xml.ReadXML(input2));
-        System.out.println(xml.ReadXML(input3));
-        
+        //System.out.println(xml.ReadXML(input1));
+        System.out.println("Från readxml i test: " + xml.ReadXML(input2));
+       // System.out.println(xml.ReadXML(input3));
+
     }
-    
-    public static void main(String[] args){
-        testXML test= new testXML();
+
+    public static void main(String[] args) {
+        testXML test = new testXML();
     }
 }

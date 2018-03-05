@@ -8,15 +8,14 @@ import javax.swing.text.*;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author oscar
  */
 public class ChatPanel extends javax.swing.JPanel {
 
-StyledDocument doc;
-    
+    StyledDocument doc;
+
     /**
      * Creates new form ChatPanel
      */
@@ -25,17 +24,16 @@ StyledDocument doc;
         doc = textField.getStyledDocument();
 
     }
-    
-    public void appendText(String text, String color){
+
+    public void appendText(String text, String color) {
         Color textColor = Color.decode(color);
-        
+
         SimpleAttributeSet fontKey = new SimpleAttributeSet();
         StyleConstants.setForeground(fontKey, textColor);
-        
-        try{
+
+        try {
             doc.insertString(doc.getLength(), text, fontKey);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
         }
     }
@@ -105,7 +103,6 @@ StyledDocument doc;
                     .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton colorButton;

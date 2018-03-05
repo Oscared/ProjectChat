@@ -74,8 +74,7 @@ public class XMLHandler {
             doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
             if (doc.getDocumentElement().getNodeName().equals("request")) {
-                Element rElement = (Element) 
-                        doc.getElementsByTagName("request").item(0);
+                Element rElement = (Element) doc.getElementsByTagName("request").item(0);
                 output += rElement.getTextContent();
                 isRequest = true;
                 return output;
@@ -86,68 +85,62 @@ public class XMLHandler {
                 //Attach name and : to text to be displayed
                 System.out.println("Finds message tag");
                 notMyName = doc.getDocumentElement().getAttribute("sender");
-                
+
                 NodeList textNodes = doc.getElementsByTagName("text");
                 if (textNodes.getLength() > 1) {
                     output += "Felaktigt antal text taggar. Vi får: " + "\n";
                 } else if (textNodes.getLength() != 0) {
                     Element eElement = (Element) textNodes.item(0);
+
                     if (eElement.getAttribute("color").length() != 7) {
-                        System.out.println("Som hexa " + 
-                                           eElement.getAttribute("color"));
-                        System.out.println("Som RGB " + 
-                                Color.decode(eElement.getAttribute("color")));
                         return "Wrong colorformat";
                     } else {
                         notMyColor = eElement.getAttribute("color");
                     }
+
+                    System.out.println("First " + eElement.getTextContent());
+                    
+                    checkTags(eElement);
+                    System.out.println("Later " + eElement.getTextContent());
                     output += eElement.getTextContent();
-                    if (eElement.hasChildNodes()) {
-                        NodeList cryptoNodes
-                                = eElement.getElementsByTagName("encrypted");
-                        NodeList fatNodes
-                                = eElement.getElementsByTagName("fetstil");
-                        NodeList cursiveNodes
-                                = eElement.getElementsByTagName("kursiv");
-                        if (cryptoNodes.getLength() != 0) {
-                            //try-catch catch if no key ask for key
-                            //Crypto krypto = new Crypto(keyFromSender);
-                            for (int j = 0; j < cryptoNodes.getLength(); j++) {
-                                Element cElement
-                                        = (Element) cryptoNodes.item(j);
-                                //krypto.deCrypt(cElement.getTextContent());
-
-                            }
-                        }
-                        if (fatNodes.getLength() != 0) {
-                            for (int j = 0; j < fatNodes.getLength(); j++) {
-                                Element fElement = (Element) fatNodes.item(j);
-                                //System.out.println("Finds fat. Round " + j);
-                                //currentString += fElement.getTextContent();
-                                //send fetstil to image and append text
-                            }
-                        }
-                        if (cursiveNodes.getLength() != 0) {
-                            for (int j = 0; j < cursiveNodes.getLength(); j++) {
-                                Element curElement
-                                        = (Element) cursiveNodes.item(j);
-                                //currentString += curElement.getTextContent();
-                                //send kursiv to image and append text
-
-                            }
-                        }
-
-                    }
+//                    if (eElement.hasChildNodes()) {
+//                        NodeList fatNodes
+//                                = eElement.getElementsByTagName("fetstil");
+//                        NodeList cursiveNodes
+//                                = eElement.getElementsByTagName("kursiv");
+//                        
+//                        if (fatNodes.getLength() != 0) {
+//                            for (int j = 0; j < fatNodes.getLength(); j++) {
+//                                Element fElement = (Element) fatNodes.item(j);
+//                                //System.out.println("Finds fat. Round " + j);
+//                                //currentString += fElement.getTextContent();
+//                                //send fetstil to image and append text
+//                            }
+//                        }
+//                        else if (cursiveNodes.getLength() != 0) {
+//                            for (int j = 0; j < cursiveNodes.getLength(); j++) {
+//                                Element curElement
+//                                        = (Element) cursiveNodes.item(j);
+//                                //currentString += curElement.getTextContent();
+//                                //send kursiv to image and append text
+//
+//                            }
+//                        }
+//                        else{
+//                            eElement.getChildNodes();
+//                        }
+//
+//                    }
 
                 } else if (textNodes.getLength() == 0) {
                     System.out.println("No text nodes");
-                    System.out.println("Text content is: " + 
-                            doc.getElementsByTagName("message").
+                    System.out.println("Text content is: "
+                            + doc.getElementsByTagName("message").
                                     item(0).getTextContent());
                     if (doc.getElementsByTagName("message").item(0).
                             getTextContent().equals("<disconnect />")) {
-                        return notMyName + 
-                                " has left the building and disconnected.";
+                        return notMyName
+                                + " has left the building and disconnected.";
                     }
                 }
             } //If starttag not right
@@ -162,8 +155,26 @@ public class XMLHandler {
         output = output.replace("&gt;", ">");
         output = output.replace("&quot;", "\"");
         output = output.replace("&amp;", "&");
-        
+
         return notMyName + ": " + output;
+    }
+
+    public void checkTags(Element eElement) {
+        NodeList childList = eElement.getChildNodes();
+        for (int i = 0; i < childList.getLength(); i++) {
+            System.out.println("Going through children " + i + " " + childList.item(i).getNodeName());
+            if (!("#text".equals(childList.item(i).getNodeName())
+                    || "fetstil".equals(childList.item(i).getNodeName())
+                    || childList.item(i).getNodeName().equals("kursiv"))) {
+                System.out.println(i);
+                childList.item(i).getParentNode().removeChild(childList.item(i));
+                i--;
+            }
+            else if(childList.item(i).getNodeName().equals("fetstil") 
+                    || childList.item(i).getNodeName().equals("kursiv")){
+                checkTags((Element) childList.item(i));
+            }
+        }
     }
 
     /**
@@ -217,7 +228,7 @@ public class XMLHandler {
      * @return
      */
     public String writeDisconnect(String ownName) {
-        return "<message sender=\"" + ownName + 
-                "\">&lt;disconnect /&gt;</message>";
+        return "<message sender=\"" + ownName
+                + "\">&lt;disconnect /&gt;</message>";
     }
 }

@@ -9,7 +9,6 @@ import java.util.Observer;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author oscar
@@ -19,9 +18,8 @@ public class PopUpConnect extends javax.swing.JFrame {
     /**
      * Creates new form PopUpConnect
      */
-    
     ArrayList<String> convList;
-    
+
     public PopUpConnect(ArrayList<String> list) {
         convList = list;
         initComponents();
@@ -121,8 +119,6 @@ public class PopUpConnect extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton acceptButton;
     public javax.swing.JComboBox<String> convBox;

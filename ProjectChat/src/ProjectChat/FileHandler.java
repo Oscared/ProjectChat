@@ -1,6 +1,5 @@
 package ProjectChat;
 
-
 import java.io.File;
 import javax.swing.Timer;
 

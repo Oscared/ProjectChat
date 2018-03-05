@@ -1,6 +1,5 @@
 package ProjectChat;
 
-
 import ProjectChat.ServerThread;
 import java.util.ArrayList;
 
@@ -9,7 +8,6 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author oscar
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 public class KickFrame extends javax.swing.JFrame {
 
     ArrayList<ServerThread> threadList;
-    
+
     /**
      * Creates new form KickFrame
      */
@@ -88,8 +86,6 @@ public class KickFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     public javax.swing.JButton kickButton;

@@ -66,7 +66,6 @@ public class Conversation implements ActionListener, Observer {
      *
      * @param person
      */
-
     public void add(ServerThread person) {
         System.out.println("Creates one Thread!");
         threadList.add(person);
