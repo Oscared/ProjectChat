@@ -25,6 +25,7 @@ public class Conversation implements ActionListener, Observer {
     private ArrayList<ServerThread> threadList = new ArrayList<>();
     private ArrayList<String> nameList = new ArrayList<>();
     private String ownName;
+
     /**
      * Constructor that has a shutdownhook, also starts graphics
      */
@@ -46,9 +47,10 @@ public class Conversation implements ActionListener, Observer {
         view.colorButton.addActionListener(this);
         view.kickButton.addActionListener(this);
     }
-/**
- * deConnect a person
- */
+
+    /**
+     * deConnect a person
+     */
     public void deConnect() {
         for (int i = 0; i < threadList.size(); i++) {
             String text = threadList.get(i).XMLHandler.writeDisconnect(ownName);
@@ -58,9 +60,11 @@ public class Conversation implements ActionListener, Observer {
         view.setVisible(false);
 
     }
+
     /**
      * Add a person to the conversation (A serverThread)
-     * @param person 
+     *
+     * @param person
      */
 
     public void add(ServerThread person) {
@@ -72,7 +76,8 @@ public class Conversation implements ActionListener, Observer {
 
     /**
      * Method for sending message
-     * @param text 
+     *
+     * @param text
      */
     public void sendMess(String text) {
         view.appendText(ownName + ": " + text + "\n", ownColor);
@@ -83,10 +88,12 @@ public class Conversation implements ActionListener, Observer {
             threadList.get(i).writer.println(sendText);
         }
     }
-/**
- * Sends a request message, used when starting a new conversation
- * @param text 
- */
+
+    /**
+     * Sends a request message, used when starting a new conversation
+     *
+     * @param text
+     */
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
             text = threadList.get(i).XMLHandler.
@@ -96,17 +103,21 @@ public class Conversation implements ActionListener, Observer {
             System.out.println("Has sent text: " + text);
         }
     }
-/**
- * Sets your own name
- * @param Name 
- */
+
+    /**
+     * Sets your own name
+     *
+     * @param Name
+     */
     public void setName(String Name) {
         ownName = Name;
     }
-/**
- * Method that decides what happens for when different events
- * @param e 
- */
+
+    /**
+     * Method that decides what happens for when different events
+     *
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == view.sendButton) {
@@ -118,7 +129,7 @@ public class Conversation implements ActionListener, Observer {
             colorChooser = new ColorChooser();
             colorChooser.colorButton.addActionListener(this);
         } else if (e.getSource() == view.kickButton) {
-            kickFrame = new KickFrame(nameList);
+            kickFrame = new KickFrame(threadList);
             kickFrame.kickButton.addActionListener(this);
         }
         if (colorChooser != null) {
@@ -137,24 +148,21 @@ public class Conversation implements ActionListener, Observer {
         if (kickFrame != null) {
             if (e.getSource() == kickFrame.kickButton) {
                 sendMess("Someone has been kicked...");
-                String kickName = kickFrame.kickList.getSelectedItem().
-                        toString();
-                System.out.println(kickName);
-                for (int i = 0; i < nameList.size(); i++) {
-                    if (threadList.get(i).name == kickName) {
-                        threadList.get(i).stopThread();
-                        threadList.remove(i);
-                    }
-                }
+                int kickIndex = kickFrame.kickList.getSelectedIndex();
+                threadList.get(kickIndex).stopThread();
+                threadList.remove(kickIndex);
+
             }
         }
 
     }
-/**
- * Method that updates when something has happend with the observable
- * @param o
- * @param o1 
- */
+
+    /**
+     * Method that updates when something has happend with the observable
+     *
+     * @param o
+     * @param o1
+     */
     @Override
     public void update(Observable o, Object o1) {
         boolean isController = true;
