@@ -61,8 +61,11 @@ public class XMLHandler {
                 //        + ": ";
                 
                 NodeList textNodes = doc.getElementsByTagName("text");
-                for (int i = 0; i < textNodes.getLength(); i++) {
-                    Element eElement = (Element) textNodes.item(i);
+                if (textNodes.getLength() > 1){
+                    output += "Felaktigt antal text taggar. Vi får: " + "\n";
+                }
+                else if (textNodes.getLength() != 0){
+                    Element eElement = (Element) textNodes.item(0);
                     if (eElement.getAttribute("color").length() != 7){
                         return "Wrong colorformat";
                     }
@@ -107,9 +110,9 @@ public class XMLHandler {
 
                     }
 
-                }
+                }}
 
-            }
+            
             //If starttag not right
             else{
                 return "Wrong textformat";
