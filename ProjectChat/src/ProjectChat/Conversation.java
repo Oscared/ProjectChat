@@ -22,7 +22,8 @@ public class Conversation implements ActionListener, Observer {
         Thread hook = new Thread() {
             public void run() {
                 for (int i = 0; i < threadList.size(); i++) {
-                    threadList.get(i).XMLHandler.writeDisconnect();
+                    String text = threadList.get(i).XMLHandler.writeDisconnect();
+                    threadList.get(i).writer.println(text);
                 }
             }
         };
@@ -36,7 +37,8 @@ public class Conversation implements ActionListener, Observer {
 
     public void deConnect() {
         for (int i = 0; i < threadList.size(); i++) {
-            threadList.get(i).XMLHandler.writeDisconnect();
+            String text = threadList.get(i).XMLHandler.writeDisconnect();
+            threadList.get(i).writer.println(text);
             threadList.get(i).stopThread();
         }
         view.setVisible(false);
@@ -103,7 +105,7 @@ public class Conversation implements ActionListener, Observer {
                 Color color = colorChooser.colorWindow.getColor();
                 System.out.println("Color Button pressed! " + color.toString());
                 String hex = Integer.toHexString(color.getRGB() & 0xffffff);
-                while (hex.length() < 6){
+                while (hex.length() < 6) {
                     hex = "0" + hex;
                 }
                 ownColor = "#" + hex;
