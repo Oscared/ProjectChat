@@ -11,42 +11,49 @@ import java.io.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
+
 /**
  * Class that handles the XMLing of the text
+ *
  * @author mastah
  */
 public class XMLHandler {
-    
+
     public Boolean isRequest = false;
     private String notMyColor = "#000000";
     private String notMyName;
-/**
- * Empty constructor
- */
+
+    /**
+     * Empty constructor
+     */
     public XMLHandler() {
     }
-/**
- * Method that returns color of the other person
- * @return 
- */
+
+    /**
+     * Method that returns color of the other person
+     *
+     * @return
+     */
     public String getColor() {
         return notMyColor;
     }
-/**
- * Reads XML from input and outputs readable text to show in chat window
- * @param input
- * @return 
- */
+
+    /**
+     * Reads XML from input and outputs readable text to show in chat window
+     *
+     * @param input
+     * @return
+     */
     public String ReadXML(String input) {
         //string to edit and later use as output
         String output = "";
         System.out.println("Starts to read XML");
         System.out.println(input);
 
-        if (input.equals( "<request reply=\"no\"</request>")) {
+        if (input.equals("<request reply=\"no\"</request>")) {
             return "Nekad anslutning";
         }
-        if (input.equals("<message><disconnect /></message>")==true) {
+        if (input.equals("<message><disconnect /></message>") == true) {
             if (notMyName == null) {
                 return "Ny ickenamngiven användare har lämnat samtalet";
             } else {
@@ -67,7 +74,8 @@ public class XMLHandler {
             doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
             if (doc.getDocumentElement().getNodeName().equals("request")) {
-                Element rElement = (Element) doc.getElementsByTagName("request").item(0);
+                Element rElement = (Element) 
+                        doc.getElementsByTagName("request").item(0);
                 output += rElement.getTextContent();
                 isRequest = true;
                 return output;
@@ -78,17 +86,17 @@ public class XMLHandler {
                 //Attach name and : to text to be displayed
                 System.out.println("Finds message tag");
                 notMyName = doc.getDocumentElement().getAttribute("sender");
-                //currentString += doc.getDocumentElement().getAttribute("sender")
-                //        + ": ";
-
+                
                 NodeList textNodes = doc.getElementsByTagName("text");
                 if (textNodes.getLength() > 1) {
                     output += "Felaktigt antal text taggar. Vi får: " + "\n";
                 } else if (textNodes.getLength() != 0) {
                     Element eElement = (Element) textNodes.item(0);
                     if (eElement.getAttribute("color").length() != 7) {
-                        System.out.println("Som hexa " + eElement.getAttribute("color"));
-                        System.out.println("Som RGB " + Color.decode(eElement.getAttribute("color")));
+                        System.out.println("Som hexa " + 
+                                           eElement.getAttribute("color"));
+                        System.out.println("Som RGB " + 
+                                Color.decode(eElement.getAttribute("color")));
                         return "Wrong colorformat";
                     } else {
                         notMyColor = eElement.getAttribute("color");
@@ -131,6 +139,16 @@ public class XMLHandler {
 
                     }
 
+                } else if (textNodes.getLength() == 0) {
+                    System.out.println("No text nodes");
+                    System.out.println("Text content is: " + 
+                            doc.getElementsByTagName("message").
+                                    item(0).getTextContent());
+                    if (doc.getElementsByTagName("message").item(0).
+                            getTextContent().equals("<disconnect />")) {
+                        return notMyName + 
+                                " has left the building and disconnected.";
+                    }
                 }
             } //If starttag not right
             else {
@@ -144,21 +162,18 @@ public class XMLHandler {
         output = output.replace("&gt;", ">");
         output = output.replace("&quot;", "\"");
         output = output.replace("&amp;", "&");
-        System.out.println(output);
-        //if (input.equals(writeXML(output, notMyName, notMyColor))) {
-        //}
-        System.out.println(input);
-        System.out.println(writeXML(output, notMyName, notMyColor));
-        System.out.println(writeXML("hej", notMyName, notMyColor));
+        
         return notMyName + ": " + output;
     }
-/**
- * Method that writes XML with the help of the compositeclass
- * @param text
- * @param name
- * @param color
- * @return 
- */
+
+    /**
+     * Method that writes XML with the help of the compositeclass
+     *
+     * @param text
+     * @param name
+     * @param color
+     * @return
+     */
     public String writeXML(String text, String name, String color) {
         text = text.replace("&", "&amp;");
         text = text.replace("<", "&lt;");
@@ -169,33 +184,40 @@ public class XMLHandler {
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getText();
     }
-/**
- * Method that writes request
- * @param text
- * @param name
- * @param color
- * @return 
- */
+
+    /**
+     * Method that writes request
+     *
+     * @param text
+     * @param name
+     * @param color
+     * @return
+     */
     public String writeRequest(String text, String name, String color) {
-        text = text.replace("&", "&amp");
-        text = text.replace("<", "&lt");
-        text = text.replace(">", "&gt");
-        text = text.replace("\"", "&quot");
+        text = text.replace("&", "&amp;");
+        text = text.replace("<", "&lt;");
+        text = text.replace(">", "&gt;");
+        text = text.replace("\"", "&quot;");
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getRequest();
     }
-/**
- * writes the declineanswer
- * @return 
- */
+
+    /**
+     * writes the declineanswer
+     *
+     * @return
+     */
     public String writeDecline() {
         return "<request reply=\"no\"</request>";
     }
-/**
- * writes the disconnect answer
- * @return 
- */
-    public String writeDisconnect(String name) {
-        return "<message sender=\""+name+"\"><disconnect /></message>";
+
+    /**
+     * writes the disconnect answer
+     *
+     * @return
+     */
+    public String writeDisconnect(String ownName) {
+        return "<message sender=\"" + ownName + 
+                "\">&lt;disconnect /&gt;</message>";
     }
 }
