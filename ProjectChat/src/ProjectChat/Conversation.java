@@ -22,13 +22,15 @@ public class Conversation implements ActionListener, Observer {
             public void run() {
                 for (int i = 0; i < threadList.size(); i++) {
                     threadList.get(i).XMLHandler.writeDisconnect();
-            }}
+                }
+            }
         };
         Runtime.getRuntime().addShutdownHook(hook);
         view = new ChatPanel();
         view.sendButton.addActionListener(this);
         view.disconnectButton.addActionListener(this);
         view.colorButton.addActionListener(this);
+        view.kickButton.addActionListener(this);
     }
 
     public void deConnect() {
@@ -61,14 +63,14 @@ public class Conversation implements ActionListener, Observer {
     public void sendMess(String text) {
         view.appendText(ownName + ": " + text + "\n", ownColor);
         for (int i = 0; i < threadList.size(); i++) {
-            String sendText = threadList.get(i).XMLHandler.writeXML(text,ownName,ownColor);
+            String sendText = threadList.get(i).XMLHandler.writeXML(text, ownName, ownColor);
             threadList.get(i).writer.println(sendText);
         }
     }
 
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
-            text = threadList.get(i).XMLHandler.writeRequest(text,ownName,ownColor);
+            text = threadList.get(i).XMLHandler.writeRequest(text, ownName, ownColor);
             System.out.println("Has written request, should send next");
             threadList.get(i).writer.println(text);
         }
@@ -88,18 +90,24 @@ public class Conversation implements ActionListener, Observer {
         } else if (e.getSource() == view.colorButton) {
             colorChooser = new ColorChooser();
             colorChooser.colorButton.addActionListener(this);
-        } else if (e.getSource() == colorChooser.colorButton) {
-            Color color = colorChooser.colorWindow.getColor();
-            System.out.println("Color Button pressed! " + color.toString());
-            ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
-            colorChooser.dispose();
         } else if (e.getSource() == view.kickButton) {
             kickFrame = new KickFrame(threadList);
             kickFrame.kickButton.addActionListener(this);
-        } else if (e.getSource() == kickFrame.kickButton) {
-            sendMess("Someone has been kicked...");
-            int kickIndex = kickFrame.kickList.getSelectedIndex();
-            threadList.get(kickIndex).stopThread();
+        }
+        if (colorChooser != null) {
+            if (e.getSource() == colorChooser.colorButton) {
+                Color color = colorChooser.colorWindow.getColor();
+                System.out.println("Color Button pressed! " + color.toString());
+                ownColor = "#" + Integer.toHexString(color.getRGB() & 0xffffff);
+                colorChooser.dispose();
+            }
+        }
+        if (kickFrame != null) {
+            if (e.getSource() == kickFrame.kickButton) {
+                sendMess("Someone has been kicked...");
+                int kickIndex = kickFrame.kickList.getSelectedIndex();
+                threadList.get(kickIndex).stopThread();
+            }
         }
 
     }
