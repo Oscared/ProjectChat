@@ -7,7 +7,7 @@
 package ProjectChat;
 
 /**
- *
+ * Class that holds the composite pattern
  * @author mastah
  */
 public class Component {
@@ -16,41 +16,59 @@ public class Component {
     String text;
     String name;
     String color;
-
+/**
+ * Constructor that takes the text, name and color
+ * @param inputText
+ * @param newName
+ * @param newColor 
+ */
     public Component(String inputText, String newName, String newColor) {
         text = inputText;
         name = newName;
         color = newColor;
     }
-
+/**
+ * MessageClass that XMLs the entire message
+ */
     class XMLMessage {
 
         XMLText subText = new XMLText();
-
+/**
+ * Empty constructor
+ */
         public XMLMessage() {
         }
-
+/**
+ * Class that handles the textpart of the message
+ */
         class XMLText {
+            /**
+             * Empty constructor
+             */
 
             public XMLText() {
 
             }
-
+/**
+ * toString method that returns the text and holds color
+ * @return 
+ */
             public String toString() {
 
-                return "<text color=" + "\"" + color + "\"" + ">" + text + "</text>";
+                return "<text color=" + "\"" + color + "\"" + ">" + text + 
+                        "</text>";
  
             }
 
         }
-
+/**
+ * toString methods that holds the text and calls for the text XML handle part
+ * @return 
+ */
         public String toString() {
 
-            return "<message sender=" + "\"" + name + "\"" + ">" + subText.toString() + "</message>";
-            
-            //return "<message sender=" + "\"" + name + "\"" + ">" + "<text color=" + "\"" + color + "\"" + ">" + "<fetstil>"
-            //        + "<encrypted>" + "<filerequest>" + subText.toString() + "</filerequest>"
-            //        + "</encrypted>" + "</fetstil>" + "</text>" + "</message>";
+            return "<message sender=" + "\"" + name + "\"" + ">" + 
+                    subText.toString() + "</message>";
 
         }
     }

@@ -9,6 +9,11 @@ package ProjectChat;
 
 import java.awt.event.*;
 
+/**
+ * Class start
+ * @author mastxah
+ */
+
 public class Start implements ActionListener{
 
     PortChooser portChooser;
@@ -16,19 +21,27 @@ public class Start implements ActionListener{
     String ownName;
     Controller controller;
     
-    
+    /**
+     * Contrstructor that starts the portChooser
+     */
     
     public Start(){
         portChooser = new PortChooser();
         portChooser.startButton.addActionListener(this);
         
     }
-
+/**
+ * Main method that calls the start contstructor
+ * @param args 
+ */
     public static void main(String[] args) {
         Start start = new Start();
     
     }
-    
+    /**
+     * Triggers when startButton is pressed
+     * @param e 
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == portChooser.startButton){
             port = Integer.parseInt(portChooser.portField.getText());

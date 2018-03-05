@@ -11,21 +11,32 @@ import java.io.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
-
+/**
+ * Class that handles the XMLing of the text
+ * @author mastah
+ */
 public class XMLHandler {
-
+    
+    public Boolean isRequest = false;
     private String notMyColor = "#000000";
     private String notMyName;
-    public Boolean isRequest = false;
-
+/**
+ * Empty constructor
+ */
     public XMLHandler() {
     }
-
+/**
+ * Method that returns color of the other person
+ * @return 
+ */
     public String getColor() {
         return notMyColor;
     }
-
-    //Reads XML from input and outputs readable text to show in chat window
+/**
+ * Reads XML from input and outputs readable text to show in chat window
+ * @param input
+ * @return 
+ */
     public String ReadXML(String input) {
         //string to edit and later use as output
         String output = "";
@@ -141,7 +152,13 @@ public class XMLHandler {
         System.out.println(writeXML("hej", notMyName, notMyColor));
         return notMyName + ": " + output;
     }
-
+/**
+ * Method that writes XML with the help of the compositeclass
+ * @param text
+ * @param name
+ * @param color
+ * @return 
+ */
     public String writeXML(String text, String name, String color) {
         text = text.replace("&", "&amp;");
         text = text.replace("<", "&lt;");
@@ -152,74 +169,33 @@ public class XMLHandler {
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getText();
     }
-
+/**
+ * Method that writes request
+ * @param text
+ * @param name
+ * @param color
+ * @return 
+ */
     public String writeRequest(String text, String name, String color) {
-        //text = text.replace("&", "&amp");
-        //text = text.replace("<", "&lt");
-        //text = text.replace(">", "&gt");
-        //text = text.replace("\"", "&quot");
+        text = text.replace("&", "&amp");
+        text = text.replace("<", "&lt");
+        text = text.replace(">", "&gt");
+        text = text.replace("\"", "&quot");
         Component compositeXML = new Component(text, name, color);
         return compositeXML.getRequest();
     }
-
+/**
+ * writes the declineanswer
+ * @return 
+ */
     public String writeDecline() {
         return "<request reply=\"no\"</request>";
     }
-
-    public String writeDisconnect() {
-        return "<message><disconnect /></message>";
+/**
+ * writes the disconnect answer
+ * @return 
+ */
+    public String writeDisconnect(String name) {
+        return "<message sender=\""+name+"\"><disconnect /></message>";
     }
-
-//    public String writeXML(String text) {
-//        System.out.println("Starts to write XML");
-//        System.out.println("Is trying with text: " + text);
-//        try {
-//            DocumentBuilderFactory dbFactory
-//                    = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//            Document doc = dBuilder.newDocument();
-//
-//            System.out.println("Is creating doc");
-//            
-//            Element rootElement = doc.createElement("message");
-//            Attr attrName = doc.createAttribute("sender");
-//            attrName.setValue(notMyName);
-//            rootElement.setAttributeNode(attrName);
-//            doc.appendChild(rootElement);
-//
-//            Element textElement = doc.createElement("text");
-//            Attr attrColor = doc.createAttribute("color");
-//            attrColor.setNodeValue(notMyColor);
-//            textElement.setAttributeNode(attrColor);
-//            rootElement.appendChild(textElement);
-//            textElement.appendChild(doc.createTextNode(text));
-//
-//            rootElement.appendChild(textElement);
-//
-//            return toString(doc);
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "Could not write XML properly";
-//        }
-//
-//  }
-//    
-//    
-//    public static String toString(Document doc) {
-//    try {
-//        StringWriter sw = new StringWriter();
-//        TransformerFactory tf = TransformerFactory.newInstance();
-//        Transformer transformer = tf.newTransformer();
-//        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-//        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-//        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//
-//        transformer.transform(new DOMSource(doc), new StreamResult(sw));
-//        return sw.toString();
-//    } catch (Exception ex) {
-//        throw new RuntimeException("Error converting to String", ex);
-//    }
-//}
 }

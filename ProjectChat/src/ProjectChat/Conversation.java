@@ -10,24 +10,31 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
 
+/**
+ * Class that handles each conversation
+ *
+ * @author mastah
+ */
 public class Conversation implements ActionListener, Observer {
 
-    ChatPanel view;
-    private ArrayList<ServerThread> threadList = new ArrayList<>();
-    private ArrayList<String> nameList = new ArrayList<>();
-
-    private String ownName;
     String ownColor = "#000000";
     String forwardText;
     KickFrame kickFrame;
     ColorChooser colorChooser;
-
+    ChatPanel view;
+    private ArrayList<ServerThread> threadList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
+    private String ownName;
+    /**
+     * Constructor that has a shutdownhook, also starts graphics
+     */
     // (Stackoverflow hjälp för shutdownhook)
     public Conversation() {
         Thread hook = new Thread() {
             public void run() {
                 for (int i = 0; i < threadList.size(); i++) {
-                    String text = threadList.get(i).XMLHandler.writeDisconnect();
+                    String text = threadList.get(i).XMLHandler.
+                            writeDisconnect(ownName);
                     threadList.get(i).writer.println(text);
                 }
             }
@@ -39,20 +46,22 @@ public class Conversation implements ActionListener, Observer {
         view.colorButton.addActionListener(this);
         view.kickButton.addActionListener(this);
     }
-
+/**
+ * deConnect a person
+ */
     public void deConnect() {
         for (int i = 0; i < threadList.size(); i++) {
-            String text = threadList.get(i).XMLHandler.writeDisconnect();
+            String text = threadList.get(i).XMLHandler.writeDisconnect(ownName);
             threadList.get(i).writer.println(text);
             threadList.get(i).stopThread();
         }
         view.setVisible(false);
 
     }
-
-    public String respond(String request) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    /**
+     * Add a person to the conversation (A serverThread)
+     * @param person 
+     */
 
     public void add(ServerThread person) {
         System.out.println("Creates one Thread!");
@@ -61,26 +70,24 @@ public class Conversation implements ActionListener, Observer {
         person.addObserver(this);
     }
 
-    public void connect(String IP, int Portnummer) {
-
-    }
-
-    public ServerThread kick(ServerThread person) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * 
+     * @param text 
+     */
     public void sendMess(String text) {
         view.appendText(ownName + ": " + text + "\n", ownColor);
         for (int i = 0; i < threadList.size(); i++) {
             System.out.println("");
-            String sendText = threadList.get(i).XMLHandler.writeXML(text, ownName, ownColor);
+            String sendText = threadList.get(i).XMLHandler.
+                    writeXML(text, ownName, ownColor);
             threadList.get(i).writer.println(sendText);
         }
     }
 
     public void sendRequestMess(String text) {
         for (int i = 0; i < threadList.size(); i++) {
-            text = threadList.get(i).XMLHandler.writeRequest(text, ownName, ownColor);
+            text = threadList.get(i).XMLHandler.
+                    writeRequest(text, ownName, ownColor);
             System.out.println("Has written request, should send next");
             threadList.get(i).writer.println(text);
             System.out.println("Has sent text: " + text);
@@ -121,7 +128,8 @@ public class Conversation implements ActionListener, Observer {
         if (kickFrame != null) {
             if (e.getSource() == kickFrame.kickButton) {
                 sendMess("Someone has been kicked...");
-                String kickName = kickFrame.kickList.getSelectedItem().toString();
+                String kickName = kickFrame.kickList.getSelectedItem().
+                        toString();
                 System.out.println(kickName);
                 for (int i = 0; i < nameList.size(); i++) {
                     if (threadList.get(i).name == kickName) {
@@ -144,7 +152,8 @@ public class Conversation implements ActionListener, Observer {
                 isController = false;
                 System.out.println("Updated one thread :" + i);
                 System.out.println(threadList.get(i).getText());
-                view.appendText(threadList.get(i).getText() + "\n", threadList.get(i).XMLHandler.getColor());
+                view.appendText(threadList.get(i).getText() + "\n",
+                        threadList.get(i).XMLHandler.getColor());
                 if (threadList.size() > 1) {
                     for (int j = 0; j < threadList.size(); j++) {
                         if (j != i) {
